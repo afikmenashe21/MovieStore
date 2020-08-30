@@ -1,25 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
 namespace MovieStore.Models
-{
-
-    public class Movie
     {
 
+    public class Movie
+        {
+
         public int Id { get; set; }
+        [RegularExpression( @"^[\w\s]+$" )] // Demand the name wiil be with a-z or A-Z or digits characters
         public string Name { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public int Duration { get; set; }
-        virtual public ICollection<Genre> Genres { get; set; }
-        public ICollection<Actor> Cast { get; set; }
-        public double Rate { get; set; } //Fetch from IMBD
+        public int Duration { get; set; } // time in minutes.
         public string Director { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public string Poster { get; set; }
+        public string Trailer { get; set; }
+        public string Storyline { get; set; }
+        [Range(0,5)]
+        public double AverageRating { get; set; }
+        public ICollection<MovieGenre> MovieGenre { get; set; }
+        [DisplayName( "Cast" )]
+        public ICollection<MovieActor> MovieActor { get; set; }
+        public ICollection<Review> Comments { get; set; }
 
+        }
     }
-}
