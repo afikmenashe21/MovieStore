@@ -11,39 +11,39 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MovieStore.Data;
 
-namespace MovieStore
-{
-    public class Startup
+namespace WebApplication2
     {
-        public Startup(IConfiguration configuration)
+    public class Startup
         {
+        public Startup ( IConfiguration configuration )
+            {
             Configuration = configuration;
-        }
+            }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices ( IServiceCollection services )
+            {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MovieStoreContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("MovieStoreContext")));
-        }
+                services.AddDbContext<MovieStoreContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("MovieStoreContext")));
+            }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
+        public void Configure ( IApplicationBuilder app , IWebHostEnvironment env )
             {
+            if ( env.IsDevelopment() )
+                {
                 app.UseDeveloperExceptionPage();
-            }
+                }
             else
-            {
-                app.UseExceptionHandler("/Home/Error");
+                {
+                app.UseExceptionHandler( "/Home/Error" );
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
+                }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -51,12 +51,12 @@ namespace MovieStore
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Movies}/{action=Index}/{id?}");
-            });
+            app.UseEndpoints( endpoints =>
+             {
+                 endpoints.MapControllerRoute(
+                     name: "default" ,
+                     pattern: "{controller=Movies}/{action=Index}/{id?}" );
+             } );
+            }
         }
     }
-}
