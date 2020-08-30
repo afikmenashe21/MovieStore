@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,7 +18,8 @@ namespace MovieStore.Models
     public class Genre
         {
         public int Id { get; set; }
-
+        [RegularExpression( @"^[\w\s]+$" )] // Demand the name wiil be with a-z or A-Z or digits characters
+        [Required]
         public string Type { get; set; }
 
         public int MovieId { get; set; }
