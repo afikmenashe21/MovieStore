@@ -59,101 +59,15 @@ namespace MovieStore.Controllers
                             //If the data isn't null return log convert the data using newtonsoft JObject Parse class method on the data.
                             if (data != null)
                             {
-                                JObject jObj = JObject.Parse(data);         // Parse the object graph
+                                JObject jObj = JObject.Parse(data);
                                 string theMovieName = jObj["Title"].ToString();
                                 string imdbID = jObj["imdbID"].ToString();
                                 Movie movie = new Movie();
-                                Random rnd = new Random();
                                 var query = _context.Movie.Where(s => s.Name == theMovieName).FirstOrDefault<Movie>();
 
                                 if (query == null) //The movie is not in the database
                                 {
-
-                                    movie.Id = rnd.Next(1, 999999999);
-                                    movie.Name = theMovieName;
-                                    string realsedate = jObj["Released"].ToString();  // Todo: change to datetime
-                                    movie.Duration = Int32.Parse((jObj["Runtime"].ToString().Split(" "))[0]);
-                                    movie.Director = jObj["Director"].ToString();
-                                    movie.Poster = jObj["Poster"].ToString();
-                                    movie.Trailer = "No Trailer"; // Figure out how to get the movie trailer
-                                    movie.Storyline = jObj["Plot"].ToString();
-                                    movie.AverageRating = Double.Parse(jObj["imdbRating"].ToString());
-                                    string[] genres = jObj["Genre"].ToString().Split(", ").ToArray();
-
-                                    foreach (string genreName in genres)
-                                    {
-                                        var genreFromTable = _context.Genre.Where(s => s.Type == genreName).FirstOrDefault<Genre>();
-
-                                        if (genreFromTable == null) // The genre is not exist in the database table
-                                        {
-                                            Genre genre = new Genre();
-                                            genre.Id = rnd.Next(1, 999999999);
-                                            genre.Type = genreName;
-                                            genre.MovieId = movie.Id;
-
-                                            MovieGenre movieGenre = new MovieGenre();
-                                            movieGenre.GenreId = genre.Id;
-                                            movieGenre.MovieId = movie.Id;
-                                            movieGenre.Movie = movie;
-                                            movieGenre.Genre = genre;
-
-                                            if (genre.MovieGenre == null)
-                                            {
-                                                genre.MovieGenre = new List<MovieGenre>();
-                                            }
-                                            if (movie.MovieGenre == null)
-                                            {
-                                                movie.MovieGenre = new List<MovieGenre>();
-                                            }
-
-                                            genre.MovieGenre.Add(movieGenre);
-                                            movie.MovieGenre.Add(movieGenre);
-                                        }
-                                        else // The genre in the database table
-                                        {
-
-                                        }
-
-                                    }
-
-                                    string[] actorsNames = jObj["Actors"].ToString().Split(", ").ToArray();
-
-                                    foreach (string actorName in actorsNames)
-                                    {
-                                        var actorFromTable = _context.Actor.Where(s => s.Name == actorName).FirstOrDefault<Actor>();
-
-                                        if (actorFromTable == null)
-                                        {
-                                            Actor actor = new Actor();
-                                            actor.Id = rnd.Next(1, 999999999);
-                                            actor.Name = actorName;
-                                            actor.MovieId = movie.Id;
-
-                                            MovieActor movieActor = new MovieActor();
-                                            movieActor.ActorId = actor.Id;
-                                            movieActor.MovieId = movie.Id;
-                                            movieActor.Movie = movie;
-                                            movieActor.Actor = actor;
-
-                                            if (actor.MovieActor == null)
-                                            {
-                                                actor.MovieActor = new List<MovieActor>();
-                                            }
-                                            if (movie.MovieActor == null)
-                                            {
-                                                movie.MovieActor = new List<MovieActor>();
-                                            }
-                                            actor.MovieActor.Add(movieActor);
-                                            movie.MovieActor.Add(movieActor);
-                                        }
-                                        else // The actor in the database table
-                                        {
-
-                                        }
-
-                                    }
-
-                                    //Add the Movie to the DB and update the external db
+                                    createMovie(movie, theMovieName, jObj);
                                 }
                                 else // The movie is in the database 
                                 {
@@ -179,6 +93,96 @@ namespace MovieStore.Controllers
                 Console.WriteLine(exception);
             }
             return View("Index", null);
+        }
+
+        private void createMovie(Movie movie, string theMovieName, JObject jObj)
+        {
+            Random rnd = new Random();
+            movie.Id = rnd.Next(1, 999999999);
+            movie.Name = theMovieName;
+            string realsedate = jObj["Released"].ToString();  // Todo: change to datetime
+            movie.Duration = Int32.Parse((jObj["Runtime"].ToString().Split(" "))[0]);
+            movie.Director = jObj["Director"].ToString();
+            movie.Poster = jObj["Poster"].ToString();
+            movie.Trailer = "No Trailer"; // Figure out how to get the movie trailer
+            movie.Storyline = jObj["Plot"].ToString();
+            movie.AverageRating = Double.Parse(jObj["imdbRating"].ToString());
+            string[] genres = jObj["Genre"].ToString().Split(", ").ToArray();
+
+            foreach (string genreName in genres)
+            {
+                var genreFromTable = _context.Genre.Where(s => s.Type == genreName).FirstOrDefault<Genre>();
+
+                if (genreFromTable == null) // The genre is not exist in the database table
+                {
+                    Genre genre = new Genre();
+                    genre.Id = rnd.Next(1, 999999999);
+                    genre.Type = genreName;
+                    genre.MovieId = movie.Id;
+
+                    MovieGenre movieGenre = new MovieGenre();
+                    movieGenre.GenreId = genre.Id;
+                    movieGenre.MovieId = movie.Id;
+                    movieGenre.Movie = movie;
+                    movieGenre.Genre = genre;
+
+                    if (genre.MovieGenre == null)
+                    {
+                        genre.MovieGenre = new List<MovieGenre>();
+                    }
+                    if (movie.MovieGenre == null)
+                    {
+                        movie.MovieGenre = new List<MovieGenre>();
+                    }
+
+                    genre.MovieGenre.Add(movieGenre);
+                    movie.MovieGenre.Add(movieGenre);
+                }
+                else // The genre in the database table
+                {
+
+                }
+
+            }
+
+            string[] actorsNames = jObj["Actors"].ToString().Split(", ").ToArray();
+
+            foreach (string actorName in actorsNames)
+            {
+                var actorFromTable = _context.Actor.Where(s => s.Name == actorName).FirstOrDefault<Actor>();
+
+                if (actorFromTable == null)
+                {
+                    Actor actor = new Actor();
+                    actor.Id = rnd.Next(1, 999999999);
+                    actor.Name = actorName;
+                    actor.MovieId = movie.Id;
+
+                    MovieActor movieActor = new MovieActor();
+                    movieActor.ActorId = actor.Id;
+                    movieActor.MovieId = movie.Id;
+                    movieActor.Movie = movie;
+                    movieActor.Actor = actor;
+
+                    if (actor.MovieActor == null)
+                    {
+                        actor.MovieActor = new List<MovieActor>();
+                    }
+                    if (movie.MovieActor == null)
+                    {
+                        movie.MovieActor = new List<MovieActor>();
+                    }
+                    actor.MovieActor.Add(movieActor);
+                    movie.MovieActor.Add(movieActor);
+                }
+                else // The actor in the database table
+                {
+
+                }
+
+            }
+
+            //Add the Movie to the DB and update the external db
         }
 
 
