@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MovieStore.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApplication2
     {
@@ -27,8 +30,17 @@ namespace WebApplication2
             {
             services.AddControllersWithViews();
 
-                services.AddDbContext<MovieStoreContext>(options =>
-                        options.UseSqlServer(Configuration.GetConnectionString("MovieStoreContext")));
+            services.AddDbContext<MovieStoreContext>( options =>
+                     options.UseSqlServer( Configuration.GetConnectionString( "MovieStoreContext" ) ) );
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession( options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes( 1 );
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            } );
             }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +57,10 @@ namespace WebApplication2
                 app.UseHsts();
                 }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 
@@ -57,6 +72,7 @@ namespace WebApplication2
                      name: "default" ,
                      pattern: "{controller=Movies}/{action=Index}/{id?}" );
              } );
+
             }
         }
     }

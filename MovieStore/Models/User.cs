@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace MovieStore.Models
     {
+    public enum UserType
+        {
+        Admin,
+        Customer
+        }
+
     public class User
         {
         public int Id { get; set; }
-        [RegularExpression( @"^[\w\d\@\_]+$" )] // Demand the username wiil be with any English characters/digits/@/_
+        [RegularExpression( @"^[\w\d]+$" )] // Demand the username wiil be with any English characters/digits/@/_
         [Required]
         public string UserName { get; set; }
+        [Required]
+        public UserType Type { get; set; }
         [Required]
         public string Password { get; set; }
         [RegularExpression( @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" )] // Demand the email wiil be ___@___.___ 
