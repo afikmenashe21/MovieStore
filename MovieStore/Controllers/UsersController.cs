@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Session;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using MovieStore.Data;
 using MovieStore.Models;
 
@@ -20,7 +21,7 @@ namespace MovieStore.Controllers
     public class UsersController : Controller
         {
         private readonly MovieStoreContext _context;
-        public UsersController ( MovieStoreContext context )
+        public UsersController ( MovieStoreContext context)
             {
             _context = context;
             }
@@ -34,13 +35,11 @@ namespace MovieStore.Controllers
         public IActionResult Login ( string username , string password )
             {
             var user = _context.User.FirstOrDefault( u => u.UserName == username && u.Password == password );
-
             if ( user != null )
                 {
                 SignIn( user );
                 return RedirectToAction( "Index" , "Movies" );
                 }
-
             return View();
             }
 
@@ -77,16 +76,12 @@ namespace MovieStore.Controllers
 
         public IActionResult Dashboard ( )
             {
-            //ViewData [ "movies" ] = await _context.Movie.ToListAsync();
-            //ViewBag.users = await _context.User.ToListAsync();
             dynamic Multiple = new ExpandoObject();
-            Multiple.actors =  _context.Actor.ToList();
-            Multiple.movies =  _context.Movie.ToList();
-            Multiple.users =  _context.User.ToList();
+            Multiple.actors = _context.Actor.ToList();
+            Multiple.movies = _context.Movie.ToList();
+            Multiple.users = _context.User.ToList();
             return View( Multiple );
             }
-
-
 
         // GET: Users
         public async Task<IActionResult> Index ( )
@@ -113,28 +108,6 @@ namespace MovieStore.Controllers
                 return NotFound();
                 }
 
-            return View( user );
-            }
-
-        // GET: Users/Create
-        public IActionResult Create ( )
-            {
-            return View();
-            }
-
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ( [Bind( "Id,UserName,Password,Email,FirstName,LastName,Address" )] User user )
-            {
-            if ( ModelState.IsValid )
-                {
-                _context.Add( user );
-                await _context.SaveChangesAsync();
-                return RedirectToAction( nameof( Index ) );
-                }
             return View( user );
             }
 

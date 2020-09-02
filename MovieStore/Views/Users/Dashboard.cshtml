@@ -38,7 +38,7 @@
                     {
                     <tr>
                         <td>
-                            @user.UserName
+                            <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@user.Id">@user.UserName</a>
                         </td>
                         <td>
                             @user.Email
@@ -51,7 +51,6 @@
                                 Options
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@user.Id">Details</a> |
                                 <a class="dropdown-item" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
                                 <a class="dropdown-item" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
                             </div>
@@ -88,7 +87,7 @@
                     {
                     <tr>
                         <td>
-                            @movie.Name
+                            <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Name</a>
                         </td>
                         <td>
                             @movie.ReleaseDate.ToString()
@@ -101,7 +100,6 @@
                                 Options
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">Details</a> |
                                 <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">Edit</a> |
                                 <a asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id">Delete</a>
                             </div>
