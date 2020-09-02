@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -73,14 +75,15 @@ namespace MovieStore.Controllers
             return RedirectToAction( "Login" );
             }
 
-
-        public async Task<IActionResult> Dashboard ( )
+        public IActionResult Dashboard ( )
             {
-            //await _context.Actor.ToListAsync();
-            //await _context.Movie.ToListAsync();
-            //await _context.User.ToListAsync();
-
-            return View( await _context.User.ToListAsync(), await _context.Movie.ToListAsync() , await _context.Actor.ToListAsync() );
+            //ViewData [ "movies" ] = await _context.Movie.ToListAsync();
+            //ViewBag.users = await _context.User.ToListAsync();
+            dynamic Multiple = new ExpandoObject();
+            Multiple.actors =  _context.Actor.ToList();
+            Multiple.movies =  _context.Movie.ToList();
+            Multiple.users =  _context.User.ToList();
+            return View( Multiple );
             }
 
 

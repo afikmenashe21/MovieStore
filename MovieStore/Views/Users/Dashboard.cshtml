@@ -1,159 +1,124 @@
-﻿@model MovieStore.Models.User
+﻿@using MovieStore.Models;
+@model dynamic
 
 @{
-    ViewData [ "Title" ] = "Details";
+    ViewData [ "Title" ] = "Dashboard";
 }
 
-
-
-
-
-<!-- Nav tabs -->
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Users</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Actors</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Movies</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
-    </li>
-</ul>
-
-<!-- Tab panes -->
-<div class="tab-content">
-    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        @*@{ IEnumerable<MovieStore.Models.User> users = _context.User.ToList; }
-
-        @{
-            ViewData [ "Title" ] = "Index";
-        }
-
-        <h1>Index</h1>
+<h1>Dashboard</h1>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">User</a>
+        <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Movie</a>
+        <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Actor</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
         <p>
-            <a asp-action="Register">Create New</a>
+            <a class="btn btn-secondary" asp-controller="Users" asp-action="Register">Create New</a>
         </p>
         <table class="table">
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor( model => model.UserName )
+                        UserName
                     </th>
                     <th>
-                        @Html.DisplayNameFor( model => model.Password )
+                        Email
                     </th>
                     <th>
-                        @Html.DisplayNameFor( model => model.Email )
+                        Type
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ( User user in Model.users )
+                    {
+                    <tr>
+                        <td>
+                            @user.UserName
+                        </td>
+                        <td>
+                            @user.Email
+                        </td>
+                        <td>
+                            @user.Type.ToString()
+                        </td>
+                        <td>
+                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@user.Id">Details</a> |
+                                <a class="dropdown-item" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
+                                <a class="dropdown-item" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+
+
+
+    </div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <p>
+            <a class="btn btn-secondary" asp-controller="Movies" asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
                     </th>
                     <th>
-                        @Html.DisplayNameFor( model => model.FirstName )
+                        ReleaseDate
                     </th>
                     <th>
-                        @Html.DisplayNameFor( model => model.LastName )
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor( model => model.Address )
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor( model => model.Type )
+                        AverageRating
                     </th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ( var item in Model )
+                @foreach ( Movie movie in Model.movies )
                     {
                     <tr>
                         <td>
-                            @Html.DisplayFor( modelItem => item.UserName )
+                            @movie.Name
                         </td>
                         <td>
-                            @Html.DisplayFor( modelItem => item.Password )
+                            @movie.ReleaseDate.ToString()
                         </td>
                         <td>
-                            @Html.DisplayFor( modelItem => item.Email )
+                            @movie.AverageRating
                         </td>
                         <td>
-                            @Html.DisplayFor( modelItem => item.FirstName )
-                        </td>
-                        <td>
-                            @Html.DisplayFor( modelItem => item.LastName )
-                        </td>
-                        <td>
-                            @Html.DisplayFor( modelItem => item.Address )
-                        </td>
-                        <td>
-                            @Html.DisplayFor( modelItem => item.Type )
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">Details</a> |
+                                <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">Edit</a> |
+                                <a asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id">Delete</a>
+                            </div>
                         </td>
                     </tr>
                     }
             </tbody>
-        </table>*@
+        </table>
+
+
+
+
+
     </div>
-    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">...</div>
-    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">...</div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+
+
+    </div>
 </div>
-
-
-@*<h1>Details</h1>
-
-    <div>
-        <h4>User</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor( model => model.UserName )
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor( model => model.UserName )
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor( model => model.Password )
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor( model => model.Password )
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor( model => model.Email )
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor( model => model.Email )
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor( model => model.FirstName )
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor( model => model.FirstName )
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor( model => model.LastName )
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor( model => model.LastName )
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor( model => model.Address )
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor( model => model.Address )
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor( model => model.Type )
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
-    </div>*@
