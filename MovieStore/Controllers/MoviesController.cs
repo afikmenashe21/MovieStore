@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using MovieStore.Data;
@@ -16,6 +17,11 @@ using Newtonsoft.Json.Linq;
 API Key: 9fde2d96ac6101edcaf57252ac55719d
 An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9fde2d96ac6101edcaf57252ac55719d
 */
+/*
+ API Key: 9fde2d96ac6101edcaf57252ac55719d
+An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9fde2d96ac6101edcaf57252ac55719d
+ */
+
 namespace MovieStore.Controllers
     {
     public class MoviesController : Controller
@@ -310,9 +316,18 @@ namespace MovieStore.Controllers
             return RedirectToAction( nameof( Index ) );
             }
 
-        private bool MovieExists ( int id )
-            {
-            return _context.Movie.Any( e => e.Id == id );
-            }
+        private bool MovieExists(int id)
+        {
+            return _context.Movie.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> DynamicSearch(string term)
+        {
+            var query = from m in _context.Movie
+                        where m.Name.Contains(term)
+                        select new { id = m.Id, label = m.Name };
+
+            return Json(await query.ToListAsync());
         }
     }
+}
