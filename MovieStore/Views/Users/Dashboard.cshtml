@@ -36,26 +36,29 @@
             <tbody>
                 @foreach ( User user in Model.users )
                     {
-                    <tr>
-                        <td>
-                            <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@user.Id">@user.UserName</a>
-                        </td>
-                        <td>
-                            @user.Email
-                        </td>
-                        <td>
-                            @user.Type.ToString()
-                        </td>
-                        <td>
-                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Options
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
-                                <a class="dropdown-item" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
-                            </div>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@user.Id">@user.UserName</a>
+                    </td>
+                    <td>
+                        @user.Email
+                    </td>
+                    <td>
+                        @user.Type.ToString()
+                    </td>
+                    <td>
+                        @user.Type.ToString()
+                    </td>
+                    <td>
+                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Options
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
+                            <a class="dropdown-item" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                        </div>
+                    </td>
+                </tr>
                     }
             </tbody>
         </table>
