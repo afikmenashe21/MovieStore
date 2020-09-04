@@ -69,11 +69,13 @@ namespace MovieStore.Controllers
                                 if (query == null) //The movie is not in the database
                                 {
                                     createMovie(movie, theMovieName, jObj);
+                                    await this.Create(movie);
                                 }
                                 else // The movie is in the database 
                                 {
                                     movie = (Movie)_context.Movie.Where(p => p.Name.Contains(theMovieName));
                                 }
+
 
                                 return View("Index", movieList.Append(movie));
 
@@ -97,9 +99,8 @@ namespace MovieStore.Controllers
         private void createMovie(Movie movie, string theMovieName, JObject jObj)
         {
             Random rnd = new Random();
-            movie.Id = rnd.Next(1, 999999999);
             movie.Name = theMovieName;
-            string realsedate = jObj["Released"].ToString();  // Todo: change to datetime
+            movie.ReleaseDate = DateTime.Parse(jObj["Released"].ToString());
             movie.Duration = Int32.Parse((jObj["Runtime"].ToString().Split(" "))[0]);
             movie.Director = jObj["Director"].ToString();
             movie.Poster = jObj["Poster"].ToString();
@@ -107,40 +108,38 @@ namespace MovieStore.Controllers
             movie.Storyline = jObj["Plot"].ToString();
             movie.AverageRating = Double.Parse(jObj["imdbRating"].ToString());
             string[] genres = jObj["Genre"].ToString().Split(", ").ToArray();
+            movie.imdbID = jObj["imdbID"].ToString();
 
             foreach (string genreName in genres)
             {
                 var genreFromTable = _context.Genre.Where(s => s.Type == genreName).FirstOrDefault<Genre>();
 
-                if (genreFromTable == null) // The genre is not exist in the database table
+                var genre = new Genre();
+
+                if (genreFromTable != null)//exist in db
                 {
-                    Genre genre = new Genre();
-                    genre.Id = rnd.Next(1, 999999999);
+                    genre = genreFromTable;
+                }
+                else // The actor in not the database table
+                {
                     genre.Type = genreName;
-                    genre.MovieId = movie.Id;
-
-                    MovieGenre movieGenre = new MovieGenre();
-                    movieGenre.GenreId = genre.Id;
-                    movieGenre.MovieId = movie.Id;
-                    movieGenre.Movie = movie;
-                    movieGenre.Genre = genre;
-
-                    if (genre.MovieGenre == null)
-                    {
-                        genre.MovieGenre = new List<MovieGenre>();
-                    }
-                    if (movie.MovieGenre == null)
-                    {
-                        movie.MovieGenre = new List<MovieGenre>();
-                    }
-
-                    genre.MovieGenre.Add(movieGenre);
-                    movie.MovieGenre.Add(movieGenre);
                 }
-                else // The genre in the database table
+
+                MovieGenre movieGenre = new MovieGenre();
+                movieGenre.Movie = movie;
+                movieGenre.Genre = genre;
+
+                if (genre.MovieGenre == null)
                 {
-
+                    genre.MovieGenre = new List<MovieGenre>();
                 }
+                if (movie.MovieGenre == null)
+                {
+                    movie.MovieGenre = new List<MovieGenre>();
+                }
+
+                genre.MovieGenre.Add(movieGenre);
+                movie.MovieGenre.Add(movieGenre);
 
             }
 
@@ -150,38 +149,35 @@ namespace MovieStore.Controllers
             {
                 var actorFromTable = _context.Actor.Where(s => s.Name == actorName).FirstOrDefault<Actor>();
 
-                if (actorFromTable == null)
+                var actor = new Actor();
+
+                if (actorFromTable != null)//exist in db
                 {
-                    Actor actor = new Actor();
-                    actor.Id = rnd.Next(1, 999999999);
+                    actor = actorFromTable;
+                }
+                else // The actor in not the database table
+                {
                     actor.Name = actorName;
-                    actor.MovieId = movie.Id;
-
-                    MovieActor movieActor = new MovieActor();
-                    movieActor.ActorId = actor.Id;
-                    movieActor.MovieId = movie.Id;
-                    movieActor.Movie = movie;
-                    movieActor.Actor = actor;
-
-                    if (actor.MovieActor == null)
-                    {
-                        actor.MovieActor = new List<MovieActor>();
-                    }
-                    if (movie.MovieActor == null)
-                    {
-                        movie.MovieActor = new List<MovieActor>();
-                    }
-                    actor.MovieActor.Add(movieActor);
-                    movie.MovieActor.Add(movieActor);
                 }
-                else // The actor in the database table
+
+                MovieActor movieActor = new MovieActor();
+                movieActor.Movie = movie;
+                movieActor.Actor = actor;
+
+                if (actor.MovieActor == null)
                 {
-
+                    actor.MovieActor = new List<MovieActor>();
                 }
+                if (movie.MovieActor == null)
+                {
+                    movie.MovieActor = new List<MovieActor>();
+                }
+                actor.MovieActor.Add(movieActor);
+                movie.MovieActor.Add(movieActor);
+
 
             }
 
-            //Add the Movie to the DB and update the external db
         }
 
 
@@ -222,8 +218,10 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating")] Movie movie)
         {
+
             if (ModelState.IsValid)
             {
+
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -314,6 +312,15 @@ namespace MovieStore.Controllers
         private bool MovieExists(int id)
         {
             return _context.Movie.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> DynamicSearch(string term)
+        {
+            var query = from m in _context.Movie
+                        where m.Name.Contains(term)
+                        select new { id = m.Id, label = m.Name };
+
+            return Json(await query.ToListAsync());
         }
     }
 }
