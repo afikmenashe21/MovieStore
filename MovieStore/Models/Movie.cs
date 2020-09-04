@@ -32,6 +32,6 @@ namespace MovieStore.Models
         [DisplayName( "Cast" )]
         public ICollection<MovieActor> MovieActor { get; set; }
         public ICollection<Review> Comments { get; set; }
-
+        public string imdbID { get; set; }
         }
     }
