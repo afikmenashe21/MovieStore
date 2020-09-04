@@ -63,6 +63,7 @@ namespace MovieStore.Controllers
                                 string theMovieName = jObj["Title"].ToString();
                                 string imdbID = jObj["imdbID"].ToString();
                                 Movie movie = new Movie();
+                                IEnumerable<Movie> movieList = new List<Movie>();
                                 var query = _context.Movie.Where(s => s.Name == theMovieName).FirstOrDefault<Movie>();
 
                                 if (query == null) //The movie is not in the database
@@ -73,10 +74,8 @@ namespace MovieStore.Controllers
                                 {
                                     movie = (Movie)_context.Movie.Where(p => p.Name.Contains(theMovieName));
                                 }
-                                //products.Include(movie);
-                                IEnumerable<Movie> aa = new List<Movie>();
 
-                                return View("Index", aa.Append(movie));
+                                return View("Index", movieList.Append(movie));
 
                             }
                             else
