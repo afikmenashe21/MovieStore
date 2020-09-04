@@ -17,6 +17,7 @@ namespace MovieStore.Models
         [RegularExpression( @"^[\w\s]+$" )] // Demand the name wiil be with a-z or A-Z or digits characters
         [Required]
         public string Name { get; set; }
+        [DataType( DataType.Date )]
         public DateTime ReleaseDate { get; set; }
         public int Duration { get; set; } // time in minutes.
         [RegularExpression( @"^[\w\s]+$" )] // Demand the name wiil be with a-z or A-Z or digits characters
