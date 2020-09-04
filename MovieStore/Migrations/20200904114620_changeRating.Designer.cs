@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieStore.Data;
 
 namespace MovieStore.Migrations
 {
     [DbContext(typeof(MovieStoreContext))]
-    partial class MovieStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200904114620_changeRating")]
+    partial class changeRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,9 +88,6 @@ namespace MovieStore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Trailer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("imdbID")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -189,9 +188,6 @@ namespace MovieStore.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()
