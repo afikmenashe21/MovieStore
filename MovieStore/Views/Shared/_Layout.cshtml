@@ -21,7 +21,37 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Actors" asp-action="Index">Actors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                        </li>
+                        @{
+                            if ( Context.Session.GetString( "Type" ) == "Admin" )
+                                {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" id="dashboard" ; asp-controller="Users" asp-action="Dashboard">Dashboard</a>
+                                </li>
+                                } }
+                        @{
+                            if ( Context.Session.GetString( "Type" ) == null )
+                                {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Sign In</a>
+                                </li>
+                                }
+                            else
+                                {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" ; asp-controller="Users" asp-action="Logout">Logout</a>
+                                </li>
+                                }
+                        }
+                        <li>
+                            <form class="form-inline">
+                                <input id="searchBox" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="term">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Filter">Search</button>
+                            </form>
                         </li>
                     </ul>
                 </div>
