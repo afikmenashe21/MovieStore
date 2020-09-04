@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,8 +23,12 @@ namespace MovieStore.Controllers
         // GET: Actors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Actor.ToListAsync());
-        }
+            string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
+            if ( user == null )
+                return RedirectToAction( "Login" , "Users" );
+            else
+                return View( await _context.Actor.ToListAsync() );
+            }
 
         // GET: Actors/Details/5
         public async Task<IActionResult> Details(int? id)

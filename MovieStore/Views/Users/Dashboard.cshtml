@@ -1,0 +1,122 @@
+﻿@using MovieStore.Models;
+@model dynamic
+
+@{
+    ViewData [ "Title" ] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">User</a>
+        <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Movie</a>
+        <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Actor</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+        <p>
+            <a class="btn btn-secondary" asp-controller="Users" asp-action="Register">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        UserName
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ( User user in Model.users )
+                    {
+                    <tr>
+                        <td>
+                            <a class="dropdown-item" asp-controller="Users" asp-action="Details" asp-route-id="@user.Id">@user.UserName</a>
+                        </td>
+                        <td>
+                            @user.Email
+                        </td>
+                        <td>
+                            @user.Type.ToString()
+                        </td>
+                        <td>
+                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
+                                <a class="dropdown-item" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+
+
+
+    </div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <p>
+            <a class="btn btn-secondary" asp-controller="Movies" asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        ReleaseDate
+                    </th>
+                    <th>
+                        AverageRating
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ( Movie movie in Model.movies )
+                    {
+                    <tr>
+                        <td>
+                            <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Name</a>
+                        </td>
+                        <td>
+                            @movie.ReleaseDate.ToString()
+                        </td>
+                        <td>
+                            @movie.AverageRating
+                        </td>
+                        <td>
+                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">Edit</a> |
+                                <a asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+
+
+
+
+
+    </div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+
+
+    </div>
+</div>
