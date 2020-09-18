@@ -10,8 +10,8 @@ using MovieStore.Data;
 namespace MovieStore.Migrations
 {
     [DbContext(typeof(MovieStoreContext))]
-    [Migration("20200904145306_nothinga")]
-    partial class nothinga
+    [Migration("20200905172931_AddVirtualUser")]
+    partial class AddVirtualUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -153,8 +153,8 @@ namespace MovieStore.Migrations
                     b.Property<DateTime>("Published")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -191,6 +191,9 @@ namespace MovieStore.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()

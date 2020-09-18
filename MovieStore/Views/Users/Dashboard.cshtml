@@ -4,6 +4,7 @@
 @{
     ViewData [ "Title" ] = "Dashboard";
 }
+<link rel="stylesheet" href="~/css/Accordion/Style.css">
 
 <h1>Dashboard</h1>
 <nav>
@@ -21,79 +22,84 @@
 
         @foreach ( User user in Model.users )
             {
-            <div class="card">
-                <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Name: @user.UserName
-                        </button>
-                    </h2>
-                </div>
 
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">Name: @user.UserName</li>
-                            <li class="list-group-item">Name: @user.Password</li>
-                            <li class="list-group-item">Name: @user.Email</li>
-                            <li class="list-group-item">Name: @user.FirstName</li>
-                            <li class="list-group-item">Name: @user.LastName</li>
-                            <li class="list-group-item">Name: @user.Address</li>
-                            <li class="list-group-item">Name: @user.Type</li>
-                            <li class="list-group-item">
-                                <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</button>
-                                <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+
+            <button class="accordion">@user.UserName</button>
+            <div class="panel">
+                <p>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">UserName: @user.UserName</li>
+                        <li class="list-group-item">Type: @user.Type.ToString() </li>
+                        <li class="list-group-item">Email: @user.Email </li>
+                        <li class="list-group-item">FirstName: @user.FirstName </li>
+                        <li class="list-group-item">LastName: @user.LastName </li>
+                        <li class="list-group-item">Address: @user.Address </li>
+                        <li class="list-group-item">
+                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</button>
+                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</button>
+                        </li>
+
+                    </ul>
+
+                </p>
             </div>
             }
-
-
-
     </div>
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
         <p>
             <a class="btn btn-secondary" asp-controller="Movies" asp-action="Create">Create New</a>
         </p>
-        <div class="accordion" id="accordionExample">
-            @foreach ( Movie movie in Model.movies )
-                {
-                <div class="card">
-                    <div class="card-header" id="headingOne">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Name: @movie.Name
-                            </button>
-                        </h2>
-                    </div>
+        @foreach ( Movie movie in Model.movies )
+            {
+            <button class="accordion">@movie.Name</button>
+            <div class="panel">
+                <p>
 
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                        <div class="card-body">
-                            <ul class="list-group">
-                                <li class="list-group-item">Name: @movie.Name</li>
-                                <li class="list-group-item">ReleaseDate: @movie.ReleaseDate </li>
-                                <li class="list-group-item">Duration: @movie.Duration </li>
-                                <li class="list-group-item">Director: @movie.Director </li>
-                                <li class="list-group-item">Poster: @movie.Poster </li>
-                                <li class="list-group-item">Trailer: @movie.Trailer </li>
-                                <li class="list-group-item">Storyline: @movie.Storyline </li>
-                                <li class="list-group-item">AverageRating: @movie.AverageRating </li>
-                                <li class="list-group-item">
-                                    <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Edit" asp-route-id="@movie.Id">Edit</button>
-                                    <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Delete" asp-route-id="@movie.Id">Delete</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                }
-        </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">Name: @movie.Name</li>
+                        <li class="list-group-item">ReleaseDate: @movie.ReleaseDate </li>
+                        <li class="list-group-item">Duration: @movie.Duration </li>
+                        <li class="list-group-item">Director: @movie.Director </li>
+                        <li class="list-group-item">Poster: @movie.Poster </li>
+                        <li class="list-group-item">Trailer: @movie.Trailer </li>
+                        <li class="list-group-item">Storyline: @movie.Storyline </li>
+                        <li class="list-group-item">AverageRating: @movie.AverageRating </li>
+                        <li class="list-group-item">
+                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Edit" asp-route-id="@movie.Id">Edit</button>
+                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Delete" asp-route-id="@movie.Id">Delete</button>
+                        </li>
+
+                    </ul>
+
+                </p>
+            </div>
+            }
     </div>
     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <p>
+            <a class="btn btn-secondary" asp-controller="Actors" asp-action="Create">Create New</a>
+        </p>
 
+        @foreach ( Actor actor in Model.actors )
+            {
+            <button class="accordion">Name: @actor.Name</button>
+            <div class="panel">
+                <p>
 
+                    <ul class="list-group">
+                        <li class="list-group-item">Name: @actor.Name</li>
+                        <li class="list-group-item">
+                            <button type="button" class="btn btn-secondary" asp-controller="Actors" asp-action="Edit" asp-route-id="@actor.Id">Edit</button>
+                            <button type="button" class="btn btn-secondary" asp-controller="Actors" asp-action="Delete" asp-route-id="@actor.Id">Delete</button>
+                        </li>
 
+                    </ul>
+
+                </p>
+            </div>
+            }
     </div>
 </div>
+
+<script src="~/css/Accordion/JavaScript.js"></script>

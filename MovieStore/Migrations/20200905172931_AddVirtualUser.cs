@@ -2,7 +2,7 @@
 
 namespace MovieStore.Migrations
 {
-    public partial class nothinga : Migration
+    public partial class AddVirtualUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,4 +14,4 @@ namespace MovieStore.Migrations
 
         }
     }
-}
+    }

@@ -31,8 +31,7 @@ namespace MovieStore.Models
         public ICollection<MovieGenre> MovieGenre { get; set; }
         [DisplayName("Cast")]
         public ICollection<MovieActor> MovieActor { get; set; }
-        public ICollection<Review> Comments { get; set; }
+        public virtual ICollection<Review> Comments { get; set; }
         public string imdbID { get; set; }
-
     }
 }

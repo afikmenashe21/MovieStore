@@ -2,6 +2,7 @@
 
 @{
     ViewData [ "Title" ] = "Index";
+    @*Layout = "_Layout2";*@
 }
 
 <h1>Index</h1>
@@ -57,7 +58,7 @@
             {
             <tr>
                 <td>
-                    @Html.DisplayFor( modelItem => item.Name )
+                    <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor( modelItem => item.Name )</a>
                 </td>
                 <td>
                     @Html.DisplayFor( modelItem => item.ReleaseDate )
@@ -82,7 +83,7 @@
                 </td>
                 <td>
                     @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    @*<a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
                     @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                 </td>
             </tr>

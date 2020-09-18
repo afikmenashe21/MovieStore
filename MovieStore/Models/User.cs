@@ -34,6 +34,6 @@ namespace MovieStore.Models
         [RegularExpression( @"^[\w\d\s]+$" )] // Demand the username wiil be with any English characters/digits/
         [Required]
         public string Address { get; set; }
-        public ICollection<Review> Comments { get; set; }
+        public virtual ICollection<Review> Comments { get; set; }
         }
     }

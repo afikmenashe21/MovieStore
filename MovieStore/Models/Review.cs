@@ -15,8 +15,8 @@ namespace MovieStore.Models
         public string Content { get; set; }
         public double Rating { get; set; }
         public DateTime Published { get; set; }
-        public User Author { get; set; }
-        public Movie Movie { get; set; }
+        public virtual User Author { get; set; }
+        public virtual Movie Movie { get; set; }
 
     }
 }
