@@ -12,13 +12,12 @@ namespace MovieStore.Models
         [Required]
         public string Headline { get; set; }
         [StringLength( 250 , MinimumLength = 2 )]
-        [RegularExpression( @"^[\w\s]+$" )] // Demand the name wiil be with a-z or A-Z or digits characters
         [Required]
         public string Content { get; set; }
-        public int Rating { get; set; }
+        public double Rating { get; set; }
         public DateTime Published { get; set; }
-        public User Author { get; set; }
-        public Movie Movie { get; set; }
+        public virtual User Author { get; set; }
+        public virtual Movie Movie { get; set; }
 
         }
     }

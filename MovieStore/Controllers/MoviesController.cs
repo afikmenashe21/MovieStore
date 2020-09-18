@@ -190,7 +190,6 @@ namespace MovieStore.Controllers
                 actor.MovieActor.Add( movieActor );
                 movie.MovieActor.Add( movieActor );
 
-
                 }
 
             }
@@ -210,7 +209,8 @@ namespace MovieStore.Controllers
                 {
                 return NotFound();
                 }
-
+            var movieReviews =  _context.Review.Where( r => r.Movie.Id == id ).Include(r => r.Author);
+            ViewBag.reviews = movieReviews.ToList();
             return View( movie );
             }
 

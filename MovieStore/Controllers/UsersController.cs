@@ -46,6 +46,7 @@ namespace MovieStore.Controllers
         private void SignIn ( User user )
             {
             HttpContext.Session.SetString( "Type" , user.Type.ToString() );
+            HttpContext.Session.SetString( "UserId" , user.Id.ToString() );
             }
         public IActionResult Register ( )
             {
@@ -71,6 +72,7 @@ namespace MovieStore.Controllers
         public IActionResult Logout ( )
             {
             HttpContext.Session.Remove( "Type" );
+            HttpContext.Session.Remove( "UserId" );
             return RedirectToAction( "Login" );
             }
 
