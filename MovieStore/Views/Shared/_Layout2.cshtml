@@ -4,6 +4,8 @@ author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+@using Microsoft.AspNetCore.Http
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,14 +79,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="w3_search">
                 <form action="#" method="post">
-                    <input type="text" name="Search" placeholder="Search" required="">
+                    <input id="searchBox" type="text" name="Search" placeholder="Search" required="">
                     <input type="submit" value="Go">
                 </form>
             </div>
             <div class="w3l_sign_in_register">
                 <ul>
-                    <li><i class="fa fa-phone" aria-hidden="true"></i> (+000) 123 345 653</li>
-                    <li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
+                    @{
+                        if ( Context.Session.GetString( "Type" ) == null )
+                            {
+                            <li><span>Hey, Stranger</span></li>
+                            <li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
+                            }
+                        else
+                            {
+                            <li><span>Hey, @Context.Session.GetString( "UserName" )</span></li>
+                            <li><a asp-controller="Users" asp-action="Logout">Logout</a></li>
+                            }
+                    }
                 </ul>
             </div>
             <div class="clearfix"> </div>
@@ -109,19 +121,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 </div>
                                 <div class="form">
                                     <h3>Login to your account</h3>
-                                    <form action="#" method="post">
-                                        <input type="text" name="Username" placeholder="Username" required="">
-                                        <input type="password" name="Password" placeholder="Password" required="">
-                                        <input type="submit" value="Login">
+                                    <form asp-controller="Users" asp-action="Login">
+                                        <input type="text" name="username" placeholder="Username" required="">
+                                        <input type="password" name="password" placeholder="Password" required="">
+                                        <input type="submit" value="Login" id="user-login">
                                     </form>
                                 </div>
                                 <div class="form">
                                     <h3>Create an account</h3>
-                                    <form action="#" method="post">
+                                    <form  asp-controller="Users" asp-action="Register">
                                         <input type="text" name="Username" placeholder="Username" required="">
                                         <input type="password" name="Password" placeholder="Password" required="">
                                         <input type="email" name="Email" placeholder="Email Address" required="">
-                                        <input type="text" name="Phone" placeholder="Phone Number" required="">
                                         <input type="submit" value="Register">
                                     </form>
                                 </div>
@@ -257,9 +268,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </ul>
         </nav>
     </div>
-    
+
     <div class="container">
-            @RenderBody()
+        @RenderBody()
     </div>
 
     <!-- footer -->

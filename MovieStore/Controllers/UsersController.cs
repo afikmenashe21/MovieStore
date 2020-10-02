@@ -47,6 +47,7 @@ namespace MovieStore.Controllers
             {
             HttpContext.Session.SetString( "Type" , user.Type.ToString() );
             HttpContext.Session.SetString( "UserId" , user.Id.ToString() );
+            HttpContext.Session.SetString( "UserName" , user.UserName.ToString() );
             }
         public IActionResult Register ( )
             {
@@ -69,11 +70,23 @@ namespace MovieStore.Controllers
             SignIn( account );
             return RedirectToAction( "Index" , "Movies" );
             }
+        [HttpPost]
+        public async Task<IActionResult> Register ( string username , string password , string Email)
+            {
+            User account = new User() { UserName = username , Password = password , Email = Email , Type = UserType.Customer };
+
+            _context.Add( account );
+            await _context.SaveChangesAsync();
+
+            SignIn( account );
+            return RedirectToAction( "Index" , "Movies" );
+            }
         public IActionResult Logout ( )
             {
             HttpContext.Session.Remove( "Type" );
             HttpContext.Session.Remove( "UserId" );
-            return RedirectToAction( "Login" );
+            HttpContext.Session.Remove( "UserName" );
+            return RedirectToAction( "Index" , "Movies" );
             }
 
         public IActionResult Dashboard ( )

@@ -42,9 +42,9 @@ namespace MovieStore.Controllers
         public async Task<IActionResult> Index ( )
             {
             string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
-            if ( user == null )
-                return RedirectToAction( "Login" , "Users" );
-            else
+            //if ( user == null )
+            //    return RedirectToAction( "Login" , "Users" );
+            //else
                 return View( await _context.Movie.ToListAsync() );
             }
         public async Task<IActionResult> Search ( string name )
