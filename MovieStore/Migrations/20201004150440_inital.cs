@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieStore.Migrations
 {
-    public partial class init : Migration
+    public partial class inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,7 +48,8 @@ namespace MovieStore.Migrations
                     Poster = table.Column<string>(nullable: true),
                     Trailer = table.Column<string>(nullable: true),
                     Storyline = table.Column<string>(nullable: true),
-                    AverageRating = table.Column<double>(nullable: false)
+                    AverageRating = table.Column<double>(nullable: false),
+                    imdbID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,6 +63,7 @@ namespace MovieStore.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
                     Password = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
@@ -128,8 +130,8 @@ namespace MovieStore.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Headline = table.Column<string>(nullable: false),
-                    Content = table.Column<string>(maxLength: 250, nullable: false),
-                    Rating = table.Column<int>(nullable: false),
+                    Content = table.Column<string>(nullable: false),
+                    Rating = table.Column<double>(nullable: false),
                     Published = table.Column<DateTime>(nullable: false),
                     AuthorId = table.Column<int>(nullable: true),
                     MovieId = table.Column<int>(nullable: true)
