@@ -117,7 +117,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="module form-module">
                                 <div class="toggle">
                                     <i class="fa fa-times fa-pencil"></i>
-                                    <div class="tooltip">Click Me</div>
+                                    <div class="tooltip">Sign Up</div>
                                 </div>
                                 <div class="form">
                                     <h3>Login to your account</h3>
@@ -129,10 +129,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 </div>
                                 <div class="form">
                                     <h3>Create an account</h3>
-                                    <form  asp-controller="Users" asp-action="Register">
+                                    <form asp-controller="Users" asp-action="Register">
                                         <input type="text" name="Username" placeholder="Username" required="">
                                         <input type="password" name="Password" placeholder="Password" required="">
                                         <input type="email" name="Email" placeholder="Email Address" required="">
+                                        <input type="text" name="FirstName" placeholder="First Name" required="">
+                                        <input type="text" name="LastName" placeholder="Last Name" required="">
+                                        <input type="text" name="Address" placeholder="Address" required="">
                                         <input type="submit" value="Register">
                                     </form>
                                 </div>

@@ -26,9 +26,9 @@ namespace MovieStore.Controllers
     {
     public class MoviesController : Controller
         {
-        private Boolean exist = false;
+        //private Boolean exist = false;
         private readonly MovieStoreContext _context;
-        private string accsessKey = "79a6c068";
+        //private string accsessKey = "79a6c068";
         string [ ] headlines = { "Great Movie" , "Wowwww" , "Amazing story line" , "I'm shocked" , "Great cast !!" , "MUST TO WATCH" , "I'm impressed" , "A Big Like" };
         Random rnd = new Random();
         List<Movie> movies = new List<Movie>();
