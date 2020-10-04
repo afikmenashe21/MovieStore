@@ -45,17 +45,6 @@ namespace MovieStore.Controllers
             {
             return View();
             }
-        //[HttpPost]
-        //public async Task<IActionResult> Register ( string username , string password , string Email)
-        //    {
-        //    User account = new User() { UserName = username , Password = password , Email = Email , Type = UserType.Customer };
-
-        //    _context.Add( account );
-        //    await _context.SaveChangesAsync();
-
-        //    SignIn( account );
-        //    return RedirectToAction( "Index" , "Movies" );
-        //    }
         [HttpPost]
         public async Task<IActionResult> Register ( string username , string password , string Email , string FirstName = null, string LastName = null , string Address = null , string type = "Customer" )
             {
