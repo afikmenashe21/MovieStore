@@ -31,9 +31,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             @{ if ( ViewBag.genres != null )
                                     for ( int i = 0 ; i < ViewBag.genres.Count - 1 ; i++ )
                                         {
-                                        <a href="genres.html" style="color:black">ViewBag.genres[i].Genre.Type.ToString() | </a>
+                                        <a href="genres.html" style="color:black">@ViewBag.genres[i].Genre.Type.ToString() | </a>
                                         }
-                                <a href="genres.html" style="color:black">ViewBag.genres[ViewBag.genres.Count].Genre.Type.ToString()</a>
+                                <a href="genres.html" style="color:black">@ViewBag.genres[ViewBag.genres.Count- 1].Genre.Type.ToString()</a>
                             }
                         </p>
                         <p class="fexi_header_para fexi_header_para1">
