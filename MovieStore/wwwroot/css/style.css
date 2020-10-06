@@ -242,14 +242,14 @@ p.fexi_header{
 }
 p.fexi_header_para{
 	margin-top:.8em;
-	color:#fff;
+	color:black;
 	line-height:1.5em;
 	position:relative;
 }
 p.fexi_header_para label{
 	position: absolute;
     top: 0%;
-    left: 21%;
+    left: 10%;
     font-style: normal;
 }
 p.fexi_header_para span{
@@ -257,7 +257,7 @@ p.fexi_header_para span{
     font-size: 14px;
     font-weight: bold;
     float: left;
-    width:25%;
+    width:15%;
 }
 p.fexi_header_para a{
 	color:#fff;

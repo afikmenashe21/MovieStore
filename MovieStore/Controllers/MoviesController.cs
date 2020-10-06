@@ -42,10 +42,10 @@ namespace MovieStore.Controllers
         public async Task<IActionResult> Index ( )
             {
             string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
-            //if ( user == null )
-            //    return RedirectToAction( "Login" , "Users" );
-            //else
-                return View( await _context.Movie.ToListAsync() );
+                                                                   //if ( user == null )
+                                                                   //    return RedirectToAction( "Login" , "Users" );
+                                                                   //else
+            return View( await _context.Movie.ToListAsync() );
             }
         public async Task<IActionResult> Search ( string name )
             {
@@ -80,6 +80,10 @@ namespace MovieStore.Controllers
                 }
             var movieReviews = _context.Review.Where( r => r.Movie.Id == id ).Include( r => r.Author );
             ViewBag.reviews = movieReviews.ToList();
+            ViewBag.reviews.Reverse();
+
+            var movieGenres = _context.MovieGenre.Where( g => g.MovieId == id ).Include( d => d.Genre );
+            ViewBag.genres = movieGenres.ToList();
             return View( movie );
             }
 
