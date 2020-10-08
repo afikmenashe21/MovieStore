@@ -9,7 +9,7 @@
 <div id="slidey" style="display:none;">
     <ul>
         @{
-            foreach ( var movie in Model.ToList().Take(5) )
+            foreach ( var movie in Model )
                 {
                 <li>
                     <img src="@movie.Poster" alt=" ">
