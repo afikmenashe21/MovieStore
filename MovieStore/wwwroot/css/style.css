@@ -42,28 +42,13 @@ input[type="submit"],.agileinfo_chat a,.w3ls_footer_grid1_left p a,.w3l_sign_in_
 .w3layouts_logo{
 	float:left;
 }
-.w3layouts_logo a{
-	display:block;
-	text-decoration:none;
-}
-.w3layouts_logo a h1{
-	font-size: 2.8em;
-    color: #212121;
-    text-transform: uppercase;
-    background: url(../images/1.jpg) no-repeat 80px 6px;
-    padding-right: 1.67em;
-    font-weight: 900;
-	padding-bottom: .3em;
-}
-.w3layouts_logo a h1 span{
-	color: #FF8D1B;
-    font-size: .3em;
-    display: block;
-    font-weight: 300;
-    letter-spacing: 5px;
-    text-align: right;
-    line-height: 0;
-}
+	.w3layouts_logo a {
+		display: block;
+		text-decoration: none;
+		padding-right: 1.67em;
+		font-weight: 900;
+		padding-bottom: .3em;
+	}
 .w3_search{
 	float: left;
     width: 40%;
@@ -454,15 +439,15 @@ p.fexi_header_para1 a i {
     width: 28%;
     margin-left: 24em;
 }
-.w3ls_footer_grid_right a h2{
-	font-size: 2.8em;
-    color: #fff;
-    text-transform: uppercase;
-    background: url(../images/1.jpg) no-repeat right transparent;
-    padding-right: 1.67em;
-    font-weight: 900;
-    padding-bottom: .3em;
-}
+	.w3ls_footer_grid_right a h2 {
+		font-size: 2.8em;
+		color: #fff;
+		text-transform: uppercase;
+		background: url(../images/logo.png) no-repeat right transparent;
+		padding-right: 1.67em;
+		font-weight: 900;
+		padding-bottom: .3em;
+	}
 .w3ls_footer_grid_right a h2 span{
 	color: #FF8D1B;
     font-size: .3em;
@@ -1288,7 +1273,7 @@ h3.head {
 @media (max-width: 480px){
 	.w3layouts_logo a h1 {
 		font-size: 2.5em;
-		background: url(../images/1.jpg) no-repeat 71px 6px;
+/*		background: url(../images/1.jpg) no-repeat 71px 6px;*/
 		background-size: 40%;
 		padding-right: 1.4em;
 		padding-bottom: 0.2em;
@@ -1386,9 +1371,10 @@ h3.head {
 		float: none;
 		width: 40%;
 		margin: 0 auto;
+		background: url(../images/logo.png) no-repeat 75px 5px;
 	}
 	.w3layouts_logo a h1 {
-		background: url(../images/1.jpg) no-repeat 75px 5px;
+		background: url(../images/logo.png) no-repeat 75px 5px;
 		background-size: 46%;
 	}
 	.w3_search {
@@ -1447,7 +1433,7 @@ h3.head {
 }
 @media (max-width: 320px){
 	.w3layouts_logo a h1 {
-		background: url(../images/1.jpg) no-repeat 61px 5px;
+		background: url(../images/logo.png) no-repeat 61px 5px;
 		background-size: 46%;
 		font-size: 2em;
 	}

@@ -39,13 +39,15 @@ namespace MovieStore.Controllers
             _context = context;
             }
         // GET: Movies
-        public async Task<IActionResult> Index ( )
+        public async Task<IActionResult> HomePage ( )
             {
             string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
                                                                    //if ( user == null )
                                                                    //    return RedirectToAction( "Login" , "Users" );
                                                                    //else
-            return View( await _context.Movie.ToListAsync() );
+            var movielist = await _context.Movie.ToListAsync();
+            movielist.Reverse();
+            return View( movielist.Take( 5 ) ); // Returns the last 5 movies entered the database
             }
         public async Task<IActionResult> Search ( string name )
             {

@@ -30,7 +30,7 @@ namespace MovieStore.Controllers
             if ( user != null )
                 {
                 SignIn( user );
-                return RedirectToAction( "Index" , "Movies" );
+                return RedirectToAction( "Homepage" , "Movies" );
                 }
             return View();
             }

@@ -138,10 +138,11 @@
                         max-height: 100px;
                         margin: 0;
                         background-position: center center;
-                        background-size: cover;
+                        background-size: contain;
                         box-shadow: 0 0 1px #fff;
                         -ms-interpolation-mode: bicubic;
-                        image-rendering: antialias
+                        image-rendering: antialias;
+                        background-repeat:no-repeat;
                     }
 
                 .slidey-row .slidey-list ul li table .slidey-list-title {
