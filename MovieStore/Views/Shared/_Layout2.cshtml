@@ -69,7 +69,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <!-- start-smoth-scrolling -->
     <!-- SearchBox -->
-    <!--<link rel="stylesheet" href="~/css/Searchbox/search.css" type="text/css" media="all" />-->
+    <link rel="stylesheet" href="~/css/Searchbox/search.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
     <!-- SearchBox -->
 </head>
 
@@ -78,19 +80,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="header">
         <div class="container">
             <div class="w3layouts_logo">
-                <a asp-controller="Movies" asp-action="HomePage"> <img src="../images/logo.png" /> </a>
+                <a asp-controller="Movies" asp-action="HomePage"> <img src="~/images/logo.png" /> </a>
             </div>
-            <div class="w3_search">
-                <form asp-controller="Movies" asp-action="Search">
-                    <input id="searchBox" type="text" name="name" placeholder="Search" required="">
-                    @*<div id="content">
-                        <a href="#nav"><span>Click</span></a>
-                        <div class="expandable" id="nav">
-                            <p>Cum enit aliquam. Porttitor risus mattis mauriue sociis habitasse p tristique.</p>
-                        </div>
-                    </div>*@
-                    <input type="submit" value="Go">
-                </form>
+            <div class="w3_search center">
+                <input class="search-input" id="searchBox" type="text" placeholder="Search" />
+                <input type="submit" class="search-icon">
             </div>
             <div class="w3l_sign_in_register">
                 <ul>
@@ -99,9 +93,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             {
                             <li><span>Hey, Stranger</span></li>
                             <li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
-                            <script>
-                                console.log("you are not connected");
-                            </script>
                             }
                         else
                             {
@@ -380,7 +371,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="~/js/Movie/search.js"></script>
+    <script src="~/js/searchbox/search.js"></script>
 
     @RenderSection( "Scripts" , required: false )
 </body>
