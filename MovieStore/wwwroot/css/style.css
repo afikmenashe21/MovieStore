@@ -63,8 +63,8 @@ input[type="submit"],.agileinfo_chat a,.w3ls_footer_grid1_left p a,.w3l_sign_in_
     padding: 10px;
     text-align: center;
     font-size: 14px;
-    width: 78%;
-    float: left;
+    width: 60%;
+    float: none;
 }
 .w3_search input[type="submit"]{
 	outline: none;
@@ -73,7 +73,8 @@ input[type="submit"],.agileinfo_chat a,.w3ls_footer_grid1_left p a,.w3l_sign_in_
     padding: 10px 0;
     font-size: 14px;
     color: #fff;
-    width: 22%;
+    width: 20%;
+	float:right;
 }
 .w3_search input[type="submit"]:hover{
 	background:#FF8D1B;

@@ -83,6 +83,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <a asp-controller="Movies" asp-action="HomePage"> <img src="~/images/logo.png" /> </a>
             </div>
             <div class="w3_search center">
+                <div id="hamburger">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="~/images/SearchBox/hamburg.png" id="hamburger-icon" /> </a>
+                    <ul class="dropdown-menu multi-column columns-3">
+                        <li>
+                            <p>
+                                <label for="release-date">Release Date:</label>
+                                <input type="text" id="years" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                            </p>
+                            <div id="release-date"></div>
+                        </li>
+                        <li>
+                            <p>
+                                <label for="duration">Duration:</label>
+                                <input type="text" id="minutes" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                            </p>
+                            <div id="duration"></div>
+                        </li>
+                        <li>
+                            <p>
+                                <label for="rating">Rating:</label>
+                                <input type="text" id="rating-grade" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                            </p>
+                            <div id="rating"></div>
+                        </li>
+                        <li>
+                            <input type="submit" class="search-icon" id="advanced-submit">
+
+                        </li>
+                    </ul>
+                </div>
                 <input class="search-input" id="searchBox" type="text" placeholder="Search" />
                 <input type="submit" class="search-icon">
             </div>
@@ -372,7 +402,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/js/searchbox/search.js"></script>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     @RenderSection( "Scripts" , required: false )
 </body>
 </html>
+
