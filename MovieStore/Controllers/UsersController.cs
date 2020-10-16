@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Session;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using MovieStore.Data;
 using MovieStore.Models;
+using System.Dynamic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MovieStore.Controllers
     {
@@ -38,7 +30,7 @@ namespace MovieStore.Controllers
             if ( user != null )
                 {
                 SignIn( user );
-                return RedirectToAction( "Index" , "Movies" );
+                return RedirectToAction( "Homepage" , "Movies" );
                 }
             return View();
             }
@@ -47,16 +39,16 @@ namespace MovieStore.Controllers
             {
             HttpContext.Session.SetString( "Type" , user.Type.ToString() );
             HttpContext.Session.SetString( "UserId" , user.Id.ToString() );
+            HttpContext.Session.SetString( "UserName" , user.UserName.ToString() );
             }
         public IActionResult Register ( )
             {
             return View();
             }
-
         [HttpPost]
-        public async Task<IActionResult> Register ( string username , string password , string FirstName , string LastName , string address , string Email , string type = "Customer" )
+        public async Task<IActionResult> Register ( string username , string password , string Email , string FirstName = null, string LastName = null , string Address = null , string type = "Customer" )
             {
-            User account = new User() { UserName = username , Password = password , FirstName = FirstName , LastName = LastName , Address = address , Email = Email };
+            User account = new User() { UserName = username , Password = password , FirstName = FirstName , LastName = LastName , Address = Address , Email = Email };
 
             if ( type == "Customer" )
                 account.Type = UserType.Customer;
@@ -69,11 +61,13 @@ namespace MovieStore.Controllers
             SignIn( account );
             return RedirectToAction( "Index" , "Movies" );
             }
+
         public IActionResult Logout ( )
             {
             HttpContext.Session.Remove( "Type" );
             HttpContext.Session.Remove( "UserId" );
-            return RedirectToAction( "Login" );
+            HttpContext.Session.Remove( "UserName" );
+            return RedirectToAction( "Index" , "Movies" );
             }
 
         public IActionResult Dashboard ( )

@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\searchbox\search.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\css\Accordion\JavaScript.js" />
-    <None Include="wwwroot\js\Movie\search.js" />
+    <None Include="wwwroot\js\searchbox\search.js" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 

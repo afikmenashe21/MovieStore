@@ -25,11 +25,11 @@ An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9f
 namespace MovieStore.Controllers
 {
     public class MoviesController : Controller
-    {
-        private Boolean exist = false;
+        {
+        //private Boolean exist = false;
         private readonly MovieStoreContext _context;
-        private string accsessKey = "79a6c068";
-        string[] headlines = { "Great Movie", "Wowwww", "Amazing story line", "I'm shocked", "Great cast !!", "MUST TO WATCH", "I'm impressed", "A Big Like" };
+        //private string accsessKey = "79a6c068";
+        string [ ] headlines = { "Great Movie" , "Wowwww" , "Amazing story line" , "I'm shocked" , "Great cast !!" , "MUST TO WATCH" , "I'm impressed" , "A Big Like" };
         Random rnd = new Random();
         List<Movie> movies = new List<Movie>();
         DateTime minDateTime = DateTime.MinValue;
@@ -41,17 +41,18 @@ namespace MovieStore.Controllers
             _context = context;
         }
         // GET: Movies
-        public async Task<IActionResult> Index()
-        {
-            string user = HttpContext.Session.GetString("Type"); //Function to verify the user before get in the view
-            if (user == null)
-                return RedirectToAction("Login", "Users");
-            else
-                return View(await _context.Movie.ToListAsync());
-        }
-        public async Task<IActionResult> Search(string name)
-        {
-            movies.Clear();
+        public async Task<IActionResult> HomePage ( )
+            {
+            string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
+                                                                   //if ( user == null )
+                                                                   //    return RedirectToAction( "Login" , "Users" );
+                                                                   //else
+            var movielist = await _context.Movie.ToListAsync();
+            movielist.Reverse();
+            return View( movielist.Take( 5 ) ); // Returns the last 5 movies entered the database
+            }
+        public async Task<IActionResult> Search ( string name )
+            {
             //Interpreted user's search target
             string[] title = name.Split(" ");
             string resultTitle = null;
@@ -85,8 +86,12 @@ namespace MovieStore.Controllers
             }
             var movieReviews = _context.Review.Where(r => r.Movie.Id == id).Include(r => r.Author);
             ViewBag.reviews = movieReviews.ToList();
-            return View(movie);
-        }
+            ViewBag.reviews.Reverse();
+
+            var movieGenres = _context.MovieGenre.Where( g => g.MovieId == id ).Include( d => d.Genre );
+            ViewBag.genres = movieGenres.ToList();
+            return View( movie );
+            }
 
         // GET: Movies/Create
         public IActionResult Create()
