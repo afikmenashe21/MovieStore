@@ -211,9 +211,8 @@ a.w3_play_icon span,a.w3_play_icon1 span,a.w3_play_icon2 span {
 }
 .agile_tv_series_grid_right{
 	background:#FF8D1B;
-	min-height:312px;
+	min-height:281px;
 	padding:3em 3em 0;
-	width: 48.6%;
 }
 p.fexi_header{
 	text-transform: uppercase;

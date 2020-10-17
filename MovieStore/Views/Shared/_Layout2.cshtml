@@ -72,6 +72,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="~/css/Searchbox/search.css" type="text/css" media="all" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+    <!-- Advanced Search-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/css/jquery-ui.css">
+    <!-- Advanced Search-->
     <!-- SearchBox -->
 </head>
 
@@ -84,37 +89,41 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="w3_search center">
                 <div id="hamburger">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="~/images/SearchBox/hamburg.png" id="hamburger-icon" /> </a>
-                    <ul class="dropdown-menu multi-column columns-3">
-                        <li>
-                            <p>
-                                <label for="release-date">Release Date:</label>
-                                <input type="text" id="years" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                            </p>
-                            <div id="release-date"></div>
-                        </li>
-                        <li>
-                            <p>
-                                <label for="duration">Duration:</label>
-                                <input type="text" id="minutes" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                            </p>
-                            <div id="duration"></div>
-                        </li>
-                        <li>
-                            <p>
-                                <label for="rating">Rating:</label>
-                                <input type="text" id="rating-grade" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                            </p>
-                            <div id="rating"></div>
-                        </li>
-                        <li>
-                            <input type="submit" class="search-icon" id="advanced-submit">
-
-                        </li>
-                    </ul>
+                    <a href="#" id="hamburger-a" class="dropdown-toggle" data-toggle="dropdown"><img src="~/images/SearchBox/hamburg.png" id="hamburger-icon" /> </a>
+                    <form asp-controller="Movies" asp-action="AdvancedSearch">
+                        <ul class="dropdown-menu multi-column columns-3">
+                            <li>
+                                <p>
+                                    <label for="release-date">Release Date:</label>
+                                    <input type="text" id="years" name="releasedate" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
+                                <div id="release-date"></div>
+                            </li>
+                            <li>
+                                <p>
+                                    <label for="duration">Duration:</label>
+                                    <input type="text" id="minutes" name="duration" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
+                                <div id="duration"></div>
+                            </li>
+                            <li>
+                                <p>
+                                    <label for="rating">Rating:</label>
+                                    <input type="text" id="rating-grade" name="rating" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
+                                <div id="rating"></div>
+                            </li>
+                            <li>
+                                <input type="submit" name="advanced-toggle" style="width: 45%;" class="advanced-btn search-icon">
+                                <input type="submit" id="reset-filters" value="Reset" style="width: 45%;" class="advanced-btn search-icon">
+                            </li>
+                        </ul>
+                    </form>
                 </div>
-                <input class="search-input" id="searchBox" type="text" placeholder="Search" />
-                <input type="submit" class="search-icon">
+                <form asp-controller="Movies" asp-action="Search">
+                    <input class="search-input" id="searchBox" name="name" type="text" placeholder="Search" />
+                    <input type="submit" value="Search" class="search-icon">
+                </form>
             </div>
             <div class="w3l_sign_in_register">
                 <ul>
@@ -402,12 +411,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/js/searchbox/search.js"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     @RenderSection( "Scripts" , required: false )
 </body>
 </html>
