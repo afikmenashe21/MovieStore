@@ -1128,6 +1128,7 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
+  max-height:281px;
 }
 .img-rounded {
   border-radius: 6px;
@@ -1421,6 +1422,7 @@ ol ol {
 .list-unstyled {
   padding-left: 0;
   list-style: none;
+  margin-top: 10px;
 }
 .list-inline {
   padding-left: 0;

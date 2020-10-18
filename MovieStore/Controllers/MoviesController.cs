@@ -64,7 +64,7 @@ namespace MovieStore.Controllers
             Movie movie = new Movie();
             await CreateMovie( movie , resultTitle );//Creates reviews either
 
-            return RedirectToAction( "Details" , movies[0]);
+            return RedirectToAction( "Details" , movies [ 0 ] );
             }
 
         // GET: Movies
@@ -438,7 +438,7 @@ namespace MovieStore.Controllers
                         && m.Duration >= fromDurationsto [ 0 ] && m.Duration <= fromDurationsto [ 1 ]
                         && m.AverageRating >= fromRatingto [ 0 ] && m.AverageRating <= fromRatingto [ 1 ]
                         select m;
-            return View("Index", query.ToList() );
+            return View( "Index" , await query.ToListAsync() );
             }
 
         }
