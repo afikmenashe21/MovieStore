@@ -79,21 +79,23 @@ input[type="submit"],.agileinfo_chat a,.w3ls_footer_grid1_left p a,.w3l_sign_in_
 .w3_search input[type="submit"]:hover{
 	background:#FF8D1B;
 }
-.w3l_sign_in_register{
+
+
+.w3l_sign_in_register {
 	float: right;
-    margin-top:1.5em;
-    width: 25%;
+	margin-top: 1.5em;
+	width: 25%;
 }
-.w3l_sign_in_register ul li a{
-	color: #fff;
-    display: inline-block;
-    text-transform: uppercase;
-    text-decoration: none;
-    background: #FF8D1B;
-    text-align: center;
-    padding: 6px 30px;
-    font-weight: bold;
-}
+	.w3l_sign_in_register ul li a {
+		color: #fff;
+		display: inline-block;
+		text-transform: uppercase;
+		text-decoration: none;
+		background: #FF8D1B;
+		text-align: center;
+		padding: 4px 11px;
+		font-weight: bold;
+	}
 .w3l_sign_in_register ul li a:focus{
 	outline:none;
 }

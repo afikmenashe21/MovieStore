@@ -15,7 +15,7 @@
 
     <div class="w3-row">
         <a href="javascript:void(0)" onclick="openCity(event, 'Users');">
-            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Users</div>
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red">Users</div>
         </a>
         <a href="javascript:void(0)" onclick="openCity(event, 'Movies');">
             <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Movies</div>
@@ -25,8 +25,8 @@
         </a>
     </div>
 
-    <div id="Users" class="w3-container city" style="display:none">
-        <h2>Users</h2>
+    <div id="Users" class="w3-container city" style="display:block">
+        <a class="buttonCRUD" asp-controller="Users" asp-action="Register">Create New User</a>
         @foreach ( User user in Model.users )
             {
             <button class="accordion">@user.UserName</button>
@@ -41,8 +41,8 @@
                         <li class="list-group-item accordion-list-group-item">LastName: @user.LastName </li>
                         <li class="list-group-item accordion-list-group-item">Address: @user.Address </li>
                         <li class="list-group-item accordion-list-group-item">
-                            <a type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
-                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</button>
+                            <a  class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                            <a  class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
                         </li>
 
                     </ul>
@@ -53,7 +53,7 @@
     </div>
 
     <div id="Movies" class="w3-container city" style="display:none">
-        <h2>Movies</h2>
+        <a class="buttonCRUD" asp-controller="Movies" asp-action="Create">Create New Movie</a>
         @foreach ( Movie movie in Model.movies )
             {
             <button class="accordion">@movie.Name</button>
@@ -70,8 +70,8 @@
                         <li class="list-group-item accordion-list-group-item">Storyline: @movie.Storyline </li>
                         <li class="list-group-item accordion-list-group-item">AverageRating: @movie.AverageRating </li>
                         <li class="list-group-item accordion-list-group-item">
-                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Edit" asp-route-id="@movie.Id">Edit</button>
-                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Delete" asp-route-id="@movie.Id">Delete</button>
+                            <a class="buttonCRUD" asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">Edit</a>
+                            <a class="buttonCRUD" asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id">Delete</a>
                         </li>
 
                     </ul>
@@ -82,7 +82,7 @@
     </div>
 
     <div id="Actors" class="w3-container city" style="display:none">
-        <h2>Actors</h2>
+        <a class="buttonCRUD" asp-controller="Actors" asp-action="Create">Create New Actor</a>
         @foreach ( Actor actor in Model.actors )
             {
             <button class="accordion">Name: @actor.Name</button>
@@ -92,8 +92,8 @@
                     <ul class="list-group">
                         <li class="list-group-item accordion-list-group-item">Name: @actor.Name</li>
                         <li class="list-group-item accordion-list-group-item">
-                            <button type="button" class="btn btn-secondary" asp-controller="Actors" asp-action="Edit" asp-route-id="@actor.Id">Edit</button>
-                            <button type="button" class="btn btn-secondary" asp-controller="Actors" asp-action="Delete" asp-route-id="@actor.Id">Delete</button>
+                            <a class="buttonCRUD" asp-controller="Acors" asp-action="Edit" asp-route-id="@actor.Id">Edit</a>
+                            <a class="buttonCRUD" asp-controller="Acors" asp-action="Delete" asp-route-id="@actor.Id">Delete</a>
                         </li>
 
                     </ul>
