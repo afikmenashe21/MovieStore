@@ -9,7 +9,8 @@
 <link rel="stylesheet" href="~/css/Dashboard/accordion.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="~/css/Dashboard/tabs.css">
-
+<link rel="stylesheet" href="~/css/Dashboard/tabsSearch.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans|Maven+Pro:500' rel='stylesheet' type='text/css'>
 <div class="w3-container">
     <h2>Dashboard</h2>
 
@@ -27,29 +28,34 @@
 
     <div id="Users" class="w3-container city" style="display:block">
         <a class="buttonCRUD" asp-controller="Users" asp-action="Register">Create New User</a>
-        @foreach ( User user in Model.users )
-            {
-            <button class="accordion">@user.UserName</button>
-            <div class="panel">
-                <p>
+        @*<input type="text" id="search-text-tabs" placeholder="search" class="search-box-tabs">
+        <span class="list-count-tabs"></span>
+        <section class="list-wrap-tabs"></section>
+            <ul id="list-tabs"></ul>*@
+                @foreach ( User user in Model.users )
+                    {
+                    @*<li class="in li-tabs"></li>*@
+                        <button class="accordion">@user.UserName</button>
+                        <div class="panel">
+                            <p>
 
-                    <ul class="list-group">
-                        <li class="list-group-item accordion-list-group-item">UserName: @user.UserName</li>
-                        <li class="list-group-item accordion-list-group-item">Type: @user.Type.ToString() </li>
-                        <li class="list-group-item accordion-list-group-item">Email: @user.Email </li>
-                        <li class="list-group-item accordion-list-group-item">FirstName: @user.FirstName </li>
-                        <li class="list-group-item accordion-list-group-item">LastName: @user.LastName </li>
-                        <li class="list-group-item accordion-list-group-item">Address: @user.Address </li>
-                        <li class="list-group-item accordion-list-group-item">
-                            <a  class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
-                            <a  class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
-                        </li>
+                                <ul class="list-group">
+                                    <li class="list-group-item accordion-list-group-item">UserName: @user.UserName</li>
+                                    <li class="list-group-item accordion-list-group-item">Type: @user.Type.ToString() </li>
+                                    <li class="list-group-item accordion-list-group-item">Email: @user.Email </li>
+                                    <li class="list-group-item accordion-list-group-item">FirstName: @user.FirstName </li>
+                                    <li class="list-group-item accordion-list-group-item">LastName: @user.LastName </li>
+                                    <li class="list-group-item accordion-list-group-item">Address: @user.Address </li>
+                                    <li class="list-group-item accordion-list-group-item">
+                                        <a class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                                        <a class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                                    </li>
 
-                    </ul>
+                                </ul>
 
-                </p>
-            </div>
-            }
+                            </p>
+                        </div>
+                    }
     </div>
 
     <div id="Movies" class="w3-container city" style="display:none">
@@ -121,3 +127,5 @@
 </script>
 
 <script src="~/js/Dashboard/accordion.js"></script>
+<script src="~/js/Dashboard/tabSearch.js"></script>
+
