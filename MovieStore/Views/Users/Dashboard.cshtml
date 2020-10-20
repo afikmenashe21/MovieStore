@@ -24,38 +24,41 @@
         <a href="javascript:void(0)" onclick="openCity(event, 'Actors');">
             <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Actors</div>
         </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'Genres');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Genres</div>
+        </a>
     </div>
 
     <div id="Users" class="w3-container city" style="display:block">
         <a class="buttonCRUD" asp-controller="Users" asp-action="Register">Create New User</a>
         @*<input type="text" id="search-text-tabs" placeholder="search" class="search-box-tabs">
-        <span class="list-count-tabs"></span>
-        <section class="list-wrap-tabs"></section>
-            <ul id="list-tabs"></ul>*@
-                @foreach ( User user in Model.users )
-                    {
-                    @*<li class="in li-tabs"></li>*@
-                        <button class="accordion">@user.UserName</button>
-                        <div class="panel">
-                            <p>
+            <span class="list-count-tabs"></span>
+            <section class="list-wrap-tabs"></section>
+                <ul id="list-tabs"></ul>*@
+        @foreach ( User user in Model.users )
+            {
+            @*<li class="in li-tabs"></li>*@
+            <button class="accordion">@user.UserName</button>
+            <div class="panel">
+                <p>
 
-                                <ul class="list-group">
-                                    <li class="list-group-item accordion-list-group-item">UserName: @user.UserName</li>
-                                    <li class="list-group-item accordion-list-group-item">Type: @user.Type.ToString() </li>
-                                    <li class="list-group-item accordion-list-group-item">Email: @user.Email </li>
-                                    <li class="list-group-item accordion-list-group-item">FirstName: @user.FirstName </li>
-                                    <li class="list-group-item accordion-list-group-item">LastName: @user.LastName </li>
-                                    <li class="list-group-item accordion-list-group-item">Address: @user.Address </li>
-                                    <li class="list-group-item accordion-list-group-item">
-                                        <a class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
-                                        <a class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
-                                    </li>
+                    <ul class="list-group">
+                        <li class="list-group-item accordion-list-group-item">UserName: @user.UserName</li>
+                        <li class="list-group-item accordion-list-group-item">Type: @user.Type.ToString() </li>
+                        <li class="list-group-item accordion-list-group-item">Email: @user.Email </li>
+                        <li class="list-group-item accordion-list-group-item">FirstName: @user.FirstName </li>
+                        <li class="list-group-item accordion-list-group-item">LastName: @user.LastName </li>
+                        <li class="list-group-item accordion-list-group-item">Address: @user.Address </li>
+                        <li class="list-group-item accordion-list-group-item">
+                            <a class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                            <a class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                        </li>
 
-                                </ul>
+                    </ul>
 
-                            </p>
-                        </div>
-                    }
+                </p>
+            </div>
+            }
     </div>
 
     <div id="Movies" class="w3-container city" style="display:none">
@@ -91,25 +94,46 @@
         <a class="buttonCRUD" asp-controller="Actors" asp-action="Create">Create New Actor</a>
         @foreach ( Actor actor in Model.actors )
             {
-            <button class="accordion">Name: @actor.Name</button>
+            <button class="accordion">@actor.Name</button>
             <div class="panel">
                 <p>
-
                     <ul class="list-group">
-                        <li class="list-group-item accordion-list-group-item">Name: @actor.Name</li>
+                        @foreach ( MovieActor movieActor in actor.MovieActor )
+                            {
+                            <li class="list-group-item accordion-list-group-item">Movie Name: @movieActor.Movie.Name</li>
+                            }
                         <li class="list-group-item accordion-list-group-item">
-                            <a class="buttonCRUD" asp-controller="Acors" asp-action="Edit" asp-route-id="@actor.Id">Edit</a>
-                            <a class="buttonCRUD" asp-controller="Acors" asp-action="Delete" asp-route-id="@actor.Id">Delete</a>
+                            <a class="buttonCRUD" asp-controller="Actors" asp-action="Edit" asp-route-id="@actor.Id">Edit</a>
+                            <a class="buttonCRUD" asp-controller="Actors" asp-action="Delete" asp-route-id="@actor.Id">Delete</a>
                         </li>
-
                     </ul>
+                </p>
+            </div>
+            }
+    </div>
 
+    <div id="Genres" class="w3-container city" style="display:none">
+        <a class="buttonCRUD" asp-controller="Genres" asp-action="Create">Create New Genre</a>
+        @foreach ( Genre genre in Model.genres )
+            {
+            <button class="accordion">@genre.Type</button>
+            <div class="panel">
+                <p>
+                    <ul class="list-group">
+                        @foreach ( MovieGenre movieGenre in @genre.MovieGenre )
+                            {
+                            <li class="list-group-item accordion-list-group-item">Movie Name: @movieGenre.Movie.Name</li>
+                            }
+                        <li class="list-group-item accordion-list-group-item">
+                            <a class="buttonCRUD" asp-controller="Genres" asp-action="Edit" asp-route-id="@genre.Id">Edit</a>
+                            <a class="buttonCRUD" asp-controller="Genres" asp-action="Delete" asp-route-id="@genre.Id">Delete</a>
+                        </li>
+                    </ul>
                 </p>
             </div>
             }
     </div>
 </div>
-
 <script>
     function openCity(evt, cityName) {
         var i, x, tablinks;

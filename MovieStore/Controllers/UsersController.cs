@@ -70,12 +70,14 @@ namespace MovieStore.Controllers
             return RedirectToAction( "Index" , "Movies" );
             }
 
-        public IActionResult Dashboard ( )
+        public async Task<IActionResult> Dashboard ( )
             {
             dynamic Multiple = new ExpandoObject();
-            Multiple.actors = _context.Actor.ToList();
-            Multiple.movies = _context.Movie.ToList();
-            Multiple.users = _context.User.ToList();
+            Multiple.actors = await _context.Actor.Include( a => a.MovieActor ).ToListAsync();
+            Multiple.movies = await _context.Movie.ToListAsync();
+            Multiple.users = await _context.User.ToListAsync();
+            Multiple.genres = await _context.Genre.Include( g => g.MovieGenre ).ToListAsync();
+
             return View( Multiple );
             }
 
