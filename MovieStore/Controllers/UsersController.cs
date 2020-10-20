@@ -67,7 +67,7 @@ namespace MovieStore.Controllers
             HttpContext.Session.Remove( "Type" );
             HttpContext.Session.Remove( "UserId" );
             HttpContext.Session.Remove( "UserName" );
-            return RedirectToAction( "Index" , "Movies" );
+            return RedirectToAction( "HomePage" , "Movies" );
             }
 
         public async Task<IActionResult> Dashboard ( )
