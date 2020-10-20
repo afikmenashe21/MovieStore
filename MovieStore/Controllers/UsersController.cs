@@ -78,14 +78,6 @@ namespace MovieStore.Controllers
             Multiple.movies = await _context.Movie.ToListAsync();
             Multiple.users = await _context.User.ToListAsync();
             Multiple.genres = await _context.Genre.Include( g => g.MovieGenre ).ToListAsync();
-            //var result = warmCountries.Join( europeanCountries , warm => warm , european => european , ( warm , european ) => warm );
-            //var result = ( from a in _context.Actor
-            //               join m in _context.Movie on a.MovieId equals m.Id
-            //               select m );
-            //List<Product> orderedProducts = _context.ProductOrder.Join( _context.Product , x => x.ProductID , y => y.ProductID , ( x , y ) => y ).ToList();
-
-            var result = _context.MovieActor.Join( _context.Actor , x => x.MovieId , y => y.MovieId , ( x , y ) => y ).ToList();
-
             return View( Multiple );
             }
 
