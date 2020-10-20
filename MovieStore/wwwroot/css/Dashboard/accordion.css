@@ -1,0 +1,82 @@
+﻿/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    .active, .accordion:hover {
+        background-color: #ccc;
+    }
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    margin-bottom:6px;
+}
+.accordion-list-group-item {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+.btn-dashboard {
+    color: #fff;
+    display: inline-block;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #FF8D1B;
+    text-align: center;
+    padding: 6px 30px;
+    font-weight: bold;
+}
+
+    .btn-dashboard:focus {
+        outline: none;
+    }
+
+    .btn-dashboard:hover {
+        background: #212121;
+    }
+    .btn-dashboard:first-child {
+        padding-right: 1em;
+    }
+
+/*------------- Buttons(Create,Edit,Delete) -------------*/
+.buttonCRUD {
+    background-color: #FF8D1B;
+    border: none;
+    color: #fff;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    text-align: center;
+    padding: 6px 30px;
+    font-weight: bold;
+}
+
+
+    .buttonCRUD:hover {
+        background-color: black;
+        color: white;
+    }

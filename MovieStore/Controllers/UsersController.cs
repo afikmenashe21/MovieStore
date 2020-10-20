@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieStore.Data;
 using MovieStore.Models;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace MovieStore.Controllers
     public class UsersController : Controller
         {
         private readonly MovieStoreContext _context;
-        public UsersController ( MovieStoreContext context)
+        public UsersController ( MovieStoreContext context )
             {
             _context = context;
             }
@@ -46,7 +47,7 @@ namespace MovieStore.Controllers
             return View();
             }
         [HttpPost]
-        public async Task<IActionResult> Register ( string username , string password , string Email , string FirstName = null, string LastName = null , string Address = null , string type = "Customer" )
+        public async Task<IActionResult> Register ( string username , string password , string Email , string FirstName = null , string LastName = null , string Address = null , string type = "Customer" )
             {
             User account = new User() { UserName = username , Password = password , FirstName = FirstName , LastName = LastName , Address = Address , Email = Email };
 
@@ -67,15 +68,16 @@ namespace MovieStore.Controllers
             HttpContext.Session.Remove( "Type" );
             HttpContext.Session.Remove( "UserId" );
             HttpContext.Session.Remove( "UserName" );
-            return RedirectToAction( "Index" , "Movies" );
+            return RedirectToAction( "HomePage" , "Movies" );
             }
 
-        public IActionResult Dashboard ( )
+        public async Task<IActionResult> Dashboard ( )
             {
             dynamic Multiple = new ExpandoObject();
-            Multiple.actors = _context.Actor.ToList();
-            Multiple.movies = _context.Movie.ToList();
-            Multiple.users = _context.User.ToList();
+            Multiple.actors = await _context.Actor.Include( a => a.MovieActor ).ToListAsync();
+            Multiple.movies = await _context.Movie.ToListAsync();
+            Multiple.users = await _context.User.ToListAsync();
+            Multiple.genres = await _context.Genre.Include( g => g.MovieGenre ).ToListAsync();
             return View( Multiple );
             }
 

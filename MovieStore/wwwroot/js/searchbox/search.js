@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿$(function () { // Main search box
     $("#searchBox").autocomplete({
         source: "/Movies/DynamicSearch",
         minLength: 2,
@@ -9,7 +9,10 @@
     $(".ui-autocomplete").addClass("search-results scroll-hide");
 });
 
-$("#clickme").click(function () {
+//         <------------------------ Advanced Search ------------------------>
+
+
+$("#clickme").click(function () { // dropdown - with the sliders
     $("#book").slideToggle("slow", function () {
         // Animation complete.
     });
@@ -19,7 +22,7 @@ jQuery(document).on('click', '.mega-dropdown', function (e) {
 })
 var acb = [];
 
-$(function () {
+$(function () { // Release date slider - filter by yeares
     $("#release-date").slider({
         range: true,
         min: 1980,
@@ -37,7 +40,7 @@ $(function () {
     
 });
 
-$(function () {
+$(function () { // Duration slider - filter by minutes
     $("#duration").slider({
         range: true,
         min: 0,
@@ -51,7 +54,7 @@ $(function () {
         " - " + $("#duration").slider("values", 1));
 });
 
-$(function () {
+$(function () { // Rating slider - filter by grade 0-10
     $("#rating").slider({
         range: true,
         min: 0,

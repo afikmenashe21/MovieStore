@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\Accordion\JavaScript.js" />
+    <None Include="wwwroot\js\Dashboard\accordion.js" />
     <None Include="wwwroot\js\searchbox\search.js" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>

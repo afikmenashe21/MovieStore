@@ -3,71 +3,79 @@
 
 @{
     ViewData [ "Title" ] = "Dashboard";
+    Layout = "_Layout2";
+
 }
-<link rel="stylesheet" href="~/css/Accordion/Style.css">
+<link rel="stylesheet" href="~/css/Dashboard/accordion.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="~/css/Dashboard/tabs.css">
+<link rel="stylesheet" href="~/css/Dashboard/tabsSearch.css">
+<div class="w3-container">
+    <h2>Dashboard</h2>
 
-<h1>Dashboard</h1>
-<nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">User</a>
-        <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Movie</a>
-        <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Actor</a>
+    <div class="w3-row">
+        <a href="javascript:void(0)" onclick="openCity(event, 'Users');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red">Users</div>
+        </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'Movies');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Movies</div>
+        </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'Actors');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Actors</div>
+        </a>
+        <a href="javascript:void(0)" onclick="openCity(event, 'Genres');">
+            <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Genres</div>
+        </a>
     </div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-        <p>
-            <a class="btn btn-secondary" asp-controller="Users" asp-action="Register">Create New</a>
-        </p>
 
+    <div id="Users" class="w3-container city" style="display:block">
+        <input type="text" class="tabs-Input" id="myInput-users" placeholder="Search for names..">
+
+        <a class="buttonCRUD" asp-controller="Users" asp-action="Register">Create New User</a>
         @foreach ( User user in Model.users )
             {
-
-
-            <button class="accordion">@user.UserName</button>
+            <button class="accordion myBTN-users">@user.UserName</button>
             <div class="panel">
                 <p>
-
                     <ul class="list-group">
-                        <li class="list-group-item">UserName: @user.UserName</li>
-                        <li class="list-group-item">Type: @user.Type.ToString() </li>
-                        <li class="list-group-item">Email: @user.Email </li>
-                        <li class="list-group-item">FirstName: @user.FirstName </li>
-                        <li class="list-group-item">LastName: @user.LastName </li>
-                        <li class="list-group-item">Address: @user.Address </li>
-                        <li class="list-group-item">
-                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</button>
-                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</button>
+                        <li class="list-group-item accordion-list-group-item">UserName: @user.UserName</li>
+                        <li class="list-group-item accordion-list-group-item">Type: @user.Type.ToString() </li>
+                        <li class="list-group-item accordion-list-group-item">Email: @user.Email </li>
+                        <li class="list-group-item accordion-list-group-item">FirstName: @user.FirstName </li>
+                        <li class="list-group-item accordion-list-group-item">LastName: @user.LastName </li>
+                        <li class="list-group-item accordion-list-group-item">Address: @user.Address </li>
+                        <li class="list-group-item accordion-list-group-item">
+                            <a class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                            <a class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
                         </li>
-
                     </ul>
-
                 </p>
             </div>
             }
     </div>
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-        <p>
-            <a class="btn btn-secondary" asp-controller="Movies" asp-action="Create">Create New</a>
-        </p>
+
+    <div id="Movies" class="w3-container city" style="display:none">
+        <input type="text" class="tabs-Input" id="myInput-movies" placeholder="Search for names..">
+
+        <a class="buttonCRUD" asp-controller="Movies" asp-action="Create">Create New Movie</a>
         @foreach ( Movie movie in Model.movies )
             {
-            <button class="accordion">@movie.Name</button>
+            <button class="accordion myBTN-movies">@movie.Name</button>
             <div class="panel">
                 <p>
 
                     <ul class="list-group">
-                        <li class="list-group-item">Name: @movie.Name</li>
-                        <li class="list-group-item">ReleaseDate: @movie.ReleaseDate </li>
-                        <li class="list-group-item">Duration: @movie.Duration </li>
-                        <li class="list-group-item">Director: @movie.Director </li>
-                        <li class="list-group-item">Poster: @movie.Poster </li>
-                        <li class="list-group-item">Trailer: @movie.Trailer </li>
-                        <li class="list-group-item">Storyline: @movie.Storyline </li>
-                        <li class="list-group-item">AverageRating: @movie.AverageRating </li>
-                        <li class="list-group-item">
-                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Edit" asp-route-id="@movie.Id">Edit</button>
-                            <button type="button" class="btn btn-secondary" asp-controller="Users" asp-action="Delete" asp-route-id="@movie.Id">Delete</button>
+                        <li class="list-group-item accordion-list-group-item">Name: @movie.Name</li>
+                        <li class="list-group-item accordion-list-group-item">ReleaseDate: @movie.ReleaseDate </li>
+                        <li class="list-group-item accordion-list-group-item">Duration: @movie.Duration </li>
+                        <li class="list-group-item accordion-list-group-item">Director: @movie.Director </li>
+                        <li class="list-group-item accordion-list-group-item">Poster: @movie.Poster </li>
+                        <li class="list-group-item accordion-list-group-item">Trailer: @movie.Trailer </li>
+                        <li class="list-group-item accordion-list-group-item">Storyline: @movie.Storyline </li>
+                        <li class="list-group-item accordion-list-group-item">AverageRating: @movie.AverageRating </li>
+                        <li class="list-group-item accordion-list-group-item">
+                            <a class="buttonCRUD" asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">Edit</a>
+                            <a class="buttonCRUD" asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id">Delete</a>
                         </li>
 
                     </ul>
@@ -76,30 +84,70 @@
             </div>
             }
     </div>
-    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-        <p>
-            <a class="btn btn-secondary" asp-controller="Actors" asp-action="Create">Create New</a>
-        </p>
 
+    <div id="Actors" class="w3-container city" style="display:none">
+        <input type="text" class="tabs-Input" id="myInput-actors" placeholder="Search for names..">
+
+        <a class="buttonCRUD" asp-controller="Actors" asp-action="Create">Create New Actor</a>
         @foreach ( Actor actor in Model.actors )
             {
-            <button class="accordion">Name: @actor.Name</button>
+            <button class="accordion myBTN-actors">@actor.Name</button>
             <div class="panel">
                 <p>
-
                     <ul class="list-group">
-                        <li class="list-group-item">Name: @actor.Name</li>
-                        <li class="list-group-item">
-                            <button type="button" class="btn btn-secondary" asp-controller="Actors" asp-action="Edit" asp-route-id="@actor.Id">Edit</button>
-                            <button type="button" class="btn btn-secondary" asp-controller="Actors" asp-action="Delete" asp-route-id="@actor.Id">Delete</button>
+                        @foreach ( MovieActor movieActor in actor.MovieActor )
+                            {
+                            <li class="list-group-item accordion-list-group-item">Movie Name: @movieActor.Movie.Name</li>
+                            }
+                        <li class="list-group-item accordion-list-group-item">
+                            <a class="buttonCRUD" asp-controller="Actors" asp-action="Edit" asp-route-id="@actor.Id">Edit</a>
+                            <a class="buttonCRUD" asp-controller="Actors" asp-action="Delete" asp-route-id="@actor.Id">Delete</a>
                         </li>
-
                     </ul>
+                </p>
+            </div>
+            }
+    </div>
 
+    <div id="Genres" class="w3-container city" style="display:none">
+        <input type="text" class="tabs-Input" id="myInput-genres" placeholder="Search for names..">
+        <a class="buttonCRUD" asp-controller="Genres" asp-action="Create">Create New Genre</a>
+        @foreach ( Genre genre in Model.genres )
+            {
+            <button class="accordion myBTN-genres">@genre.Type</button>
+            <div class="panel">
+                <p>
+                    <ul class="list-group">
+                        @foreach ( MovieGenre movieGenre in @genre.MovieGenre )
+                            {
+                            <li class="myUL list-group-item accordion-list-group-item">Movie Name: @movieGenre.Movie.Name</li>
+                            }
+                        <li class="list-group-item accordion-list-group-item">
+                            <a class="buttonCRUD" asp-controller="Genres" asp-action="Edit" asp-route-id="@genre.Id">Edit</a>
+                            <a class="buttonCRUD" asp-controller="Genres" asp-action="Delete" asp-route-id="@genre.Id">Delete</a>
+                        </li>
+                    </ul>
                 </p>
             </div>
             }
     </div>
 </div>
+<script>
+    function openCity(evt, cityName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.firstElementChild.className += " w3-border-red";
+    }
+</script>
 
-<script src="~/css/Accordion/JavaScript.js"></script>
+<script src="~/js/Dashboard/accordion.js"></script>
+<script src="~/js/Dashboard/tabSearch.js"></script>
+
