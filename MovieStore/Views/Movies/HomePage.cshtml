@@ -13,15 +13,13 @@
                 {
                 <li>
                     <img src="@movie.Poster" alt=" ">
-                    @*<p class='title'>@movie.Name</p>*@
                     <a class='title' asp-action="Details" asp-route-id="@movie.Id" style="color:white">@movie.Name</a> |
                     <p class='description'> @movie.Storyline</p>
                 </li>
                 }}
     </ul>
 </div>
-<script src="js/jquery.slidey.js"></script>
-<script src="js/jquery.dotdotdot.min.js"></script>
+<script src="~/js/jquery.slidey.js"></script>
 <script type="text/javascript">
     $("#slidey").slidey({
         interval: 8000,
