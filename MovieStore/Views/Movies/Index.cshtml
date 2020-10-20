@@ -25,11 +25,26 @@
                                 <p class="fexi_header_para"><span>Date of Release<label>:</label></span> @movie.ReleaseDate.ToShortDateString() </p>
                                 <p class="fexi_header_para fexi_header_para1">
                                     <span>Star Rating<label>:</label></span>
-                                    <a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                    @{
+
+                                        int intAverageRating = (int) Math.Floor( movie.AverageRating ); // 7.3 -> 7
+                                        for ( int i = 0 ; i < intAverageRating ; i++ ) // 7
+                                            {
+                                            <a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
+                                            }
+                                        if ( movie.AverageRating - intAverageRating > 0 ) // 7.5 - 7 = 0.5
+                                            {
+                                            <a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
+                                            }
+                                        else
+                                            {
+                                            <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                            }
+                                        for ( int i = 1 ; i < 10 - intAverageRating ; i++ ) //10-7 = 3
+                                            {
+                                            <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                            }
+                                    }
                                 </p>
                             </div>
                         </div>
