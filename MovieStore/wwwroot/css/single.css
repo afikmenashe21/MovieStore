@@ -12,6 +12,7 @@ html, body {
 .video-grid-single-page-agileits img {
     width: 100%;
 }
+
 #single-poster {
     display: block;
     max-width: 25em;
@@ -19,9 +20,10 @@ html, body {
     padding: 0 0 0 1em;
     max-height: 100%;
 }
+
 #video {
     position: relative;
-/*    width: 100%;*/
+    /*    width: 100%;*/
     margin: 20px auto;
     width: 50px;
     height: 100px;
@@ -483,6 +485,16 @@ html, body {
 }
 
     .media-body span a {
+        color: #ff8d1b;
+        text-decoration: none;
+    }
+
+.media-body div {
+    color: #C7C7C7;
+    font-size: 13px;
+}
+
+    .media-body div a {
         color: #ff8d1b;
         text-decoration: none;
     }

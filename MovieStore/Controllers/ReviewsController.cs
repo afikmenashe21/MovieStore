@@ -154,24 +154,17 @@ namespace MovieStore.Controllers
             return _context.Review.Any(e => e.Id == id);
         }
 
-        private async Task combinedSearch(DateTime? fromDate = null, DateTime? toDate = null, string content = "", string User_Name = "")
+        public async Task<IActionResult> AdvancedSearch(string published = "1980 - 2021", string content = "", string user = "")
         {
-            reviews.Clear();
-            if (fromDate == null)
-                fromDate = DateTime.MinValue;
-            if (toDate == null)
-                toDate = DateTime.MaxValue;
+            int[] fromYearsto = Array.ConvertAll(published.Split(" - "), y => int.Parse(y)); // Convert Release date from string to int array
 
-            foreach (Review review in _context.Review)
-            {
-                if (review.Content.Contains(content)//check if the contains returns true in default case
-                    && review.Published >= fromDate && review.Published <= toDate
-                    && (review.Author.FirstName.Contains(User_Name) || review.Author.LastName.Contains(User_Name)))
-                //check if the contains returns true if the values are equals
-                {
-                    reviews.Add(review);
-                }
-            }
+            // Return the Reviews that qualify these terms
+            var query = from r in _context.Review
+                        where r.Published.Year >= fromYearsto[0] && r.Published.Year <= fromYearsto[1]
+                        && r.Content.Contains(content)
+                        && (r.Author.FirstName.Contains(user) || r.Author.LastName.Contains(user))
+                        select r;
+            return View("Index", await query.ToListAsync());
         }
     }
 }
