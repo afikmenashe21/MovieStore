@@ -87,10 +87,15 @@ namespace MovieStore.Controllers
                 {
                 return NotFound();
                 }
-            ViewBag.reviews = await _context.Review.Where( r => r.Movie.Id == id ).Join( _context.User , r => r.Author.Id , u => u.Id , ( r , u ) => r ).ToListAsync(); ;
-            ViewBag.reviews.Reverse();
 
-            ViewBag.genres =  await _context.MovieGenre.Where( g => g.MovieId == id ).Join( _context.Genre , mg => mg.GenreId , g => g.Id , ( g , mg ) => g ).ToListAsync();
+            var movieReviews = await _context.Review.Where( r => r.Movie.Id == id ).Include( r => r.Author ).ToListAsync();
+            ViewBag.reviews.Reverse();
+            // Linq - first filter the rows in MovieGenre and then join to get the Genres
+            ViewBag.genres = await _context.MovieGenre.Where( mg => mg.MovieId == id ).Join( _context.Genre , mg => mg.GenreId , g => g.Id , ( g , mg ) => g ).ToListAsync();
+
+            // Linq - first filter the rows in MovieActor and then join to get the Actors
+            ViewBag.actors = await _context.MovieActor.Where( ma => ma.MovieId == id ).Join( _context.Actor , ma => ma.ActorId , a => a.Id , ( a , ma ) => a ).ToListAsync();
+
             return View( movie );
             }
 
