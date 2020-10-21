@@ -91,7 +91,7 @@ namespace MovieStore.Controllers
             ViewBag.reviews = movieReviews.ToList();
             ViewBag.reviews.Reverse();
 
-            var movieGenres = _context.MovieGenre.Where( g => g.MovieId == id ).Include( d => d.Genre );
+            var movieGenres = _context.MovieGenre.Where( g => g.MovieId == id ).Join( _context.Genre , mg => mg.GenreId , g => g.Id , ( g , mg ) => g ).ToList();
             ViewBag.genres = movieGenres.ToList();
             return View( movie );
             }
