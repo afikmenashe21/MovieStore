@@ -1,0 +1,17 @@
+﻿.profile-details {
+    color: #212121;
+    font-size: 14px;
+    font-weight: bold;
+    float: left;
+}
+
+.profile-details-content {
+    font-size: 14px;
+    color: black;
+    line-height: 1.5em;
+    position: relative;
+}
+
+    .profile-details-content a {
+        color: black !important
+    }
