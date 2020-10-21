@@ -87,12 +87,10 @@ namespace MovieStore.Controllers
                 {
                 return NotFound();
                 }
-            var movieReviews = _context.Review.Where( r => r.Movie.Id == id ).Include( r => r.Author );
-            ViewBag.reviews = movieReviews.ToList();
+            ViewBag.reviews = await _context.Review.Where( r => r.Movie.Id == id ).Join( _context.User , r => r.Author.Id , u => u.Id , ( r , u ) => r ).ToListAsync(); ;
             ViewBag.reviews.Reverse();
 
-            var movieGenres = _context.MovieGenre.Where( g => g.MovieId == id ).Join( _context.Genre , mg => mg.GenreId , g => g.Id , ( g , mg ) => g ).ToList();
-            ViewBag.genres = movieGenres.ToList();
+            ViewBag.genres =  await _context.MovieGenre.Where( g => g.MovieId == id ).Join( _context.Genre , mg => mg.GenreId , g => g.Id , ( g , mg ) => g ).ToListAsync();
             return View( movie );
             }
 
