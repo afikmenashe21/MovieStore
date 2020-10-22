@@ -13,13 +13,24 @@ using Microsoft.Extensions.Caching.Memory;
 using MovieStore.Data;
 using MovieStore.Models;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Reflection;
+using System.Threading;
+
+
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Upload;
+using Google.Apis.Util.Store;
+using Google.Apis.YouTube.v3;
+using Google.Apis.YouTube.v3.Data;
 /*
 API Key: 9fde2d96ac6101edcaf57252ac55719d
 An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9fde2d96ac6101edcaf57252ac55719d
 */
+
 /*
- API Key: 9fde2d96ac6101edcaf57252ac55719d
-An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9fde2d96ac6101edcaf57252ac55719d
+ YouTube API key : AIzaSyAEDTLnlZLlF6aK076D2l9VSlFPzyO1QaQ
  */
 
 namespace MovieStore.Controllers
@@ -34,6 +45,8 @@ namespace MovieStore.Controllers
         List<Movie> movies = new List<Movie>();
         DateTime minDateTime = DateTime.MinValue;
         DateTime maxDateTime = DateTime.MaxValue;
+
+        string youtubeTrailer = "";
 
 
         public MoviesController(MovieStoreContext context)
@@ -53,7 +66,14 @@ namespace MovieStore.Controllers
         public async Task<IActionResult> Search(string name)
         {
             movies.Clear();
+            //foreach (Movie m in _context.Movie)
+            //{
+            //    await Run(m.Name);
+            //    m.Trailer = youtubeTrailer;
+            //}
+
             //Interpreted user's search target
+
             string[] title = name.Split(" ");
             string resultTitle = null;
             foreach (string s in title)
@@ -87,12 +107,16 @@ namespace MovieStore.Controllers
             {
                 return NotFound();
             }
-            var movieReviews = _context.Review.Where(r => r.Movie.Id == id).Include(r => r.Author);
-            ViewBag.reviews = movieReviews.ToList();
-            ViewBag.reviews.Reverse();
 
-            var movieGenres = _context.MovieGenre.Where(g => g.MovieId == id).Include(d => d.Genre);
-            ViewBag.genres = movieGenres.ToList();
+            ViewBag.reviews = await _context.Review.Where(r => r.Movie.Id == id).Include(r => r.Author).ToListAsync();
+            ViewBag.reviews.Reverse();
+            // Linq - first filter the rows in MovieGenre and then join to get the Genres
+
+            ViewBag.genres = await _context.MovieGenre.Where(mg => mg.MovieId == id).Join(_context.Genre, mg => mg.GenreId, g => g.Id, (mg, g) => g).ToListAsync();
+
+            // Linq - first filter the rows in MovieActor and then join to get the Actors
+            ViewBag.actors = await _context.MovieActor.Where(ma => ma.MovieId == id).Join(_context.Actor, ma => ma.ActorId, a => a.Id, (ma, a) => a).ToListAsync();
+
             return View(movie);
         }
 
@@ -325,7 +349,8 @@ namespace MovieStore.Controllers
                                     movie.Duration = Int32.Parse((jObj["Runtime"].ToString().Split(" "))[0]);
                                     movie.Director = jObj["Director"].ToString();
                                     movie.Poster = jObj["Poster"].ToString();
-                                    movie.Trailer = "No Trailer"; // Figure out how to get the movie trailer
+                                    await Run(theMovieName);
+                                    movie.Trailer = youtubeTrailer;
                                     movie.Storyline = jObj["Plot"].ToString();
                                     movie.AverageRating = Double.Parse(jObj["imdbRating"].ToString());
                                     string[] genres = jObj["Genre"].ToString().Split(", ").ToArray();
@@ -425,6 +450,7 @@ namespace MovieStore.Controllers
                 Console.WriteLine(exception);
             }
         }
+
         public async Task<IActionResult> AdvancedSearch(string releasedate = "1980 - 2021", string duration = "0 - 240", string rating = "0 - 10")
         {
 
@@ -441,5 +467,27 @@ namespace MovieStore.Controllers
             return View("Index", await query.ToListAsync());
         }
 
+        public async Task Run(string movieName)
+        {
+
+            var youtubeService = new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = "AIzaSyAEDTLnlZLlF6aK076D2l9VSlFPzyO1QaQ",
+                ApplicationName = this.GetType().ToString()
+            });
+
+            var searchListRequest = youtubeService.Search.List("snippet");
+            searchListRequest.Q = movieName + " trailer";
+            searchListRequest.MaxResults = 10;
+            searchListRequest.Type = "video";
+            searchListRequest.VideoEmbeddable = SearchResource.ListRequest.VideoEmbeddableEnum.True__;
+
+            // Call the search.list method to retrieve results matching the specified query term.
+            var searchListResponse = await searchListRequest.ExecuteAsync();
+
+            youtubeTrailer = "https://www.youtube.com/embed/" + searchListResponse.Items[0].Id.VideoId;
+
+
+        }
     }
 }
