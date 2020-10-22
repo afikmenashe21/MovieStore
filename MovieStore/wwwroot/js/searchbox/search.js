@@ -67,3 +67,28 @@ $(function () { // Rating slider - filter by grade 0-10
     $("#rating-grade").val($("#rating").slider("values", 0) +
         " - " + $("#rating").slider("values", 1));
 });
+
+
+$("#reset-filters").click(function () { // Event listener - Reset button
+
+        // < --------- reset the release-date slider --------->
+    $("#release-date").slider('values', 0, 1980); 
+    $("#release-date").slider('values', 1, 2021);
+
+    $("#years").val($("#release-date").slider("values", 0) +
+        " - " + $("#release-date").slider("values", 1));
+
+    // < --------- reset the duration slider --------->
+    $("#duration").slider('values', 0, 0); 
+    $("#duration").slider('values', 1, 240);
+
+    $("#minutes").val($("#duration").slider("values", 0) +
+        " - " + $("#duration").slider("values", 1));
+
+    // < --------- reset the rating slider --------->
+    $("#rating").slider('values', 0, 0); 
+    $("#rating").slider('values', 1, 10);
+
+    $("#rating-grade").val($("#rating").slider("values", 0) +
+        " - " + $("#rating").slider("values", 1));
+})
