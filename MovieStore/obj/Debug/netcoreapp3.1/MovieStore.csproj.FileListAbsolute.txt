@@ -206,7 +206,6 @@ C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcore
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Users\Dashboard.cshtml.g.cs
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Movies\DynamicSearch.cshtml.g.cs
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Movies\HomePage.cshtml.g.cs
-C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout2.cshtml.g.cs
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Movies\Index.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\appsettings.json
@@ -418,3 +417,4 @@ C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\static
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.dll
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.pdb
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.genruntimeconfig.cache
+C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout3.cshtml.g.cs

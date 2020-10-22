@@ -1,12 +1,8 @@
 ﻿@model MovieStore.Models.Movie
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData [ "Title" ] = "Edit";
 }
-
-<h1>Edit</h1>
-
-<h4>Movie</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -60,10 +56,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync( "_ValidationScriptsPartial" );}
 }
