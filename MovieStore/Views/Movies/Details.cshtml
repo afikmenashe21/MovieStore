@@ -3,9 +3,7 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "_Layout2";
-
+    ViewData [ "Title" ] = "Details";
 }
 <!--
 author: W3layouts
@@ -15,6 +13,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!-- single -->
 <link rel="stylesheet" href="~/css/reviewSearch.css">
+<link rel="stylesheet" href="~/css/MovieDetails/detailsStyle.css">
+
 <div class="single-page-agile-main">
     <div class="container">
         <div class="single-page-agile-info">
@@ -24,43 +24,106 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="col-md-4 video-grid-single-page-agileits">
                         <img src=@Model.Poster alt="" class="img-responsive" id="single-poster" />
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 coloum">
                         <p class="fexi_header">@Model.Name</p>
-                        <p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span> @Model.Storyline</p>
-                        <p class="fexi_header_para"><span>Date of Release<label>:</label></span> @Model.ReleaseDate.ToShortDateString() </p>
-                        <p class="fexi_header_para">
-                            <span>Genres<label>:</label> </span>
-                            @{ if ( ViewBag.genres != null )
-                                    for ( int i = 0 ; i < ViewBag.genres.Count - 1 ; i++ )
-                                        {
-                                        <a href="genres.html" style="color:black">@ViewBag.genres [ i ].Genre.Type.ToString() | </a>
-                                        }
-                                <a href="genres.html" style="color:black">@ViewBag.genres [ ViewBag.genres.Count - 1 ].Genre.Type.ToString()</a>
-                            }
-                        </p>
-                        <p class="fexi_header_para fexi_header_para1">
-                            <span>Star Rating<label>:</label></span>
-                            @{
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="profile-details">
+                                    Story Line :
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="profile-details-content">
+                                    @Model.Storyline
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="profile-details">
+                                    Date of Release :
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="profile-details-content">
+                                    @Model.ReleaseDate.ToShortDateString()
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="profile-details">
+                                    Genres :
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="profile-details-content">
+                                    @{ if ( ViewBag.genres != null )
+                                            {
+                                            for ( int i = 0 ; i < ViewBag.genres.Count - 1 ; i++ )
+                                                {
+                                                var genre = ViewBag.genres [ i ].Type.ToString();
+                                                <a href="genres.html" style="color:black">@genre | </a>
+                                                }
+                                            var genreLast = ViewBag.genres [ ViewBag.genres.Count - 1 ].Type.ToString();
+                                            <a href="genres.html" style="color:black">@genreLast</a>
+                                            }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="profile-details">
+                                    Actors :
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="profile-details-content">
+                                    @{ if ( ViewBag.actors != null )
+                                            {
+                                            for ( int i = 0 ; i < ViewBag.actors.Count - 1 ; i++ )
+                                                {
+                                                var actor = ViewBag.actors [ i ].Name;
+                                                <a href="genres.html" style="color:black">@actor | </a>
+                                                }
+                                            var actorLast = ViewBag.actors [ ViewBag.actors.Count - 1 ].Name;
+                                            <a href="genres.html" style="color:black">@actorLast</a>
+                                            }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="profile-details">
+                                    Star Rating :
+                                </div>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="profile-details-content">
+                                    @{
 
-                                int intAverageRating = (int) Math.Floor( Model.AverageRating ); // 7.3 -> 7
-                                for ( int i = 0 ; i < intAverageRating ; i++ ) // 7
-                                    {
-                                    <a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
+                                        int intAverageRating = (int) Math.Floor( Model.AverageRating ); // 7.3 -> 7
+                                        for ( int i = 0 ; i < intAverageRating ; i++ ) // 7
+                                            {
+                                            <span href="#"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                            }
+                                        if ( Model.AverageRating - intAverageRating > 0 ) // 7.5 - 7 = 0.5
+                                            {
+                                            <span href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                                            }
+                                        else
+                                            {
+                                            <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                            }
+                                        for ( int i = 1 ; i < 10 - intAverageRating ; i++ ) //10-7 = 3
+                                            {
+                                            <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                            }
                                     }
-                                if ( Model.AverageRating - intAverageRating > 0 ) // 7.5 - 7 = 0.5
-                                    {
-                                    <a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
-                                    }
-                                else
-                                    {
-                                    <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-                                    }
-                                for ( int i = 1 ; i < 10 - intAverageRating ; i++ ) //10-7 = 3
-                                    {
-                                    <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-                                    }
-                            }
-                        </p>
+                                </div>
+                            </div>
+                        </div>
+            }
                     </div>
                 </div>
                 <div class="song-grid-right">
@@ -140,8 +203,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="clearfix"> </div>
 
                 <div class="all-comments">
-                    @if (Context.Session.GetString("Type") != null)
-                    {
+                    @if ( Context.Session.GetString( "Type" ) != null )
+                        {
                         <div class="all-comments-info">
                             <a href="#">Comments</a>
                             <div class="agile-info-wthree-box">
@@ -156,13 +219,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 </form>
                             </div>
                         </div>
-                    }
+                        }
 
                     <div class="media-grids">
                         @*All the comments for Movie*@
-                        @{ if (ViewBag.reviews != null)
-                                foreach (Review review in ViewBag.reviews)
-                                {
+                        @{ if ( ViewBag.reviews != null )
+                                foreach ( Review review in ViewBag.reviews )
+                                    {
                                     <div class="media">
                                         <h5>@review.Headline</h5>
                                         <div class="media-left">
@@ -177,7 +240,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             <div>Rating: @review.Rating</div>
                                         </div>
                                     </div>
-                                } }
+                                    } }
                     </div>
                 </div>
             </div>

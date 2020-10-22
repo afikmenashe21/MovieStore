@@ -4,10 +4,7 @@
     ViewData [ "Title" ] = "Details";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>User</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -51,19 +48,3 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
-@{ if ( Model.Comments != null )
-        foreach ( Review review in Model.Comments )
-            {
-            <div class="card w-75">
-                <div class="card-body">
-                    <h5 class="card-title">review.Author.UserName</h5>
-                    <p class="card-text">review.Content</p>
-                    <a href="#" class="btn btn-primary">Button</a>
-                </div>
-            </div>
-            }
-}
