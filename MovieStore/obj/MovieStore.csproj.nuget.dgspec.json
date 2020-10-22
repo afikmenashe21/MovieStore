@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dell\\Source\\Repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj": {}
+    "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dell\\Source\\Repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj": {
+    "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dell\\Source\\Repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
+        "projectUniqueName": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
         "projectName": "MovieStore",
-        "projectPath": "C:\\Users\\Dell\\Source\\Repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
+        "projectPath": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dell\\Source\\Repos\\afikmenashe21\\MovieStore\\MovieStore\\obj\\",
+        "outputPath": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

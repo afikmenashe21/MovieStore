@@ -107,75 +107,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         int intAverageRating = (int) Math.Floor( Model.AverageRating ); // 7.3 -> 7
                                         for ( int i = 0 ; i < intAverageRating ; i++ ) // 7
                                             {
-                                            <a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
+                                            <span href="#"><i class="fa fa-star" aria-hidden="true"></i></span>
                                             }
                                         if ( Model.AverageRating - intAverageRating > 0 ) // 7.5 - 7 = 0.5
                                             {
-                                            <a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
+                                            <span href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
                                             }
                                         else
                                             {
-                                            <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                            <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
                                             }
                                         for ( int i = 1 ; i < 10 - intAverageRating ; i++ ) //10-7 = 3
                                             {
-                                            <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                            <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
                                             }
                                     }
                                 </div>
                             </div>
                         </div>
-
-                        @*<p class="fexi_header_para"><span>Date of Release<label>:</label></span> @Model.ReleaseDate.ToShortDateString() </p>
-        <p class="fexi_header_para">
-            <span>Genres<label>:</label> </span>
-            @{ if ( ViewBag.genres != null )
-                    {
-                    for ( int i = 0 ; i < ViewBag.genres.Count - 1 ; i++ )
-                        {
-                        var genre = ViewBag.genres [ i ].Type.ToString();
-                        <a href="genres.html" style="color:black">@genre | </a>
-                        }
-                    var genreLast = ViewBag.genres [ ViewBag.genres.Count - 1 ].Type.ToString();
-                    <a href="genres.html" style="color:black">@genreLast</a>
-                    }}
-        </p>
-        <p class="fexi_header_para">
-            <span>Actors<label>:</label> </span>
-            @{ if ( ViewBag.actors != null )
-                    {
-                    for ( int i = 0 ; i < ViewBag.actors.Count - 1 ; i++ )
-                        {
-                        var actor = ViewBag.actors [ i ].Name;
-                        <a href="genres.html" style="color:black">@actor | </a>
-                        }
-                    var actorLast = ViewBag.actors [ ViewBag.actors.Count - 1 ].Name;
-                    <a href="genres.html" style="color:black">@actorLast</a>
-                    }}
-        </p>
-        <p class="fexi_header_para fexi_header_para1">
-            <span>Star Rating<label>:</label></span>
-            @{
-
-                int intAverageRating = (int) Math.Floor( Model.AverageRating ); // 7.3 -> 7
-                for ( int i = 0 ; i < intAverageRating ; i++ ) // 7
-                    {
-                    <a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
-                    }
-                if ( Model.AverageRating - intAverageRating > 0 ) // 7.5 - 7 = 0.5
-                    {
-                    <a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
-                    }
-                else
-                    {
-                    <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-                    }
-                for ( int i = 1 ; i < 10 - intAverageRating ; i++ ) //10-7 = 3
-                    {
-                    <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
-                    }
             }
-        </p>*@
                     </div>
                 </div>
                 <div class="song-grid-right">

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PZEZkiFKSYLNQiVj8wuq1vxOmBXkCa8KDUjuiDKhOY46SDR00c5OCIq78t7oxq4f+QW4NaheoFKmT+wQ/xqOZQ==",
+  "dgSpecHash": "uJ2T2gbqEwYTFOyorNBZOOS5hFzs7oKV4YI/P+K+IocQSLAOPLsMh1/iWzw7MFRTba0lznRDoQzqTsy5O/AMtQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Dell\\Source\\Repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
+  "projectFilePath": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
