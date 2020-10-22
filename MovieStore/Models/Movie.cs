@@ -17,14 +17,13 @@ namespace MovieStore.Models
         [RegularExpression(@"^[\w\s]+$")] // Demand the name wiil be with a-z or A-Z or digits characters
         [Required]
         public string Name { get; set; }
-        [DataType( DataType.Date )]
+        [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
         public int Duration { get; set; } // time in minutes.
         [RegularExpression(@"^[\w\s]+$")] // Demand the name wiil be with a-z or A-Z or digits characters
         public string Director { get; set; }
         public string Poster { get; set; }
         public string Trailer { get; set; }
-        [RegularExpression(@"^[\w\s]+$")] // Demand the name wiil be with a-z or A-Z or digits characters
         public string Storyline { get; set; }
         [Range(0, 10)]
         public double AverageRating { get; set; }
