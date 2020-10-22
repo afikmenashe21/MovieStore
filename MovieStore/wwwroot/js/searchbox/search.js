@@ -71,7 +71,7 @@ $(function () { // Rating slider - filter by grade 0-10
 
 $("#reset-filters").click(function () { // Event listener - Reset button
 
-        // < --------- reset the release-date slider --------->
+    // < --------- reset the release-date slider --------->
     $("#release-date").slider('values', 0, 1980); 
     $("#release-date").slider('values', 1, 2021);
 
