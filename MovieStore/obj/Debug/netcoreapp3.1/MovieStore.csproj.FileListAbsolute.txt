@@ -145,8 +145,6 @@ C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcore
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csprojAssemblyReference.cache
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.AssemblyInfoInputs.cache
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.AssemblyInfo.cs
-C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csproj.CoreCompileInputs.cache
-C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.RazorAssemblyInfo.cache
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.RazorAssemblyInfo.cs
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.TagHelpers.input.cache
@@ -418,3 +416,10 @@ C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieS
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.pdb
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.genruntimeconfig.cache
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout3.cshtml.g.cs
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.dll
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Core.dll
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.YouTube.v3.dll
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csproj.CoreCompileInputs.cache
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.MvcApplicationPartsAssemblyInfo.cache

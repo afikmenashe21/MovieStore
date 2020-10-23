@@ -5,7 +5,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 @using Microsoft.AspNetCore.Http
-
+@Html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -138,7 +138,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             }
                         if ( Context.Session.GetString( "Type" ) == "Admin" )
                             {
-                            <li><a id="dashboard-btn"asp-controller="Users" asp-action="Dashboard">Dashboard</a></li>
+                            <li><a id="dashboard-btn" asp-controller="Users" asp-action="Dashboard">Dashboard</a></li>
                             } }
                 </ul>
             </div>
@@ -226,35 +226,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <ul class="dropdown-menu multi-column columns-3">
                                     <li>
                                         <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <li><a href="genres.html">Action</a></li>
-                                                <li><a href="genres.html">Biography</a></li>
-                                                <li><a href="genres.html">Crime</a></li>
-                                                <li><a href="genres.html">Family</a></li>
-                                                <li><a href="horror.html">Horror</a></li>
-                                                <li><a href="genres.html">Romance</a></li>
-                                                <li><a href="genres.html">Sports</a></li>
-                                                <li><a href="genres.html">War</a></li>
-                                            </ul>
+                                            @if ( ViewBag.firstcolumn != null )
+                                                {
+                                                <ul class="multi-column-dropdown">
+                                                    @foreach ( string genre in ViewBag.firstcolumn )
+                                                        {
+                                                        <li><a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre">@genre</a></li>
+                                                        }
+                                                </ul>
+                                                }
                                         </div>
                                         <div class="col-sm-4">
+                                            @if ( ViewBag.secondcolumn != null )
+                                                {
                                             <ul class="multi-column-dropdown">
-                                                <li><a href="genres.html">Adventure</a></li>
-                                                <li><a href="comedy.html">Comedy</a></li>
-                                                <li><a href="genres.html">Documentary</a></li>
-                                                <li><a href="genres.html">Fantasy</a></li>
-                                                <li><a href="genres.html">Thriller</a></li>
+                                                @foreach ( string genre in ViewBag.secondcolumn )
+                                                    {
+                                                    <li><a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre">@genre</a></li>
+                                                    }
                                             </ul>
+                                                }
                                         </div>
                                         <div class="col-sm-4">
+                                            @if ( ViewBag.thirdcolumn != null )
+                                                {
                                             <ul class="multi-column-dropdown">
-                                                <li><a href="genres.html">Animation</a></li>
-                                                <li><a href="genres.html">Costume</a></li>
-                                                <li><a href="genres.html">Drama</a></li>
-                                                <li><a href="genres.html">History</a></li>
-                                                <li><a href="genres.html">Musical</a></li>
-                                                <li><a href="genres.html">Psychological</a></li>
+                                                @foreach ( string genre in ViewBag.thirdcolumn )
+                                                    {
+                                                    <li><a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre">@genre</a></li>
+                                                    }
                                             </ul>
+                                                }
                                         </div>
                                         <div class="clearfix"></div>
                                     </li>

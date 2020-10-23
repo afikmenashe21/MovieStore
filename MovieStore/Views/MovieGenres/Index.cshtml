@@ -1,41 +1,89 @@
 ﻿@model IEnumerable<MovieStore.Models.MovieGenre>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData [ "Title" ] = "Index";
 }
+<link rel="stylesheet" href="~/css/MovieDetails/detailsStyle.css">
 
-<h1>Index</h1>
+<section class="slider">
+    <div class="flexslider">
+        <ul class="slides list-unstyled">
+            @foreach ( var movie in Model )
+                {
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Movie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Movie.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre.Type)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                <li>
+                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Movie.Id">
+                        <div class="agile_tv_series_grid ">
+                            <div class="col-md-2 agile_tv_series_grid_left">
+                                <div class="w3ls_market_video_grid1">
+                                    <img src="@movie.Movie.Poster" alt=" " class="img-responsive" />
+                                </div>
+                            </div>
+                            <div class="col-md-10 agile_tv_series_grid_right">
+                                <p class="fexi_header">@movie.Movie.Name</p>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="profile-details">
+                                            Story Line :
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="profile-details-content">
+                                            @movie.Movie.Storyline
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="profile-details">
+                                            Date of Release :
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="profile-details-content">
+                                            @movie.Movie.ReleaseDate.ToShortDateString()
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="profile-details">
+                                            Star Rating :
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="profile-details-content">
+                                            @{
+                                                int intAverageRating = (int) Math.Floor( movie.Movie.AverageRating ); // 7.3 -> 7
+                                                for ( int i = 0 ; i < intAverageRating ; i++ ) // 7
+                                                    {
+                                                    <a href="#"><i class="fa fa-star" aria-hidden="true"></i></a>
+                                                    }
+                                                if ( movie.Movie.AverageRating - intAverageRating > 0 ) // 7.5 - 7 = 0.5
+                                                    {
+                                                    <a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a>
+                                                    }
+                                                else
+                                                    {
+                                                    <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                                    }
+                                                for ( int i = 1 ; i < 10 - intAverageRating ; i++ ) //10-7 = 3
+                                                    {
+                                                    <a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                                    }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </a>
+                </li>
+
+                }
+
+        </ul>
+    </div>
+</section>
