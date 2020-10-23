@@ -2,7 +2,7 @@
 @model dynamic
 
 @{
-    ViewData [ "Title" ] = "Dashboard";
+    ViewData["Title"] = "Dashboard";
 }
 <link rel="stylesheet" href="~/css/Dashboard/accordion.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,8 +30,8 @@
         <input type="text" class="tabs-Input" id="myInput-users" placeholder="Search for names..">
 
         <a class="buttonCRUD" asp-controller="Users" asp-action="Register">Create New User</a>
-        @foreach ( User user in Model.users )
-            {
+        @foreach (User user in Model.users)
+        {
             <button class="accordion myBTN-users">@user.UserName</button>
             <div class="panel">
                 <p>
@@ -46,18 +46,23 @@
                             <a class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
                             <a class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
                         </li>
+                        <li class="list-group-item accordion-list-group-item">
+                            <iframe width="600" height="450" frameborder="0" style="border:0"
+                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAEDTLnlZLlF6aK076D2l9VSlFPzyO1QaQ&q=Space+Needle,Seattle+WA" allowfullscreen>
+                            </iframe>
+                        </li>
                     </ul>
                 </p>
             </div>
-            }
+        }
     </div>
 
     <div id="Movies" class="w3-container city" style="display:none">
         <input type="text" class="tabs-Input" id="myInput-movies" placeholder="Search for names..">
 
         <a class="buttonCRUD" asp-controller="Movies" asp-action="Create">Create New Movie</a>
-        @foreach ( Movie movie in Model.movies )
-            {
+        @foreach (Movie movie in Model.movies)
+        {
             <button class="accordion myBTN-movies">@movie.Name</button>
             <div class="panel">
                 <p>
@@ -80,23 +85,23 @@
 
                 </p>
             </div>
-            }
+        }
     </div>
 
     <div id="Actors" class="w3-container city" style="display:none">
         <input type="text" class="tabs-Input" id="myInput-actors" placeholder="Search for names..">
 
         <a class="buttonCRUD" asp-controller="Actors" asp-action="Create">Create New Actor</a>
-        @foreach ( Actor actor in Model.actors )
-            {
+        @foreach (Actor actor in Model.actors)
+        {
             <button class="accordion myBTN-actors">@actor.Name</button>
             <div class="panel">
                 <p>
                     <ul class="list-group">
-                        @foreach ( MovieActor movieActor in actor.MovieActor )
-                            {
+                        @foreach (MovieActor movieActor in actor.MovieActor)
+                        {
                             <li class="list-group-item accordion-list-group-item">Movie Name: @movieActor.Movie.Name</li>
-                            }
+                        }
                         <li class="list-group-item accordion-list-group-item">
                             <a class="buttonCRUD" asp-controller="Actors" asp-action="Edit" asp-route-id="@actor.Id">Edit</a>
                             <a class="buttonCRUD" asp-controller="Actors" asp-action="Delete" asp-route-id="@actor.Id">Delete</a>
@@ -104,22 +109,22 @@
                     </ul>
                 </p>
             </div>
-            }
+        }
     </div>
 
     <div id="Genres" class="w3-container city" style="display:none">
         <input type="text" class="tabs-Input" id="myInput-genres" placeholder="Search for names..">
         <a class="buttonCRUD" asp-controller="Genres" asp-action="Create">Create New Genre</a>
-        @foreach ( Genre genre in Model.genres )
-            {
+        @foreach (Genre genre in Model.genres)
+        {
             <button class="accordion myBTN-genres">@genre.Type</button>
             <div class="panel">
                 <p>
                     <ul class="list-group">
-                        @foreach ( MovieGenre movieGenre in @genre.MovieGenre )
-                            {
+                        @foreach (MovieGenre movieGenre in @genre.MovieGenre)
+                        {
                             <li class="myUL list-group-item accordion-list-group-item">Movie Name: @movieGenre.Movie.Name</li>
-                            }
+                        }
                         <li class="list-group-item accordion-list-group-item">
                             <a class="buttonCRUD" asp-controller="Genres" asp-action="Edit" asp-route-id="@genre.Id">Edit</a>
                             <a class="buttonCRUD" asp-controller="Genres" asp-action="Delete" asp-route-id="@genre.Id">Delete</a>
@@ -127,7 +132,7 @@
                     </ul>
                 </p>
             </div>
-            }
+        }
     </div>
 </div>
 <script>

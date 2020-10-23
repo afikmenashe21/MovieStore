@@ -356,8 +356,6 @@ C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\runtim
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csprojAssemblyReference.cache
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.AssemblyInfoInputs.cache
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.AssemblyInfo.cs
-C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csproj.CoreCompileInputs.cache
-C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.RazorAssemblyInfo.cache
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.RazorAssemblyInfo.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.TagHelpers.input.cache
@@ -397,7 +395,6 @@ C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Reviews\Index.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
-C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout2.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Users\Dashboard.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Users\Delete.cshtml.g.cs
@@ -418,3 +415,11 @@ C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieS
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.pdb
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.genruntimeconfig.cache
 C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout3.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout3.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Core.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.YouTube.v3.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csproj.CoreCompileInputs.cache
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.MvcApplicationPartsAssemblyInfo.cache
