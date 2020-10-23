@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="~/css/Dashboard/tabs.css">
 <link rel="stylesheet" href="~/css/Dashboard/tabsSearch.css">
+<link rel="stylesheet" href="~/css/Dashboard/map.css">
 <div class="w3-container">
     <h2>Dashboard</h2>
 
@@ -46,15 +47,17 @@
                             <a class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
                             <a class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
                         </li>
-                        <li class="list-group-item accordion-list-group-item">
-                            <iframe width="600" height="450" frameborder="0" style="border:0"
-                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAEDTLnlZLlF6aK076D2l9VSlFPzyO1QaQ&q=Space+Needle,Seattle+WA" allowfullscreen>
-                            </iframe>
-                        </li>
                     </ul>
                 </p>
             </div>
         }
+        <div class="container">
+            <div id="map-container">
+                <div id="map-canvas"></div>
+            </div>
+        </div>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEDTLnlZLlF6aK076D2l9VSlFPzyO1QaQ&callback=initMap"
+                async defer></script>
     </div>
 
     <div id="Movies" class="w3-container city" style="display:none">
@@ -153,4 +156,5 @@
 
 <script src="~/js/Dashboard/accordion.js"></script>
 <script src="~/js/Dashboard/tabSearch.js"></script>
+<script src="~/js/Dashboard/map.js"></script>
 
