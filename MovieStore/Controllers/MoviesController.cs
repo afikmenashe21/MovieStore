@@ -91,7 +91,6 @@ namespace MovieStore.Controllers
 
             Movie movie = new Movie();
             await CreateMovie( movie , resultTitle );//Creates reviews either
-
             return RedirectToAction( "Details" , movies [ 0 ] );
             }
 
@@ -434,6 +433,7 @@ namespace MovieStore.Controllers
                                     await this.Create( movie );
                                     await CreateMovieReviews( movie );
                                     movies.Add( movie );
+                                    await GenresDropdownbutton(); // New movie add -> update the Genre dropdown list
                                     }
                                 else // The movie is in the database 
                                     {
