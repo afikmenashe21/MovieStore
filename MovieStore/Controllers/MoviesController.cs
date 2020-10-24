@@ -34,9 +34,15 @@ An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9f
  */
 
 namespace MovieStore.Controllers
-    {
+    {        
+
     public class MoviesController : Controller
         {
+        // Static variables for Genres button on Layout
+        public static List<string> GenresFirstColumn;
+        public static List<string> GenresSecondColumn;
+        public static List<string> GenresThirdColumn;
+
         //private Boolean exist = false;
         private readonly MovieStoreContext _context;
         //private string accsessKey = "79a6c068";
@@ -51,6 +57,7 @@ namespace MovieStore.Controllers
 
         public MoviesController ( MovieStoreContext context )
             {
+
             _context = context;
             }
         public async Task<IActionResult> HomePage ( )
@@ -61,7 +68,7 @@ namespace MovieStore.Controllers
                                                                    //else
             var movielist = await _context.Movie.ToListAsync();
             movielist.Reverse();
-            TrimGenrelist(); // Trim the list of Genres to 3 columns
+            await GenresDropdownbutton(); // Trim the list of Genres to 3 columns
             return View( movielist.Take( 5 ) ); // Returns the last 5 movies entered the database
             }
         public async Task<IActionResult> Search ( string name )
@@ -91,7 +98,7 @@ namespace MovieStore.Controllers
         // GET: Movies
         public async Task<IActionResult> Index ( )
             {
-            return View( await _context.Movie.OrderBy(m=>m.Name).ToListAsync() );
+            return View( await _context.Movie.OrderBy( m => m.Name ).ToListAsync() );
             }
 
         // GET: Movies/Details/5
@@ -490,10 +497,9 @@ namespace MovieStore.Controllers
 
 
             }
-
-        private void TrimGenrelist ( )
+        public async Task GenresDropdownbutton ( )
             {
-            var genres = _context.Genre.Select( g => g.Type ).ToList();
+            var genres = await _context.Genre.Select( g => g.Type ).ToListAsync();
             int amount = genres.Count;
             if ( amount > 2 ) // If amount of genres more then/equal 3 
                 {
@@ -501,27 +507,27 @@ namespace MovieStore.Controllers
                 switch ( amount % 3 )
                     {
                     case 0: // If amount of genres divide by 3
-                        ViewBag.firstcolumn = genres.GetRange( 0 , range );
-                        ViewBag.secondcolumn = genres.GetRange( range , range );
-                        ViewBag.thirdcolumn = genres.GetRange( 2 * ( range ) , range );
+                        GenresFirstColumn = genres.GetRange( 0 , range );
+                        GenresSecondColumn = genres.GetRange( range , range );
+                        GenresThirdColumn = genres.GetRange( 2 * ( range ) , range );
                         break;
                     case 1: // If amount of genres divide by 3 with 1 remainder
-                        ViewBag.firstcolumn = genres.GetRange( 0 , range + 1 ); // This column will have 1 more genre
-                        ViewBag.secondcolumn = genres.GetRange( range + 1 , range );
-                        ViewBag.thirdcolumn = genres.GetRange( 2 * ( range ) + 1 , range );
+                        GenresFirstColumn = genres.GetRange( 0 , range + 1 ); // This column will have 1 more genre
+                        GenresSecondColumn = genres.GetRange( range + 1 , range );
+                        GenresThirdColumn = genres.GetRange( 2 * ( range ) + 1 , range );
                         break;
                     case 2: // If amount of genres divide by 3 with 2 remainder
-                        ViewBag.firstcolumn = genres.GetRange( 0 , range + 1 ); // This column will have 1 more genre
-                        ViewBag.secondcolumn = genres.GetRange( range + 1 , range + 1 ); // This column will have 1 more genre
-                        ViewBag.thirdcolumn = genres.GetRange( 2 * ( range ) + 2 , range );
+                        GenresFirstColumn = genres.GetRange( 0 , range + 1 ); // This column will have 1 more genre
+                        GenresSecondColumn = genres.GetRange( range + 1 , range + 1 ); // This column will have 1 more genre
+                        GenresThirdColumn = genres.GetRange( 2 * ( range ) + 2 , range );
                         break;
                     }
                 }
             else // If amount of genres less then 3
                 {
-                ViewBag.firstcolumn = genres.GetRange( 0 , 1 );
+                GenresFirstColumn = genres.GetRange( 0 , 1 );
                 if ( amount > 1 ) // If amount of genres equal to 2
-                    ViewBag.secondcolumn = genres.GetRange( 1 , 1 );
+                    GenresSecondColumn = genres.GetRange( 1 , 1 );
                 }
 
             }

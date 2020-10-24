@@ -421,5 +421,5 @@ C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcore
 C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
 C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
 C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.YouTube.v3.dll
-C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csproj.CoreCompileInputs.cache
-C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csproj.CoreCompileInputs.cache
+C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.MvcApplicationPartsAssemblyInfo.cache

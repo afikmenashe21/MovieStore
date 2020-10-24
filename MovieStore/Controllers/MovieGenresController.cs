@@ -170,7 +170,5 @@ namespace MovieStore.Controllers
             var moviesList = genres.First( g => g.Key == genre ); // Filter the list of genres to the right one
             return View( "Index" , moviesList.ToList() );
             }
-
-
         }
 }
