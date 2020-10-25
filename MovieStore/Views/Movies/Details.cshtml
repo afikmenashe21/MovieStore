@@ -63,10 +63,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             for ( int i = 0 ; i < ViewBag.genres.Count - 1 ; i++ )
                                                 {
                                                 var genre = ViewBag.genres [ i ].Type.ToString();
-                                                <a href="genres.html" style="color:black">@genre | </a>
+                                                <a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre" style="color:black">@genre  | </a>
                                                 }
                                             var genreLast = ViewBag.genres [ ViewBag.genres.Count - 1 ].Type.ToString();
-                                            <a href="genres.html" style="color:black">@genreLast</a>
+                                            <a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genreLast" style="color:black">@genreLast</a>
                                             }}
                                 </div>
                             </div>
@@ -84,11 +84,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             for ( int i = 0 ; i < ViewBag.actors.Count - 1 ; i++ )
                                                 {
                                                 var actor = ViewBag.actors [ i ].Name;
-                                                <a href="genres.html" style="color:black">@actor | </a>
+                                                <a href="" style="color:black">@actor | </a>
                                                 }
                                             var actorLast = ViewBag.actors [ ViewBag.actors.Count - 1 ].Name;
-                                            <a href="genres.html" style="color:black">@actorLast</a>
-                                            }}
+                                            <a href="" style="color:black">@actorLast</a>
+                                            } }
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 </div>
                             </div>
                         </div>
-            }
+
                     </div>
                 </div>
                 <div class="song-grid-right">
