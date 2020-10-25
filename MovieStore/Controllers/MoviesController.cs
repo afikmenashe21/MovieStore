@@ -34,7 +34,7 @@ An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9f
  */
 
 namespace MovieStore.Controllers
-    {        
+    {
 
     public class MoviesController : Controller
         {
@@ -97,7 +97,7 @@ namespace MovieStore.Controllers
         // GET: Movies
         public async Task<IActionResult> Index ( )
             {
-            return View( await _context.Movie.OrderBy( m => m.Name ).ToListAsync() );
+            return View( await _context.Movie.ToListAsync() );
             }
 
         // GET: Movies/Details/5
@@ -531,5 +531,14 @@ namespace MovieStore.Controllers
                 }
 
             }
+        public async Task<IActionResult> AZlist ( ) //Return the Movies ordered by A-Z
+            {
+            return View( "Index" , await _context.Movie.OrderBy( m => m.Name ).ToListAsync() );
+            }
+        public async Task<IActionResult> TopMovies ( ) // Return the top 10 Movies by rating 
+            { 
+            return View( "Index" , await _context.Movie.OrderByDescending( m => m.AverageRating ).Take( 10 ).ToListAsync() );
+            }
+
         }
     }
