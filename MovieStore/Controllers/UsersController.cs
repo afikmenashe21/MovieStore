@@ -191,6 +191,7 @@ namespace MovieStore.Controllers
 
         private bool UserExists ( int id )
             {
+            var yariv = MovieStore.Controllers.MoviesController.GenresFirstColumn;
             return _context.User.Any( e => e.Id == id );
             }
         }
