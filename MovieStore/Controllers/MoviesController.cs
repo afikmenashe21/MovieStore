@@ -24,6 +24,7 @@ using Google.Apis.Upload;
 using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
+using System.Net;
 /*
 API Key: 9fde2d96ac6101edcaf57252ac55719d
 An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9fde2d96ac6101edcaf57252ac55719d
@@ -38,11 +39,6 @@ namespace MovieStore.Controllers
 
     public class MoviesController : Controller
         {
-        // Static variables for Genres button on Layout
-        public static List<string> GenresFirstColumn;
-        public static List<string> GenresSecondColumn;
-        public static List<string> GenresThirdColumn;
-
         //private Boolean exist = false;
         private readonly MovieStoreContext _context;
         //private string accsessKey = "79a6c068";
@@ -68,7 +64,7 @@ namespace MovieStore.Controllers
                                                                    //else
             var movielist = await _context.Movie.ToListAsync();
             movielist.Reverse();
-            await GenresDropdownbutton(); // Trim the list of Genres to 3 columns
+            await StoreGenresDP(); // Trim the list of Genres to 3 columns
             return View( movielist.Take( 5 ) ); // Returns the last 5 movies entered the database
             }
         public async Task<IActionResult> Search ( string name )
@@ -433,7 +429,7 @@ namespace MovieStore.Controllers
                                     await this.Create( movie );
                                     await CreateMovieReviews( movie );
                                     movies.Add( movie );
-                                    await GenresDropdownbutton(); // New movie add -> update the Genre dropdown list
+                                    await StoreGenresDP(); // New movie add -> update the Genre dropdown list
                                     }
                                 else // The movie is in the database 
                                     {
@@ -497,9 +493,25 @@ namespace MovieStore.Controllers
 
 
             }
-        public async Task GenresDropdownbutton ( )
+        public async Task<IActionResult> GetGenresDP ( ) // get data form cookies to Genre dropdown button on Layout
+            {
+            // Insert data to ViewBag for Layout
+            //Get the genres from coockies and convert from string to list
+            if ( ViewBag.firstcolumn == null )
+                ViewBag.firstcolumn = HttpContext.Request.Cookies.Where( v => v.Key == "GenresFirstColumn" ).FirstOrDefault().Value.Split( "," );
+            if ( ViewBag.secondcolumn == null )
+                ViewBag.secondcolumn = HttpContext.Request.Cookies.Where( v => v.Key == "GenresSecondColumn" ).FirstOrDefault().Value.Split( "," );
+            if ( ViewBag.thirdcolumn == null )
+                ViewBag.thirdcolumn = HttpContext.Request.Cookies.Where( v => v.Key == "GenresThirdColumn" ).FirstOrDefault().Value.Split( "," );
+            return PartialView();
+            }
+
+        public async Task StoreGenresDP ( ) // Save data first time or new movie/genre added
             {
             var genres = await _context.Genre.Select( g => g.Type ).ToListAsync();
+            List<string> GenresFirstColumn = null;
+            List<string> GenresSecondColumn = null;
+            List<string> GenresThirdColumn = null;
             int amount = genres.Count;
             if ( amount > 2 ) // If amount of genres more then/equal 3 
                 {
@@ -529,14 +541,57 @@ namespace MovieStore.Controllers
                 if ( amount > 1 ) // If amount of genres equal to 2
                     GenresSecondColumn = genres.GetRange( 1 , 1 );
                 }
-
+            // flatten it into a single string for storing a cookie and store it
+            HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , GenresFirstColumn ) );
+            HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , GenresSecondColumn ) );
+            HttpContext.Response.Cookies.Append( "GenresThirdColumn" , string.Join( "," , GenresThirdColumn ) );
+            // Insert data to ViewBag for Layout
+            ViewBag.firstcolumn = GenresFirstColumn;
+            ViewBag.secondcolumn = GenresSecondColumn;
+            ViewBag.thirdcolumn = GenresThirdColumn;
             }
+
+        //public async Task<IActionResult> GenresDropdownbutton ( )
+        //    {
+        //    var genres = await _context.Genre.Select( g => g.Type ).ToListAsync();
+        //    int amount = genres.Count;
+        //    if ( amount > 2 ) // If amount of genres more then/equal 3 
+        //        {
+        //        int range = (int) Math.Floor( (double) ( amount / 3 ) );
+        //        switch ( amount % 3 )
+        //            {
+        //            case 0: // If amount of genres divide by 3
+        //                HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , genres.GetRange( 0 , range ) ) ); // flatten it into a single string for storing a cookie and store it
+        //                HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , genres.GetRange( range , range ) ) );
+        //                HttpContext.Response.Cookies.Append( "GenresThirdColumn" , string.Join( "," , genres.GetRange( 2 * range , range ) ) );
+        //                break;
+        //            case 1: // If amount of genres divide by 3 with 1 remainder
+        //                HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , genres.GetRange( 0 , range + 1 ) ) ); // flatten it into a single string for storing a cookie and store it
+        //                HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , genres.GetRange( range + 1 , range ) ) );
+        //                HttpContext.Response.Cookies.Append( "GenresThirdColumn" , string.Join( "," , genres.GetRange( 2 * range + 1 , range ) ) );
+        //                break;
+        //            case 2: // If amount of genres divide by 3 with 2 remainder
+        //                HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , genres.GetRange( 0 , range + 1 ) ) ); // flatten it into a single string for storing a cookie and store it
+        //                HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , genres.GetRange( range + 1 , range + 1 ) ) );
+        //                HttpContext.Response.Cookies.Append( "GenresThirdColumn" , string.Join( "," , genres.GetRange( 2 * range + 2 , range ) ) );
+        //                break;
+        //            }
+        //        }
+        //    else // If amount of genres less then 3
+        //        {
+        //        HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , genres.GetRange( 0 , 1 ) ) ); // flatten it into a single string for storing a cookie and store it
+        //        if ( amount > 1 ) // If amount of genres equal to 2
+        //            HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , genres.GetRange( 1 , 1 ) ) ); // flatten it into a single string for storing a cookie and store it
+        //        }
+
+        //    return PartialView();
+        //    }
         public async Task<IActionResult> AZlist ( ) //Return the Movies ordered by A-Z
             {
             return View( "Index" , await _context.Movie.OrderBy( m => m.Name ).ToListAsync() );
             }
         public async Task<IActionResult> TopMovies ( ) // Return the top 10 Movies by rating 
-            { 
+            {
             return View( "Index" , await _context.Movie.OrderByDescending( m => m.AverageRating ).Take( 10 ).ToListAsync() );
             }
 

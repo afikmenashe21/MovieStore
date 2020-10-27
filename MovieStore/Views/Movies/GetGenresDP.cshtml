@@ -1,0 +1,36 @@
+﻿    <li>
+        <div class="col-sm-4">
+            @if ( ViewBag.firstcolumn != null )
+                {
+                <ul class="multi-column-dropdown">
+                    @foreach ( string genre in ViewBag.firstcolumn )
+                        {
+                        <li><a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre">@genre</a></li>
+                        }
+                </ul>
+                }
+        </div>
+        <div class="col-sm-4">
+            @if ( ViewBag.secondcolumn != null )
+                {
+                <ul class="multi-column-dropdown">
+                    @foreach ( string genre in ViewBag.secondcolumn )
+                        {
+                        <li><a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre">@genre</a></li>
+                        }
+                </ul>
+                }
+        </div>
+        <div class="col-sm-4">
+            @if ( ViewBag.thirdcolumn != null )
+                {
+                <ul class="multi-column-dropdown">
+                    @foreach ( string genre in ViewBag.thirdcolumn )
+                        {
+                        <li><a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre">@genre</a></li>
+                        }
+                </ul>
+                }
+        </div>
+        <div class="clearfix"></div>
+    </li>
