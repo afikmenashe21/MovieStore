@@ -280,10 +280,7 @@ namespace MovieStore.Controllers
                                         int range = ( DateTime.Today - start ).Days;
                                         review.Published = start.AddDays( rnd.Next( range ) );
                                         review.Movie = (Movie) _context.Movie.FirstOrDefault( m => m.imdbID == imdbID );
-                                        // Todo - fix it to generate a number from a list which should add ids when new user is created
-                                        int userID = rnd.Next( 1 , 11 );
-                                        review.Author = (User) _context.User.FirstOrDefault( u => u.Id == userID );
-
+                                        review.Author = (User) _context.User.OrderBy( r => Guid.NewGuid() ).FirstOrDefault(); // Pick randomly user
                                         if ( review.Movie.Comments == null )
                                             {
                                             review.Movie.Comments = new List<Review>();
@@ -352,7 +349,7 @@ namespace MovieStore.Controllers
                                     movie.Duration = Int32.Parse( ( jObj [ "Runtime" ].ToString().Split( " " ) ) [ 0 ] );
                                     movie.Director = jObj [ "Director" ].ToString();
                                     movie.Poster = jObj [ "Poster" ].ToString();
-                                    await Run( theMovieName );
+                                    //await Run( theMovieName );
                                     movie.Trailer = youtubeTrailer;
                                     movie.Storyline = jObj [ "Plot" ].ToString();
                                     movie.AverageRating = Double.Parse( jObj [ "imdbRating" ].ToString() );
@@ -551,41 +548,6 @@ namespace MovieStore.Controllers
             ViewBag.thirdcolumn = GenresThirdColumn;
             }
 
-        //public async Task<IActionResult> GenresDropdownbutton ( )
-        //    {
-        //    var genres = await _context.Genre.Select( g => g.Type ).ToListAsync();
-        //    int amount = genres.Count;
-        //    if ( amount > 2 ) // If amount of genres more then/equal 3 
-        //        {
-        //        int range = (int) Math.Floor( (double) ( amount / 3 ) );
-        //        switch ( amount % 3 )
-        //            {
-        //            case 0: // If amount of genres divide by 3
-        //                HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , genres.GetRange( 0 , range ) ) ); // flatten it into a single string for storing a cookie and store it
-        //                HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , genres.GetRange( range , range ) ) );
-        //                HttpContext.Response.Cookies.Append( "GenresThirdColumn" , string.Join( "," , genres.GetRange( 2 * range , range ) ) );
-        //                break;
-        //            case 1: // If amount of genres divide by 3 with 1 remainder
-        //                HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , genres.GetRange( 0 , range + 1 ) ) ); // flatten it into a single string for storing a cookie and store it
-        //                HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , genres.GetRange( range + 1 , range ) ) );
-        //                HttpContext.Response.Cookies.Append( "GenresThirdColumn" , string.Join( "," , genres.GetRange( 2 * range + 1 , range ) ) );
-        //                break;
-        //            case 2: // If amount of genres divide by 3 with 2 remainder
-        //                HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , genres.GetRange( 0 , range + 1 ) ) ); // flatten it into a single string for storing a cookie and store it
-        //                HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , genres.GetRange( range + 1 , range + 1 ) ) );
-        //                HttpContext.Response.Cookies.Append( "GenresThirdColumn" , string.Join( "," , genres.GetRange( 2 * range + 2 , range ) ) );
-        //                break;
-        //            }
-        //        }
-        //    else // If amount of genres less then 3
-        //        {
-        //        HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , genres.GetRange( 0 , 1 ) ) ); // flatten it into a single string for storing a cookie and store it
-        //        if ( amount > 1 ) // If amount of genres equal to 2
-        //            HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , genres.GetRange( 1 , 1 ) ) ); // flatten it into a single string for storing a cookie and store it
-        //        }
-
-        //    return PartialView();
-        //    }
         public async Task<IActionResult> AZlist ( ) //Return the Movies ordered by A-Z
             {
             return View( "Index" , await _context.Movie.OrderBy( m => m.Name ).ToListAsync() );
