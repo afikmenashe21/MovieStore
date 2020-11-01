@@ -58,10 +58,7 @@ namespace MovieStore.Controllers
             }
         public async Task<IActionResult> HomePage ( )
             {
-            string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
-                                                                   //if ( user == null )
-                                                                   //    return RedirectToAction( "Login" , "Users" );
-                                                                   //else
+            string user = HttpContext.Session.GetString( "Type" );
             var movielist = await _context.Movie.ToListAsync();
             movielist.Reverse();
             await StoreGenresDP(); // Trim the list of Genres to 3 columns
@@ -557,5 +554,84 @@ namespace MovieStore.Controllers
             return View( "Index" , await _context.Movie.OrderByDescending( m => m.AverageRating ).Take( 10 ).ToListAsync() );
             }
 
+        public async Task SetuserSuggestions ( List<Genre> newgenres ) // store the 10 Movies suggestions 
+            {
+            if ( HttpContext.Session.Get( "UserId" ) != null )
+                { // get the id of Connected user
+                int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
+                var connecteduser = _context.User.Include( u => u.Suggestions ).Where( u => u.Id == connecteduserid ).FirstOrDefault();
+                List<Genre> userSugg = new List<Genre>();
+                if ( connecteduser.Suggestions != null ) // if user's Suggestions is not null 
+                    {
+                    // get the Genre Suggestions for Connected user
+                    userSugg = connecteduser.Suggestions.ToList();
+                    if ( userSugg.Count + newgenres.Count < 10 ) // user's Suggestions not full (less then 10)
+                        {
+                        userSugg.AddRange( newgenres );
+                        }
+                    else
+                        {
+                        userSugg.RemoveRange( 0 , userSugg.Count + newgenres.Count - 10 ); // remove some elemnts for new genres
+                        userSugg.AddRange( newgenres );
+                        }
+                    }
+                else
+                    {
+                    userSugg = newgenres;
+                    }
+                // save the new genres Suggestions for user
+                connecteduser.Suggestions = userSugg; // in Database
+                HttpContext.Response.Cookies.Append( "userSuggestions" , string.Join( "," , userSugg.Select( g => g.Type ).ToList() ) ); // in cookies
+                }
+            else // if the user is Guest
+                {
+                // Get the Genre Suggestions from cookies
+                var cookieSugg = Request.Cookies.Where( v => v.Key == "userSuggestions" ).FirstOrDefault().Value;
+                var genres = newgenres.Select( g => g.Type ).ToList(); // convert to list with the names only
+                List<String> userSugg = new List<String>();
+                if ( cookieSugg != null )
+                    {
+                    userSugg = cookieSugg.Split( "," ).ToList();
+                    if ( userSugg.Count + newgenres.Count < 10 ) // user's Suggestions not full (less then 10)
+                        {
+                        userSugg.AddRange( genres ); // add the new genres to the old genres
+                        }
+                    else
+                        {
+                        userSugg.RemoveRange( 0 , userSugg.Count + newgenres.Count - 10 ); // remove some elemnts for new genres
+                        userSugg.AddRange( genres );
+                        }
+                    }
+                else // if there isnt Suggestions in cookies
+                    {
+                    userSugg = genres;
+                    }
+                // save the new genres Suggestions
+                HttpContext.Response.Cookies.Append( "userSuggestions" , string.Join( "," , userSugg ) );
+                }
+            }
+        public async Task<IActionResult> GetuserSuggestions ( ) // return the 10 Movie Genres suggestions 
+            {
+            var cookieSugg = Request.Cookies.Where( v => v.Key == "userSuggestions" ).FirstOrDefault().Value;
+            List<String> userSugg = new List<String>();
+            if ( cookieSugg != null )
+                {
+                userSugg = cookieSugg.Split( "," ).ToList(); // convert to list of strings
+                }
+            else // if userSuggestions cookie is empty but user isn't Guest
+                {
+                if ( HttpContext.Session.Get( "UserId" ) != null )
+                    { // get the id of Connected user
+                    int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
+                    // get the Genre Suggestions for Connected user
+                    var connecteduser = _context.User.Include( u => u.Suggestions ).Where( u => u.Id == connecteduserid ).FirstOrDefault();
+                    if ( connecteduser.Suggestions != null ) // if user's Suggestions is not null 
+                        {
+                        userSugg = connecteduser.Suggestions.Select( g => g.Type ).ToList(); // convert to list of strings
+                        }
+                    }
+                }
+            return RedirectToAction( "SearchByGenre" , "MovieGenres" , userSugg );
+            }
         }
     }

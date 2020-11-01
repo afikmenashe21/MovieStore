@@ -24,6 +24,5 @@ namespace MovieStore.Models
         public int MovieId { get; set; }
 
         public ICollection<MovieGenre> MovieGenre { get; set; }
-
+        }
     }
-}

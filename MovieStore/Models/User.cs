@@ -35,5 +35,6 @@ namespace MovieStore.Models
         [Required]
         public string Address { get; set; }
         public virtual ICollection<Review> Comments { get; set; }
+        public virtual ICollection<Genre> Suggestions { get; set; }
         }
     }

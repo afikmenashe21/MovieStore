@@ -6,15 +6,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 @using Microsoft.AspNetCore.Http
 
-@{
-    @*ViewBag.firstcolumn = Context.Request.Cookies.Where( v => v.Key == "GenresFirstColumn" ).FirstOrDefault().Value.Split( "," );
-        ViewBag.secondcolumn = Context.Request.Cookies.Where( v => v.Key == "GenresSecondColumn" ).FirstOrDefault().Value.Split( "," );
-        ViewBag.thirdcolumn = Context.Request.Cookies.Where( v => v.Key == "GenresThirdColumn" ).FirstOrDefault().Value.Split( "," );
-        // Get the static variables from Moveis controller for the Geners button*@
-    @*ViewBag.firstcolumn = MovieStore.Controllers.MoviesController.GenresFirstColumn;
-        ViewBag.secondcolumn = MovieStore.Controllers.MoviesController.GenresSecondColumn;
-        ViewBag.thirdcolumn = MovieStore.Controllers.MoviesController.GenresThirdColumn;*@
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
