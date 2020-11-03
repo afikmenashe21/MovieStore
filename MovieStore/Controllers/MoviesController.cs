@@ -116,7 +116,7 @@ namespace MovieStore.Controllers
 
             // Linq - first filter the rows in MovieActor and then join to get the Actors
             ViewBag.actors = await _context.MovieActor.Where( ma => ma.MovieId == id ).Join( _context.Actor , ma => ma.ActorId , a => a.Id , ( ma , a ) => a ).ToListAsync();
-
+            SetgenreSuggestions( ViewBag.genres );
             return View( movie );
             }
 
@@ -554,7 +554,7 @@ namespace MovieStore.Controllers
             return View( "Index" , await _context.Movie.OrderByDescending( m => m.AverageRating ).Take( 10 ).ToListAsync() );
             }
 
-        public async Task SetuserSuggestions ( List<Genre> newgenres ) // store the 10 Movies suggestions 
+        public async Task SetgenreSuggestions ( List<Genre> newgenres ) // store or update the 10 Movies Genres suggestions 
             {
             if ( HttpContext.Session.Get( "UserId" ) != null )
                 { // get the id of Connected user
@@ -610,7 +610,8 @@ namespace MovieStore.Controllers
                 HttpContext.Response.Cookies.Append( "userSuggestions" , string.Join( "," , userSugg ) );
                 }
             }
-        public async Task<IActionResult> GetuserSuggestions ( ) // return the 10 Movie Genres suggestions 
+
+        public List<String> GetgenreSuggestions ( ) // return the 10 Movie Genres suggestions 
             {
             var cookieSugg = Request.Cookies.Where( v => v.Key == "userSuggestions" ).FirstOrDefault().Value;
             List<String> userSugg = new List<String>();
@@ -631,7 +632,33 @@ namespace MovieStore.Controllers
                         }
                     }
                 }
-            return RedirectToAction( "SearchByGenre" , "MovieGenres" , userSugg );
+            return userSugg;
+            }
+
+        public async Task<IActionResult> UserSuggestions ( )
+            {
+            var genres = GetgenreSuggestions();// get the genres Suggestions from cookies
+            Dictionary<int , int> moviesWeight = new Dictionary<int , int>();
+            var genresList = genres.Join( _context.Genre , gs => gs , g => g.Type , ( mg , g ) => g ).ToList(); // Join with Genre database to get the genre id
+            var genresMap = genresList.GroupBy( x => x ) // convert the list of genres to Dictionary - Key:Genre ID, Value:count how many on list => weight
+           .ToDictionary( y => y.Key.Id , y => y.Count() )
+           .OrderByDescending( z => z.Value );
+            foreach ( MovieGenre mg in _context.MovieGenre ) // Give weight to each movie depend the genres
+                {
+                if ( moviesWeight.ContainsKey( mg.MovieId ) ) // if a movie already has weight -> update the weight
+                    {
+                    if ( genresMap.Any( gm => gm.Key == mg.GenreId ) ) // if a genre has weight else does nothing
+                        moviesWeight [ mg.MovieId ] += genresMap.Where( gm => gm.Key == mg.GenreId ).First().Value;
+                    }
+                else // if the movie doesn't have weight yet
+                    {
+                    moviesWeight.Add( mg.MovieId , 0 );
+                    if ( genresMap.Any( gm => gm.Key == mg.GenreId ) ) // if a genre has weight
+                        moviesWeight [ mg.MovieId ] = genresMap.Where( gm => gm.Key == mg.GenreId ).First().Value;
+                    }
+                }
+            var movies = moviesWeight.OrderByDescending( m => m.Value ).Take( 10 ).Join( _context.Movie , mw => mw.Key , m => m.Id , ( mw , m ) => m ).ToList(); // Join with Genre database to get the genre id
+            return View( "Index" , movies );
             }
         }
     }
