@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MovieStore.Models;
+using MovieStore.Models.UserPreferences;
+using Newtonsoft.Json;
 
 namespace MovieStore.Data
 {
@@ -40,6 +42,20 @@ namespace MovieStore.Data
                 .HasOne( ge => ge.Genre )
                 .WithMany( mg => mg.MovieGenre )
                 .HasForeignKey( ge => ge.GenreId );
+
+            
+            modelBuilder.Entity<UserGenre>()
+                .HasKey( ug => new { ug.UserId , ug.GenreId } );
+
+            modelBuilder.Entity<UserGenre>()
+                .HasOne( mo => mo.User )
+                .WithMany( mg => mg.UserGenre )
+                .HasForeignKey( ma => ma.UserId );
+
+            modelBuilder.Entity<UserGenre>()
+                .HasOne( ge => ge.Genre )
+                .WithMany( mg => mg.UserGenre )
+                .HasForeignKey( ge => ge.GenreId );
             }
 
         public DbSet<MovieStore.Models.User> User { get; set; }
@@ -55,5 +71,7 @@ namespace MovieStore.Data
         public DbSet<MovieStore.Models.Actor> Actor { get; set; }
 
         public DbSet<MovieStore.Models.Movie> Movie { get; set; }
+
+        public DbSet<MovieStore.Models.UserPreferences.UserGenre> UserGenre { get; set; }
     }
 }

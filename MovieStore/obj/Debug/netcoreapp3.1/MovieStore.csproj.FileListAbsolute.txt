@@ -421,5 +421,11 @@ C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcore
 C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
 C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
 C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.YouTube.v3.dll
-C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csproj.CoreCompileInputs.cache
-C:\Users\Dell\Source\Repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.csproj.CoreCompileInputs.cache
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\MovieStore.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Movies\GetGenresDP.cshtml.g.cs
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Create.cshtml.g.cs
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Delete.cshtml.g.cs
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Details.cshtml.g.cs
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Edit.cshtml.g.cs
+C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Index.cshtml.g.cs

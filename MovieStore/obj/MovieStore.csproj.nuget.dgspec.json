@@ -51,7 +51,7 @@
             },
             "Google.Apis.YouTube.v3": {
               "target": "Package",
-              "version": "[1.49.0.2118, )"
+              "version": "[1.49.0.2120, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",

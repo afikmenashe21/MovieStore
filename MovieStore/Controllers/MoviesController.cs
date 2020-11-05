@@ -24,6 +24,10 @@ using Google.Apis.Upload;
 using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
+using System.Net;
+using System.Collections.Immutable;
+using Microsoft.VisualBasic;
+using MovieStore.Models.UserPreferences;
 /*
 API Key: 9fde2d96ac6101edcaf57252ac55719d
 An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9fde2d96ac6101edcaf57252ac55719d
@@ -38,11 +42,6 @@ namespace MovieStore.Controllers
 
     public class MoviesController : Controller
         {
-        // Static variables for Genres button on Layout
-        public static List<string> GenresFirstColumn;
-        public static List<string> GenresSecondColumn;
-        public static List<string> GenresThirdColumn;
-
         //private Boolean exist = false;
         private readonly MovieStoreContext _context;
         //private string accsessKey = "79a6c068";
@@ -62,13 +61,10 @@ namespace MovieStore.Controllers
             }
         public async Task<IActionResult> HomePage ( )
             {
-            string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
-                                                                   //if ( user == null )
-                                                                   //    return RedirectToAction( "Login" , "Users" );
-                                                                   //else
+            string user = HttpContext.Session.GetString( "Type" );
             var movielist = await _context.Movie.ToListAsync();
             movielist.Reverse();
-            await GenresDropdownbutton(); // Trim the list of Genres to 3 columns
+            await StoreGenresDP(); // Trim the list of Genres to 3 columns
             return View( movielist.Take( 5 ) ); // Returns the last 5 movies entered the database
             }
         public async Task<IActionResult> Search ( string name )
@@ -123,7 +119,8 @@ namespace MovieStore.Controllers
 
             // Linq - first filter the rows in MovieActor and then join to get the Actors
             ViewBag.actors = await _context.MovieActor.Where( ma => ma.MovieId == id ).Join( _context.Actor , ma => ma.ActorId , a => a.Id , ( ma , a ) => a ).ToListAsync();
-
+            //SetgenreSuggestions( ViewBag.genres );
+            SetgenreSuggestions( ViewBag.genres );
             return View( movie );
             }
 
@@ -284,10 +281,7 @@ namespace MovieStore.Controllers
                                         int range = ( DateTime.Today - start ).Days;
                                         review.Published = start.AddDays( rnd.Next( range ) );
                                         review.Movie = (Movie) _context.Movie.FirstOrDefault( m => m.imdbID == imdbID );
-                                        // Todo - fix it to generate a number from a list which should add ids when new user is created
-                                        int userID = rnd.Next( 1 , 11 );
-                                        review.Author = (User) _context.User.FirstOrDefault( u => u.Id == userID );
-
+                                        review.Author = (User) _context.User.OrderBy( r => Guid.NewGuid() ).FirstOrDefault(); // Pick randomly user
                                         if ( review.Movie.Comments == null )
                                             {
                                             review.Movie.Comments = new List<Review>();
@@ -356,7 +350,7 @@ namespace MovieStore.Controllers
                                     movie.Duration = Int32.Parse( ( jObj [ "Runtime" ].ToString().Split( " " ) ) [ 0 ] );
                                     movie.Director = jObj [ "Director" ].ToString();
                                     movie.Poster = jObj [ "Poster" ].ToString();
-                                    await Run( theMovieName );
+                                    //await Run( theMovieName );
                                     movie.Trailer = youtubeTrailer;
                                     movie.Storyline = jObj [ "Plot" ].ToString();
                                     movie.AverageRating = Double.Parse( jObj [ "imdbRating" ].ToString() );
@@ -433,7 +427,7 @@ namespace MovieStore.Controllers
                                     await this.Create( movie );
                                     await CreateMovieReviews( movie );
                                     movies.Add( movie );
-                                    await GenresDropdownbutton(); // New movie add -> update the Genre dropdown list
+                                    await StoreGenresDP(); // New movie add -> update the Genre dropdown list
                                     }
                                 else // The movie is in the database 
                                     {
@@ -497,9 +491,25 @@ namespace MovieStore.Controllers
 
 
             }
-        public async Task GenresDropdownbutton ( )
+        public async Task<IActionResult> GetGenresDP ( ) // get data form cookies to Genre dropdown button on Layout
+            {
+            // Insert data to ViewBag for Layout
+            //Get the genres from coockies and convert from string to list
+            if ( ViewBag.firstcolumn == null )
+                ViewBag.firstcolumn = HttpContext.Request.Cookies.Where( v => v.Key == "GenresFirstColumn" ).FirstOrDefault().Value.Split( "," );
+            if ( ViewBag.secondcolumn == null )
+                ViewBag.secondcolumn = HttpContext.Request.Cookies.Where( v => v.Key == "GenresSecondColumn" ).FirstOrDefault().Value.Split( "," );
+            if ( ViewBag.thirdcolumn == null )
+                ViewBag.thirdcolumn = HttpContext.Request.Cookies.Where( v => v.Key == "GenresThirdColumn" ).FirstOrDefault().Value.Split( "," );
+            return PartialView();
+            }
+
+        public async Task StoreGenresDP ( ) // Save data first time or new movie/genre added
             {
             var genres = await _context.Genre.Select( g => g.Type ).ToListAsync();
+            List<string> GenresFirstColumn = null;
+            List<string> GenresSecondColumn = null;
+            List<string> GenresThirdColumn = null;
             int amount = genres.Count;
             if ( amount > 2 ) // If amount of genres more then/equal 3 
                 {
@@ -529,15 +539,141 @@ namespace MovieStore.Controllers
                 if ( amount > 1 ) // If amount of genres equal to 2
                     GenresSecondColumn = genres.GetRange( 1 , 1 );
                 }
-
+            // flatten it into a single string for storing a cookie and store it
+            HttpContext.Response.Cookies.Append( "GenresFirstColumn" , string.Join( "," , GenresFirstColumn ) );
+            HttpContext.Response.Cookies.Append( "GenresSecondColumn" , string.Join( "," , GenresSecondColumn ) );
+            HttpContext.Response.Cookies.Append( "GenresThirdColumn" , string.Join( "," , GenresThirdColumn ) );
+            // Insert data to ViewBag for Layout
+            ViewBag.firstcolumn = GenresFirstColumn;
+            ViewBag.secondcolumn = GenresSecondColumn;
+            ViewBag.thirdcolumn = GenresThirdColumn;
             }
+
         public async Task<IActionResult> AZlist ( ) //Return the Movies ordered by A-Z
             {
             return View( "Index" , await _context.Movie.OrderBy( m => m.Name ).ToListAsync() );
             }
         public async Task<IActionResult> TopMovies ( ) // Return the top 10 Movies by rating 
-            { 
+            {
             return View( "Index" , await _context.Movie.OrderByDescending( m => m.AverageRating ).Take( 10 ).ToListAsync() );
+            }
+        public async Task SetgenreSuggestions ( List<Genre> newgenres ) // store user or guest Movies Genres suggestions 
+            {
+            if ( HttpContext.Session.GetString( "UserId" ) != null ) // get the id of Connected user
+                await SetUserSuggestions( newgenres );
+            else // if the user is Guest
+                await SetGuestSuggestions( newgenres );
+            }
+        public async Task SetUserSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for User
+            {
+            int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) ); // Get from session the user id that connected
+            User tempUser = _context.User.Where( u => u.Id == connecteduserid ).First();
+            var usergenre = _context.UserGenre.Where( ug => ug.UserId == connecteduserid ); // Get the genres related to user
+            foreach ( Genre g in newgenres ) // Loop to update/add the genres to user suggestions
+                {
+                if ( usergenre.Any( us => us.Genre == g ) ) // If genre is exist
+                    {
+                    usergenre.Where( us => us.Genre == g ).First().Weight += 1;
+                    }
+                else // genre doesn't exist
+                    {
+                    UserGenre userGenre = new UserGenre();
+                    userGenre.GenreId = g.Id;
+                    userGenre.Genre = g;
+                    userGenre.UserId = tempUser.Id;
+                    userGenre.User = tempUser;
+                    userGenre.Weight = 1;
+                    if ( g.UserGenre == null )
+                        g.UserGenre = new List<UserGenre>();
+                    g.UserGenre.Add( userGenre );
+                    if ( tempUser.UserGenre == null )
+                        tempUser.UserGenre = new List<UserGenre>();
+                    tempUser.UserGenre.Add( userGenre );
+                    _context.Add( userGenre );
+                    }
+                }
+            await _context.SaveChangesAsync();
+            }
+        public async Task SetGuestSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for Guest
+            {
+            // Get the Genre Suggestions from cookies
+            var cookieSugg = Request.Cookies.Where( v => v.Key == "GuestSuggestions" ).FirstOrDefault().Value;
+            var genres = newgenres.Select( g => g.Type ).ToList(); // Convert to list with the names only
+            List<String> guestSugg = new List<String>();
+            if ( cookieSugg != null )
+                {
+                guestSugg = cookieSugg.Split( "," ).ToList();
+                if ( guestSugg.Count + newgenres.Count < 10 ) // Guest's Suggestions not full (less then 10)
+                    {
+                    guestSugg.AddRange( genres ); // Add the new genres to the old genres
+                    }
+                else
+                    {
+                    guestSugg.RemoveRange( 0 , guestSugg.Count + newgenres.Count - 10 ); // Remove some elemnts for new genres
+                    guestSugg.AddRange( genres );
+                    }
+                }
+            else // Ff there isnt Suggestions in cookies
+                {
+                guestSugg = genres;
+                }
+            // Save the new genres Suggestions
+            HttpContext.Response.Cookies.Append( "GuestSuggestions" , string.Join( "," , guestSugg ) );
+            }
+        public List<String> GetGuestSuggestions ( ) // return the Movie Genres suggestions for guest
+            {
+            var cookieSugg = Request.Cookies.Where( v => v.Key == "GuestSuggestions" ).FirstOrDefault().Value;
+            List<String> guestSugg = new List<String>();
+            if ( cookieSugg != null )
+                {
+                guestSugg = cookieSugg.Split( "," ).ToList(); // convert to list of strings
+                }
+            return guestSugg;
+            }
+        public Dictionary<int , int> GetUserSuggestions ( ) // return the Movie Genres suggestions for user
+            {
+            int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
+            User tempUser = _context.User.Where( u => u.Id == connecteduserid ).First();
+            var usergenre = _context.UserGenre.Where( ug => ug.UserId == connecteduserid ); // Get the genres related to user
+            return usergenre.ToDictionary(k=>k.GenreId,v=>v.Weight);
+            }
+        public async Task<IActionResult> MovieSuggestions ( ) // Return the 10 Movie Suggestions for User or Guest
+            {
+            IDictionary<int , int> moviesWeight = new Dictionary<int , int>();
+            var genresMap = new Dictionary<int , int>();
+            if ( HttpContext.Session.GetString( "UserId" ) == null ) // if user isn't logged
+                {
+                var genres = GetGuestSuggestions();// get the genres Suggestions from cookies
+                var genresList = genres.Join( _context.Genre , gs => gs , g => g.Type , ( mg , g ) => g ).ToList(); // Join with Genre database to get the genre id
+                var tempDictionary = genresList.GroupBy( x => x ) // convert the list of genres to Dictionary - Key:Genre ID(KeyValuePair), Value:count how many on list => weight
+               .ToDictionary( y => y.Key.Id , y => y.Count() )
+               .OrderByDescending( z => z.Value );
+                foreach ( var element in tempDictionary ) // convert Dictionary from KeyValuePair to int as Key
+                    {
+                    genresMap.Add( element.Key , element.Value );
+                    }
+                }
+            else // user logged
+                {
+                genresMap = GetUserSuggestions();
+                }
+
+            foreach ( MovieGenre mg in _context.MovieGenre ) // Give weight to each movie depend the genres
+                {
+                if ( moviesWeight.ContainsKey( mg.MovieId ) ) // if a movie already has weight -> update the weight
+                    {
+                    if ( genresMap.Any( gm => gm.Key == mg.GenreId ) ) // if a genre has weight else does nothing
+                        moviesWeight [ mg.MovieId ] += genresMap [ mg.GenreId ];
+                    }
+                else // if the movie doesn't have weight yet
+                    {
+                    moviesWeight.Add( mg.MovieId , 0 );
+                    if ( genresMap.Any( gm => gm.Key == mg.GenreId ) ) // if a genre has weight
+                        moviesWeight [ mg.MovieId ] = genresMap [ mg.GenreId ];
+                    }
+                }
+            var movies = moviesWeight.OrderByDescending( m => m.Value ).Take( 10 ).Join( _context.Movie , mw => mw.Key , m => m.Id , ( mw , m ) => m ).ToList(); // Join with Genre database to get the genre id
+            return View( "Index" , movies );
             }
 
         }

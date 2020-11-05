@@ -41,7 +41,7 @@
           "lib/netstandard2.0/Google.Apis.Core.dll": {}
         }
       },
-      "Google.Apis.YouTube.v3/1.49.0.2118": {
+      "Google.Apis.YouTube.v3/1.49.0.2120": {
         "type": "package",
         "dependencies": {
           "Google.Apis": "1.49.0",
@@ -2869,15 +2869,15 @@
         "lib/netstandard2.0/Google.Apis.Core.xml"
       ]
     },
-    "Google.Apis.YouTube.v3/1.49.0.2118": {
-      "sha512": "rRO7Q9GsW8bNbuC7Q8PsEOsGIFnINYcUXYRpOss030H0sQYr/Ip9OAsjG9BYIAKvi5NRIjo4vP2rXHsk4ChCgg==",
+    "Google.Apis.YouTube.v3/1.49.0.2120": {
+      "sha512": "E1baYPeuhnRxE0KdLUccuaGNQ+l4rGwXFmYqJoqxq17x2zAUqssaTl4RZDUyRFj/KPSpa1OZwkIQCr0+IeDdDQ==",
       "type": "package",
-      "path": "google.apis.youtube.v3/1.49.0.2118",
+      "path": "google.apis.youtube.v3/1.49.0.2120",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
-        "google.apis.youtube.v3.1.49.0.2118.nupkg.sha512",
+        "google.apis.youtube.v3.1.49.0.2120.nupkg.sha512",
         "google.apis.youtube.v3.nuspec",
         "lib/net40/Google.Apis.YouTube.v3.dll",
         "lib/net40/Google.Apis.YouTube.v3.pdb",
@@ -8879,7 +8879,7 @@
     ".NETCoreApp,Version=v3.1": [
       "Google.Apis >= 1.49.0",
       "Google.Apis.Auth >= 1.49.0",
-      "Google.Apis.YouTube.v3 >= 1.49.0.2118",
+      "Google.Apis.YouTube.v3 >= 1.49.0.2120",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.9",
       "Microsoft.EntityFrameworkCore.Sqlite >= 3.1.9",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.9",
@@ -8893,11 +8893,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dell\\Source\\Repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
+      "projectUniqueName": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
       "projectName": "MovieStore",
-      "projectPath": "C:\\Users\\Dell\\Source\\Repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
+      "projectPath": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
       "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dell\\Source\\Repos\\afikmenashe21\\MovieStore\\MovieStore\\obj\\",
+      "outputPath": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -8937,7 +8937,7 @@
           },
           "Google.Apis.YouTube.v3": {
             "target": "Package",
-            "version": "[1.49.0.2118, )"
+            "version": "[1.49.0.2120, )"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",

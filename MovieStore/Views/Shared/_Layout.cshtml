@@ -5,12 +5,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 @using Microsoft.AspNetCore.Http
-@{
-    // Get the static variables from Moveis controller for the Geners button
-    ViewBag.firstcolumn = MovieStore.Controllers.MoviesController.GenresFirstColumn;
-    ViewBag.secondcolumn = MovieStore.Controllers.MoviesController.GenresSecondColumn;
-    ViewBag.thirdcolumn = MovieStore.Controllers.MoviesController.GenresThirdColumn;
-}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -227,49 +222,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <ul class="nav navbar-nav">
                             <li><a asp-controller="Movies" asp-action="HomePage">Home</a></li>
                             <li class="dropdown">
-                                <a asp-controller="Movies" asp-action="GenresDropdownbutton" class="dropdown-toggle" data-toggle="dropdown">Genres <b class="caret"></b></a>
-                                <ul class="dropdown-menu multi-column columns-3">
-                                    <li>
-                                        <div class="col-sm-4">
-                                            @if ( ViewBag.firstcolumn != null )
-                                                {
-                                                <ul class="multi-column-dropdown">
-                                                    @foreach ( string genre in ViewBag.firstcolumn )
-                                                        {
-                                                        <li><a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre">@genre</a></li>
-                                                        }
-                                                </ul>
-                                                }
-                                        </div>
-                                        <div class="col-sm-4">
-                                            @if ( ViewBag.secondcolumn != null )
-                                                {
-                                                <ul class="multi-column-dropdown">
-                                                    @foreach ( string genre in ViewBag.secondcolumn )
-                                                        {
-                                                        <li><a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre">@genre</a></li>
-                                                        }
-                                                </ul>
-                                                }
-                                        </div>
-                                        <div class="col-sm-4">
-                                            @if ( ViewBag.thirdcolumn != null )
-                                                {
-                                                <ul class="multi-column-dropdown">
-                                                    @foreach ( string genre in ViewBag.thirdcolumn )
-                                                        {
-                                                        <li><a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre">@genre</a></li>
-                                                        }
-                                                </ul>
-                                                }
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </li>
+                                <a id="genreDP" class="dropdown-toggle" data-toggle="dropdown">Genres <b class="caret"></b></a>
+                                <ul id="genreDP-list" class="dropdown-menu multi-column columns-3">
+                                    
                                 </ul>
                             </li>
                             <li><a asp-controller="Movies" asp-action="AZlist">A - z list</a></li>
                             <li><a asp-controller="Movies" asp-action="TopMovies">Top Movies</a></li>
-                            <li><a asp-controller="Movies" asp-action="Index">For you</a></li>
+                            <li><a asp-controller="Movies" asp-action="MovieSuggestions">For you</a></li>
 
                         </ul>
                     </nav>
@@ -387,6 +347,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="~/js/jquery-1.12.4.js"></script>
     <script src="~/js/searchbox/jquery-ui.js"></script>
     <script src="~/js/searchbox/search.js"></script>
+    <script src="~/js/GenresDropdown.js"></script>
     @RenderSection( "Scripts" , required: false )
 </body>
 </html>
