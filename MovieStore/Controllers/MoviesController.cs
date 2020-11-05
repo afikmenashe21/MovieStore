@@ -26,6 +26,8 @@ using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
 using System.Net;
 using System.Collections.Immutable;
+using Microsoft.VisualBasic;
+using MovieStore.Models.UserPreferences;
 /*
 API Key: 9fde2d96ac6101edcaf57252ac55719d
 An example request looks like: https://api.themoviedb.org/3/movie/550?api_key=9fde2d96ac6101edcaf57252ac55719d
@@ -117,6 +119,7 @@ namespace MovieStore.Controllers
 
             // Linq - first filter the rows in MovieActor and then join to get the Actors
             ViewBag.actors = await _context.MovieActor.Where( ma => ma.MovieId == id ).Join( _context.Actor , ma => ma.ActorId , a => a.Id , ( ma , a ) => a ).ToListAsync();
+            //SetgenreSuggestions( ViewBag.genres );
             SetgenreSuggestions( ViewBag.genres );
             return View( movie );
             }
@@ -554,85 +557,87 @@ namespace MovieStore.Controllers
             {
             return View( "Index" , await _context.Movie.OrderByDescending( m => m.AverageRating ).Take( 10 ).ToListAsync() );
             }
-
-        public async Task SetgenreSuggestions ( List<Genre> newgenres ) // store or update the 10 Movies Genres suggestions 
+        public async Task SetgenreSuggestions ( List<Genre> newgenres ) // store user or guest Movies Genres suggestions 
             {
-            if ( HttpContext.Session.GetString( "UserId" ) != null )
-                { // get the id of Connected user
-                IDictionary<Genre , int> userSugg = new Dictionary<Genre , int>();
-                int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
-                var connecteduser = _context.User.Include( u => u.Suggestions ).Where( u => u.Id == connecteduserid ).FirstOrDefault();
-                if ( connecteduser.Suggestions != null ) // if user's Suggestions is not null 
-                    {
-                    // get the Genre Suggestions for Connected user
-                    userSugg = connecteduser.Suggestions;
-                    foreach ( Genre g in newgenres )
-                        {
-                        if ( userSugg.ContainsKey( g ) ) // user's Suggestions not full (less then 10)
-                            {
-                            userSugg [ g ] += 1;
-                            }
-                        else // if adding the new genres will be more then 10
-                            {
-                            userSugg.Add( g , 0 );
-                            }
-                        }
-                    }
-                else // if user doesn't have genre Suggestions yet
-                    {
-                    userSugg = (Dictionary<Genre , int>) newgenres.GroupBy( x => x ) // convert the list of genres to Dictionary - Key:Genre ID, Value:count how many on list => weight
-                        .ToDictionary( y => y.Key , y => y.Count() )
-                        .OrderByDescending( z => z.Value );
-                    }
-                // save the new genres Suggestions for user
-                connecteduser.Suggestions = userSugg; // in Database
-                await _context.SaveChangesAsync();
-                }
+            if ( HttpContext.Session.GetString( "UserId" ) != null ) // get the id of Connected user
+                await SetUserSuggestions( newgenres );
             else // if the user is Guest
-                {
-                // Get the Genre Suggestions from cookies
-                var cookieSugg = Request.Cookies.Where( v => v.Key == "GuestSuggestions" ).FirstOrDefault().Value;
-                var genres = newgenres.Select( g => g.Type ).ToList(); // convert to list with the names only
-                List<String> userSugg = new List<String>();
-                if ( cookieSugg != null )
-                    {
-                    userSugg = cookieSugg.Split( "," ).ToList();
-                    if ( userSugg.Count + newgenres.Count < 10 ) // user's Suggestions not full (less then 10)
-                        {
-                        userSugg.AddRange( genres ); // add the new genres to the old genres
-                        }
-                    else
-                        {
-                        userSugg.RemoveRange( 0 , userSugg.Count + newgenres.Count - 10 ); // remove some elemnts for new genres
-                        userSugg.AddRange( genres );
-                        }
-                    }
-                else // if there isnt Suggestions in cookies
-                    {
-                    userSugg = genres;
-                    }
-                // save the new genres Suggestions
-                HttpContext.Response.Cookies.Append( "GuestSuggestions" , string.Join( "," , userSugg ) );
-                }
+                await SetGuestSuggestions( newgenres );
             }
-
+        public async Task SetUserSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for User
+            {
+            int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) ); // Get from session the user id that connected
+            User tempUser = _context.User.Where( u => u.Id == connecteduserid ).First();
+            var usergenre = _context.UserGenre.Where( ug => ug.UserId == connecteduserid ); // Get the genres related to user
+            foreach ( Genre g in newgenres ) // Loop to update/add the genres to user suggestions
+                {
+                if ( usergenre.Any( us => us.Genre == g ) ) // If genre is exist
+                    {
+                    usergenre.Where( us => us.Genre == g ).First().Weight += 1;
+                    }
+                else // genre doesn't exist
+                    {
+                    UserGenre userGenre = new UserGenre();
+                    userGenre.GenreId = g.Id;
+                    userGenre.Genre = g;
+                    userGenre.UserId = tempUser.Id;
+                    userGenre.User = tempUser;
+                    userGenre.Weight = 1;
+                    if ( g.UserGenre == null )
+                        g.UserGenre = new List<UserGenre>();
+                    g.UserGenre.Add( userGenre );
+                    if ( tempUser.UserGenre == null )
+                        tempUser.UserGenre = new List<UserGenre>();
+                    tempUser.UserGenre.Add( userGenre );
+                    _context.Add( userGenre );
+                    }
+                }
+            await _context.SaveChangesAsync();
+            }
+        public async Task SetGuestSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for Guest
+            {
+            // Get the Genre Suggestions from cookies
+            var cookieSugg = Request.Cookies.Where( v => v.Key == "GuestSuggestions" ).FirstOrDefault().Value;
+            var genres = newgenres.Select( g => g.Type ).ToList(); // Convert to list with the names only
+            List<String> guestSugg = new List<String>();
+            if ( cookieSugg != null )
+                {
+                guestSugg = cookieSugg.Split( "," ).ToList();
+                if ( guestSugg.Count + newgenres.Count < 10 ) // Guest's Suggestions not full (less then 10)
+                    {
+                    guestSugg.AddRange( genres ); // Add the new genres to the old genres
+                    }
+                else
+                    {
+                    guestSugg.RemoveRange( 0 , guestSugg.Count + newgenres.Count - 10 ); // Remove some elemnts for new genres
+                    guestSugg.AddRange( genres );
+                    }
+                }
+            else // Ff there isnt Suggestions in cookies
+                {
+                guestSugg = genres;
+                }
+            // Save the new genres Suggestions
+            HttpContext.Response.Cookies.Append( "GuestSuggestions" , string.Join( "," , guestSugg ) );
+            }
         public List<String> GetGuestSuggestions ( ) // return the Movie Genres suggestions for guest
             {
             var cookieSugg = Request.Cookies.Where( v => v.Key == "GuestSuggestions" ).FirstOrDefault().Value;
-            List<String> userSugg = new List<String>();
+            List<String> guestSugg = new List<String>();
             if ( cookieSugg != null )
                 {
-                userSugg = cookieSugg.Split( "," ).ToList(); // convert to list of strings
+                guestSugg = cookieSugg.Split( "," ).ToList(); // convert to list of strings
                 }
-            return userSugg;
+            return guestSugg;
             }
-        public IDictionary<Genre , int> GetUserSuggestions ( ) // return the Movie Genres suggestions for user
+        public Dictionary<int , int> GetUserSuggestions ( ) // return the Movie Genres suggestions for user
             {
             int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
-            return _context.User.Where( u => u.Id == connecteduserid ).FirstOrDefault().Suggestions;
+            User tempUser = _context.User.Where( u => u.Id == connecteduserid ).First();
+            var usergenre = _context.UserGenre.Where( ug => ug.UserId == connecteduserid ); // Get the genres related to user
+            return usergenre.ToDictionary(k=>k.GenreId,v=>v.Weight);
             }
-
-        public async Task<IActionResult> MovieSuggestions ( )
+        public async Task<IActionResult> MovieSuggestions ( ) // Return the 10 Movie Suggestions for User or Guest
             {
             IDictionary<int , int> moviesWeight = new Dictionary<int , int>();
             var genresMap = new Dictionary<int , int>();
@@ -640,15 +645,17 @@ namespace MovieStore.Controllers
                 {
                 var genres = GetGuestSuggestions();// get the genres Suggestions from cookies
                 var genresList = genres.Join( _context.Genre , gs => gs , g => g.Type , ( mg , g ) => g ).ToList(); // Join with Genre database to get the genre id
-                var temp = genresList.GroupBy( x => x ) // convert the list of genres to Dictionary - Key:Genre ID, Value:count how many on list => weight
-               .ToDictionary( y =>y.Key.Id , y => y.Count() )
+                var tempDictionary = genresList.GroupBy( x => x ) // convert the list of genres to Dictionary - Key:Genre ID(KeyValuePair), Value:count how many on list => weight
+               .ToDictionary( y => y.Key.Id , y => y.Count() )
                .OrderByDescending( z => z.Value );
-                genresMap = (Dictionary<int , int>) temp;
+                foreach ( var element in tempDictionary ) // convert Dictionary from KeyValuePair to int as Key
+                    {
+                    genresMap.Add( element.Key , element.Value );
+                    }
                 }
             else // user logged
                 {
-                var tempdic = GetUserSuggestions();
-                genresMap = tempdic.ToDictionary( x => x.Key.Id , y => y.Value ); // convert to Dictionary - Key:Genre ID, Value:count how many on list => weight
+                genresMap = GetUserSuggestions();
                 }
 
             foreach ( MovieGenre mg in _context.MovieGenre ) // Give weight to each movie depend the genres

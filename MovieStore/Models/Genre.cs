@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieStore.Models.UserPreferences;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,5 +25,7 @@ namespace MovieStore.Models
         public int MovieId { get; set; }
 
         public ICollection<MovieGenre> MovieGenre { get; set; }
+        public ICollection<UserGenre> UserGenre { get; set; }
+
         }
     }

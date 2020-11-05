@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201104150510_fixedDIC.cs" />
+    <Compile Remove="Migrations\20201104150510_fixedDIC.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\js\searchbox\search.js" />
   </ItemGroup>
 

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using MovieStore.Models.UserPreferences;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -36,9 +39,7 @@ namespace MovieStore.Models
         [Required]
         public string Address { get; set; }
         public virtual ICollection<Review> Comments { get; set; }
-        [NotMapped]
-        public virtual IDictionary<Genre , int> Suggestions { get; set; }
-        //public virtual ICollection<Genre> Suggestions { get; set; }
-
+        [DisplayName( "Suggestions" )]
+        public virtual ICollection<UserGenre> UserGenre { get; set; }
         }
     }

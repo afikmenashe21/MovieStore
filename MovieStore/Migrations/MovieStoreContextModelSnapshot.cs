@@ -51,12 +51,7 @@ namespace MovieStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Genre");
                 });
@@ -206,11 +201,22 @@ namespace MovieStore.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("MovieStore.Models.Genre", b =>
+            modelBuilder.Entity("MovieStore.Models.UserPreferences.UserGenre", b =>
                 {
-                    b.HasOne("MovieStore.Models.User", null)
-                        .WithMany("Suggestions")
-                        .HasForeignKey("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("UserGenre");
                 });
 
             modelBuilder.Entity("MovieStore.Models.MovieActor", b =>
@@ -252,6 +258,21 @@ namespace MovieStore.Migrations
                     b.HasOne("MovieStore.Models.Movie", "Movie")
                         .WithMany("Comments")
                         .HasForeignKey("MovieId");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.UserPreferences.UserGenre", b =>
+                {
+                    b.HasOne("MovieStore.Models.Genre", "Genre")
+                        .WithMany("UserGenre")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MovieStore.Models.User", "User")
+                        .WithMany("UserGenre")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
