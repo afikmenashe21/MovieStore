@@ -395,7 +395,6 @@ C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Reviews\Index.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
-C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout2.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Users\Dashboard.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Users\Delete.cshtml.g.cs
@@ -429,3 +428,15 @@ C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcore
 C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Details.cshtml.g.cs
 C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Edit.cshtml.g.cs
 C:\Users\Dell\source\repos\afikmenashe21\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Index.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.Core.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\Google.Apis.YouTube.v3.dll
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Movies\GetGenresDP.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout3.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Create.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Delete.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Details.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Edit.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Index.cshtml.g.cs
