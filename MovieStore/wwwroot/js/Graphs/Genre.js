@@ -8,7 +8,7 @@ $(document).ready(function () {
                 var width = 850
                 var height = 460
                 // append the svg object to the body of the page
-                var svg = d3.select("#my_dataviz")
+                var svg = d3.select("#my_dataviz_genre")
                     .append("svg")
                     .attr("width", "100%")
                     .attr("height", height)
@@ -23,7 +23,7 @@ $(document).ready(function () {
                     .range([7, 55])  // circle will be between 7 and 55 px wide
 
                 // create a tooltip
-                var Tooltip = d3.select("#my_dataviz")
+                var Tooltip = d3.select("#my_dataviz_genre")
                     .append("div")
                     .style("opacity", 0)
                     .attr("class", "tooltip")
