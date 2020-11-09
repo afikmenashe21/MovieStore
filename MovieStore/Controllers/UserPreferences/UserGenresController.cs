@@ -163,10 +163,20 @@ namespace MovieStore.Controllers.UserPreferences
             return _context.UserGenre.Any(e => e.UserId == id);
         }
 
-        public Dictionary<string , int> Graph ( ) // return dic -> key:genre name , value: counter
+        public Dictionary<string , int> Graph ( ) // return dic -> key:genre name , value: counter else 0
             {
-            var queryList = _context.UserGenre.Include( ug => ug.Genre ).ToList();
-            var queryDic = queryList.GroupBy( ug => ug.Genre.Type ).ToDictionary( k => k.Key , v => v.Count() );
+            Dictionary<string , int> queryDic;
+            var queryList = _context.Genre.ToList();
+            queryDic = queryList.ToDictionary( k => k.Type , v => 0 ); // get Dictionary => key:genre name , value: 0
+            if ( _context.UserGenre.Any() ) // check if data is empty or not
+                {
+                var queryUserGenre = _context.UserGenre.Include( ug => ug.Genre ).ToList(); // Get the data that reprasent popularity
+                var UserGenreDic = queryUserGenre.GroupBy( ug => ug.Genre.Type ).ToDictionary( k => k.Key , v => v.Count() ); // Create Dictionary of all the data => key:genre name , value: counter
+                foreach (var genre in UserGenreDic ) // Update the data
+                    {
+                    queryDic [ genre.Key ] = genre.Value;
+                    }
+                }
             return queryDic;
             }
         }
