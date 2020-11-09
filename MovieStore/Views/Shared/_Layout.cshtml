@@ -130,12 +130,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             {
                             <li><span>Hey, Guest</span></li>
                             <li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
-                            }
+                        }
                         else
-                            {
-                            <li><span>Hey, @Context.Session.GetString( "UserName" )</span></li>
+                        {
+                            <li><span>Hey, @Context.Session.GetString("UserName")</span></li>
                             <li><a asp-controller="Users" asp-action="Logout">Logout</a></li>
-                            } }
+                        }
+                        if (Context.Session.GetString("Type") == "Admin")
+                        {
+                            <li><a id="dashboard-btn" asp-controller="Users" asp-action="Dashboard">Dashboard</a></li>
+                        } }
                 </ul>
             </div>
             <div class="clearfix"> </div>
@@ -174,7 +178,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         <input type="email" name="Email" placeholder="Email Address" required="">
                                         <input type="text" name="FirstName" placeholder="First Name" required="">
                                         <input type="text" name="LastName" placeholder="Last Name" required="">
-                                        <input type="text" name="Address" placeholder="Address" required="">
+                                        <input type="text" name="Address" placeholder="Address (e.g Street,City,Country)" required="">
                                         <input type="submit" value="Register">
                                     </form>
                                 </div>
