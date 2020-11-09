@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "har-validator": "^5.1.5",
+    "twit": "^2.2.11"
+  }
+}

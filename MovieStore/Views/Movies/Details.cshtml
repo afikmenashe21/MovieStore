@@ -131,40 +131,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <h5>Share this</h5>
                         <div class="single-agile-shar-buttons">
                             <ul>
-
-                                <!--<li class="news-twitter">
-                                    <a href="https://twitter.com/w3layouts" class="twitter-follow-button" data-show-count="false">Follow w3layouts</a>
-                                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-                                </li>
-
                                 <li>
-                                    <a href="https://twitter.com/intent/tweet?screen_name=MovieStore" class="twitter-mention-button" data-show-count="false" runat="server" onserverclick="Tweet">Tweet to MovieStore</a>
-                                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-                                </li>
-
-                                <li>-->
-                                <!-- Place this tag where you want the +1 button to render. -->
-                                <!--<div class="g-plusone" data-size="medium"></div>-->
-                                <!-- Place this tag after the last +1 button tag. -->
-                                <!--<script type="text/javascript">
-                                        (function () {
-                                            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                                            po.src = 'https://apis.google.com/js/platform.js';
-                                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-                                        })();
-                                    </script>
-                                </li>-->
-                                @*<li>
-                                        <a href="#" onclick="location.href='@Url.Action("Tweet")'">Tweet To MovieStor!</a><br />
-                                    </li>*@
-
-                                <li>
-                                    <a href="#" onclick="location.href='@Url.Action("Tweet", new {  movieName = Model.Name ,  releaseDate = Model.ReleaseDate.ToShortDateString() ,  movieDirector=Model.Director ,  movieRating=Model.AverageRating })'">Click Here</a>;
+                                    <button type="button" onclick="GetMessage()"></button>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
+
+                <div style="display:none" id="addressTable">
+                    <div id="movieName">@Model.Name</div>
+                    <div id="movieReleaseDate">@Model.ReleaseDate.ToShortDateString()</div>
+                    <div id="movieDirector">@Model.Director</div>
+                    <div id="movieRating">@Model.AverageRating</div>
+                </div>
+
                 <div class="clearfix"> </div>
 
                 <div class="s01">
@@ -251,4 +232,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <script src="~/js/reviewSearch.js"></script>
 <script src="~/js/jquery.dotdotdot.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    let mName = document.getElementById("movieName").textContent;
+    let mRelease = document.getElementById("movieReleaseDate").textContent;
+    let mDirector = document.getElementById("movieDirector").textContent;
+    let mRating = document.getElementById("movieRating").textContent;
 
+    function GetMessage() {
+        $.get("/Movies/Tweet", { movieName: mName, releaseDate: mRelease, movieDirector: mDirector, movieRating: mRating });
+    }
+</script>

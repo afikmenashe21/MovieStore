@@ -440,3 +440,5 @@ C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Details.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Edit.cshtml.g.cs
 C:\Users\amttr\source\repos\MovieStore\MovieStore\obj\Debug\netcoreapp3.1\Razor\Views\UserGenres\Index.cshtml.g.cs
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\package-lock.json
+C:\Users\amttr\source\repos\MovieStore\MovieStore\bin\Debug\netcoreapp3.1\package.json
