@@ -119,10 +119,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         {
                             <li><span>Hey, @Context.Session.GetString("UserName")</span></li>
                             <li><a asp-controller="Users" asp-action="Logout">Logout</a></li>
-                        }
-                        if (Context.Session.GetString("Type") == "Admin")
-                        {
-                            <li><a id="dashboard-btn" asp-controller="Users" asp-action="Dashboard">Dashboard</a></li>
                         } }
                 </ul>
             </div>
@@ -215,7 +211,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <li><a asp-controller="Movies" asp-action="MovieSuggestions">For you</a></li>
                             @if ( Context.Session.GetString( "Type" ) == "Admin" )
                                 {
-                                <li><a asp-controller="Users" asp-action="Dashboard" style="background-color: black;">Dashboard</a></li>
+                                <li><a asp-controller="Users" asp-action="Dashboard">Dashboard</a></li>
                                 }
                         </ul>
                     </nav>
