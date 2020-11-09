@@ -4,10 +4,20 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
+<meta charset="utf-8">
+
 <link rel="stylesheet" href="~/css/Dashboard/accordion.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="~/css/Dashboard/tabs.css">
 <link rel="stylesheet" href="~/css/Dashboard/tabsSearch.css">
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<style>
+    .node:hover {
+        stroke-width: 7px !important;
+        opacity: 1 !important;
+    }
+</style>
 <link rel="stylesheet" href="~/css/Dashboard/map.css">
 <div class="w3-container">
     <h2>Dashboard</h2>
@@ -110,6 +120,11 @@
 
                 </p>
             </div>
+            }
+
+        <!-- Create a div where the graph will take place -->
+        <div id="my_dataviz_movie"></div>
+
         }
     </div>
 
@@ -157,6 +172,10 @@
                     </ul>
                 </p>
             </div>
+            }
+        <!-- Create a div where the graph will take place -->
+        <div id="my_dataviz_genre"></div>
+
         }
     </div>
 </div>
@@ -178,6 +197,9 @@
 
 <script src="~/js/Dashboard/accordion.js"></script>
 <script src="~/js/Dashboard/tabSearch.js"></script>
+<script src="~/js/Graphs/Genre.js"></script>
+<script src="~/js/Graphs/Movie.js"></script>
+@*<script src="~/js/Graphs/test.js"></script>*@
 <script src="../" type="text/javascript"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 

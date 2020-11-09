@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<MovieStore.Models.Movie>
 
 @{
-    ViewData [ "Title" ] = "Index";
-    }
-    
+    ViewData [ "Title" ] = "HomePage";
+}
+
 <!-- banner -->
 <div id="slidey" style="display:none;">
     <ul>
@@ -19,6 +19,7 @@
     </ul>
 </div>
 <script src="~/js/jquery.slidey.js"></script>
+<script src="~/js/jquery.dotdotdot.min.js"></script>
 <script type="text/javascript">
     $("#slidey").slidey({
         interval: 8000,

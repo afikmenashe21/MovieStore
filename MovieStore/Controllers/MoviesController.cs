@@ -635,7 +635,7 @@ namespace MovieStore.Controllers
             int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
             User tempUser = _context.User.Where( u => u.Id == connecteduserid ).First();
             var usergenre = _context.UserGenre.Where( ug => ug.UserId == connecteduserid ); // Get the genres related to user
-            return usergenre.ToDictionary(k=>k.GenreId,v=>v.Weight);
+            return usergenre.ToDictionary( k => k.GenreId , v => v.Weight );
             }
         public async Task<IActionResult> MovieSuggestions ( ) // Return the 10 Movie Suggestions for User or Guest
             {
@@ -674,6 +674,12 @@ namespace MovieStore.Controllers
                 }
             var movies = moviesWeight.OrderByDescending( m => m.Value ).Take( 10 ).Join( _context.Movie , mw => mw.Key , m => m.Id , ( mw , m ) => m ).ToList(); // Join with Genre database to get the genre id
             return View( "Index" , movies );
+            }
+
+        public Dictionary<string , double> Graph ( ) // return dic -> key:genre name , value: Moive rating
+            {
+            var queryDic = _context.Movie.ToDictionary( k => k.Name , v => v.AverageRating );
+            return queryDic;
             }
 
         }
