@@ -5,12 +5,12 @@ $(document).ready(function () {
             success: function (dataset) {
                 var data = Object.keys(dataset).map((key) => ({ "name": key, "count": dataset[key] }));
                 // set the dimensions and margins of the graph
-                var width = 850
+                var width = 460
                 var height = 460
                 // append the svg object to the body of the page
                 var svg = d3.select("#my_dataviz_genre")
                     .append("svg")
-                    .attr("width", "100%")
+                    .attr("width", width)
                     .attr("height", height)
                 // Color palette for continents?
                 var color = d3.scaleOrdinal()

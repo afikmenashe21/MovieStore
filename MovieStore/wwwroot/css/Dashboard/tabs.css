@@ -1727,8 +1727,14 @@ a {
     border-color: #e7ffff !important
 }
 
-.center-graph {
+#graphs {
     margin-left: auto;
     margin-right: auto;
     width: 90%;
+}
+#my_dataviz_genre{
+    float:right;
+}
+#my_dataviz_userGenre {
+    float: left;
 }

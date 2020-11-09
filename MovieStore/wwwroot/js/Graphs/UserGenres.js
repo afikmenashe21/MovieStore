@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $(function () {
         $.ajax({
-            url: "/Users/Graph",
+            url: "/UserGenres/Graph",
             success: function (dataset) {
                 const sumValues = obj => Object.values(obj).reduce((a, b) => a + b);
                 var sumData = sumValues(dataset);
@@ -13,7 +13,7 @@ $(document).ready(function () {
                     height = 500 - margin.top - margin.bottom;
 
                 // append the svg object to the body of the page
-                var svg = d3.select("#my_dataviz_user")
+                var svg = d3.select("#my_dataviz_userGenre")
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
