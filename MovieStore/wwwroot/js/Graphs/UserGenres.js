@@ -1,9 +1,11 @@
 $(document).ready(function () {
     $(function () {
         $.ajax({
-            url: "/Movies/Graph",
+            url: "/UserGenres/Graph",
             success: function (dataset) {
-                var data = Object.keys(dataset).map((key) => ({ "name": key, "rating": dataset[key] }));
+                const sumValues = obj => Object.values(obj).reduce((a, b) => a + b);
+                var sumData = sumValues(dataset);
+                var data = Object.keys(dataset).map((key) => ({ "name": key, "popularity": Math.round((dataset[key] / sumData) * 100) }));
 
                 // set the dimensions and margins of the graph
                 var margin = { top: 10, right: 30, bottom: 90, left: 40 },
@@ -11,7 +13,7 @@ $(document).ready(function () {
                     height = 500 - margin.top - margin.bottom;
 
                 // append the svg object to the body of the page
-                var svg = d3.select("#my_dataviz_movie")
+                var svg = d3.select("#my_dataviz_userGenre")
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
@@ -33,7 +35,7 @@ $(document).ready(function () {
 
                 // Add Y axis
                 var y = d3.scaleLinear()
-                    .domain([0, 10])
+                    .domain([0, 100])
                     .range([height, 0]);
                 svg.append("g")
                     .call(d3.axisLeft(y));
@@ -45,7 +47,7 @@ $(document).ready(function () {
                     .append("line")
                     .attr("x1", function (d) { return x(d.name); })
                     .attr("x2", function (d) { return x(d.name); })
-                    .attr("y1", function (d) { return y(d.rating); })
+                    .attr("y1", function (d) { return y(d.popularity); })
                     .attr("y2", y(0))
                     .attr("stroke", "grey")
 
@@ -55,7 +57,7 @@ $(document).ready(function () {
                     .enter()
                     .append("circle")
                     .attr("cx", function (d) { return x(d.name); })
-                    .attr("cy", function (d) { return y(d.rating); })
+                    .attr("cy", function (d) { return y(d.popularity); })
                     .attr("r", "4")
                     .style("fill", "#69b3a2")
                     .attr("stroke", "black")
