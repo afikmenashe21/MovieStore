@@ -1726,3 +1726,9 @@ a {
 .w3-border-pale-blue, .w3-hover-border-pale-blue:hover {
     border-color: #e7ffff !important
 }
+
+.center-graph {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}

@@ -676,11 +676,5 @@ namespace MovieStore.Controllers
             return View( "Index" , movies );
             }
 
-        public Dictionary<string , double> Graph ( ) // return dic -> key:genre name , value: Moive rating
-            {
-            var queryDic = _context.Movie.ToDictionary( k => k.Name , v => v.AverageRating );
-            return queryDic;
-            }
-
         }
     }

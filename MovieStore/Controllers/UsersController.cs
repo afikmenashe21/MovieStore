@@ -193,5 +193,13 @@ namespace MovieStore.Controllers
             {
             return _context.User.Any( e => e.Id == id );
             }
+
+
+        public Dictionary<string , int> Graph ( ) // return dic -> key:genre name , value: counter
+            {
+            var queryList = _context.UserGenre.Include( ug => ug.Genre ).ToList();
+            var queryDic = queryList.GroupBy( ug => ug.Genre.Type ).ToDictionary( k => k.Key , v => v.Count() );
+            return queryDic;
+            }
         }
     }
