@@ -165,7 +165,7 @@ namespace MovieStore.Controllers
             }
 
 
-        public async Task<IActionResult> SearchbyGenre ( string genre )
+        public IActionResult SearchbyGenre ( string genre )
             {
             var genres = _context.MovieGenre.Include( mg => mg.Genre ).Include( mg => mg.Movie ).ToList().GroupBy( mg => mg.Genre.Type ); // Returns Enumerable with KEY:Genre type VALUE: list of Movies
             var moviesList = genres.First( g => g.Key == genre ); // Filter the list of genres to the right one
