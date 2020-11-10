@@ -116,8 +116,8 @@ namespace MovieStore.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
+                return RedirectToAction( "Dashboard" , "Users" );
+                }
             return View(actor);
         }
 
@@ -147,8 +147,8 @@ namespace MovieStore.Controllers
             var actor = await _context.Actor.FindAsync(id);
             _context.Actor.Remove(actor);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            return RedirectToAction( "Dashboard" , "Users" );
+            }
 
         private bool ActorExists(int id)
         {

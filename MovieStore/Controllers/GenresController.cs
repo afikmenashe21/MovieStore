@@ -111,8 +111,8 @@ namespace MovieStore.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
+                return RedirectToAction( "Dashboard" , "Users" );
+                }
             return View(genre);
         }
 
@@ -142,8 +142,8 @@ namespace MovieStore.Controllers
             var genre = await _context.Genre.FindAsync(id);
             _context.Genre.Remove(genre);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            return RedirectToAction( "Dashboard" , "Users" );
+            }
 
         private bool GenreExists(int id)
         {

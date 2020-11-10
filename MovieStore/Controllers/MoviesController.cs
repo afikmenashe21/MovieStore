@@ -192,7 +192,7 @@ namespace MovieStore.Controllers
                         throw;
                         }
                     }
-                return RedirectToAction( nameof( Index ) );
+                return RedirectToAction( "Dashboard" , "Users" );
                 }
             return View( movie );
             }
@@ -224,7 +224,7 @@ namespace MovieStore.Controllers
             var movie = await _context.Movie.FindAsync( id );
             _context.Movie.Remove( movie );
             await _context.SaveChangesAsync();
-            return RedirectToAction( nameof( Index ) );
+            return RedirectToAction( "Dashboard","Users" );
             }
 
         private bool MovieExists ( int id )
