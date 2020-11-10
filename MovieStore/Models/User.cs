@@ -26,7 +26,7 @@ namespace MovieStore.Models
         public UserType Type { get; set; }
         [Required]
         public string Password { get; set; }
-        [RegularExpression( @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" )] // Demand the email wiil be ___@___.___ 
+        [RegularExpression( @"^([\w\-\.]+)@(\w+)\.(\w+)$" )] // Demand the email wiil be ___@___.___ 
         [Required]
         public string Email { get; set; }
         [RegularExpression( @"^[\w]+$" )] // Demand the username wiil be with any English characters
@@ -35,7 +35,7 @@ namespace MovieStore.Models
         [RegularExpression( @"^[\w]+$" )] // Demand the username wiil be with any English characters
         [Required]
         public string LastName { get; set; }
-        [RegularExpression( @"^[\w\d\s]+$" )] // Demand the username wiil be with any English characters/digits/
+        [RegularExpression( @"^([\w\s]+),([a-zA-z\s]+),([a-zA-z\s]+)$")] // Demand the Address wiil be ___ , ___ , ___
         [Required]
         public string Address { get; set; }
         public virtual ICollection<Review> Comments { get; set; }

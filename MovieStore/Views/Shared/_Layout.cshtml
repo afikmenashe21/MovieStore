@@ -58,8 +58,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
     <!-- Advanced Search-->
     <link rel="stylesheet" href="~/css/jquery-ui.css">
-    <!-- Advanced Search-->
-    <!-- SearchBox -->
+    <!-- //Advanced Search-->
+    <!-- //SearchBox -->
+    <!-- Validation -->
+    <script type="text/javascript" src="~/js/Validation/Register.js"></script>
+    <!-- //Validation -->
+
 </head>
 
 <body>
@@ -152,7 +156,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 </div>
                                 <div class="form">
                                     <h3>Create an account</h3>
-                                    <form asp-controller="Users" asp-action="Register">
+                                    <form id="register" asp-controller="Users" asp-action="Register">
                                         <input type="text" name="Username" placeholder="Username" required="">
                                         <input type="password" name="Password" placeholder="Password" required="">
                                         <input type="email" name="Email" placeholder="Email Address" required="">
