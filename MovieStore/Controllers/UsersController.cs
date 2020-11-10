@@ -68,9 +68,9 @@ namespace MovieStore.Controllers
                 _context.Add( account );
                 await _context.SaveChangesAsync();
                 SignIn( account );
-                return RedirectToAction( "Index" , "Movies" );
+                return RedirectToAction( "HomePage" , "Movies" );
                 }
-            ViewBag.error = 400;
+            ViewBag.error = 400; // Username exist
             return View( "ClientError" );
             }
 
@@ -95,32 +95,40 @@ namespace MovieStore.Controllers
                 return View( Multiple );
                 }
             else
-                return View( "Error401" );
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             }
 
         // GET: Users
-        public async Task<IActionResult> Index ( )
+        public IActionResult Index ( )
             {
             string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
-            if ( user == "Guest" )
-                return RedirectToAction( "Login" , "Users" );
+            if ( user == "Guest" ) // User doesnt allowed
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             else
-                return View( await _context.User.ToListAsync() );
+                return RedirectToAction( "Dashboard" , "Users" );
             }
 
         // GET: Users/Details/5
         public async Task<IActionResult> Details ( int? id )
             {
-            if ( id == null )
+            if ( id == null ) //If id didn't pass
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var user = await _context.User
                 .FirstOrDefaultAsync( m => m.Id == id );
-            if ( user == null )
+            if ( user == null ) // If user wasn't found
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
 
             return View( user );
@@ -128,15 +136,17 @@ namespace MovieStore.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit ( int? id )
             {
-            if ( id == null )
+            if ( id == null )//If id didn't pass
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var user = await _context.User.FindAsync( id );
-            if ( user == null )
+            if ( user == null )// If user wasn't found
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
             return View( user );
             }
@@ -148,9 +158,10 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit ( int id , [Bind( "Id,UserName,Password,Email,FirstName,LastName,Address" )] User user )
             {
-            if ( id != user.Id )
+            if ( id != user.Id ) //If the id doesn't match the user
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             if ( ModelState.IsValid )
@@ -164,7 +175,8 @@ namespace MovieStore.Controllers
                     {
                     if ( !UserExists( user.Id ) )
                         {
-                        return NotFound();
+                        ViewBag.error = 404;
+                        return View( "ClientError" );
                         }
                     else
                         {
@@ -181,14 +193,16 @@ namespace MovieStore.Controllers
             {
             if ( id == null )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var user = await _context.User
                 .FirstOrDefaultAsync( m => m.Id == id );
             if ( user == null )
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
 
             return View( user );

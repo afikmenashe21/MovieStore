@@ -47,7 +47,6 @@ namespace MovieStore.Controllers
         //private string accsessKey = "79a6c068";
         string [ ] headlines = { "Great Movie" , "Wowwww" , "Amazing story line" , "I'm shocked" , "Great cast !!" , "MUST TO WATCH" , "I'm impressed" , "A Big Like" };
         Random rnd = new Random();
-        List<Movie> movies = new List<Movie>();
         DateTime minDateTime = DateTime.MinValue;
         DateTime maxDateTime = DateTime.MaxValue;
 
@@ -63,19 +62,12 @@ namespace MovieStore.Controllers
             {
             string user = HttpContext.Session.GetString( "Type" );
             var movielist = await _context.Movie.ToListAsync();
-            movielist.Reverse();
+            movielist.Reverse(); // Reverse the list to get the latest movies added
             await StoreGenresDP(); // Trim the list of Genres to 3 columns
             return View( movielist.Take( 5 ) ); // Returns the last 5 movies entered the database
             }
         public async Task<IActionResult> Search ( string name )
             {
-            movies.Clear();
-            //foreach (Movie m in _context.Movie)
-            //{
-            //    await Run(m.Name);
-            //    m.Trailer = youtubeTrailer;
-            //}
-
             //Interpreted user's search target
 
             string [ ] title = name.Split( " " );
@@ -85,9 +77,10 @@ namespace MovieStore.Controllers
                 resultTitle += s + "+";
                 }
 
-            Movie movie = new Movie();
-            await CreateMovie( movie , resultTitle );//Creates reviews either
-            return RedirectToAction( "Details" , movies [ 0 ] );
+            var movie = await CreateMovie(resultTitle );//Creates reviews either
+            if ( movie == null ) // If movie not found
+                return View( "NoResults" );
+            return RedirectToAction( "Details" , movie );
             }
 
         // GET: Movies
@@ -101,25 +94,24 @@ namespace MovieStore.Controllers
             {
             if ( id == null )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var movie = await _context.Movie
                 .FirstOrDefaultAsync( m => m.Id == id );
             if ( movie == null )
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
 
             ViewBag.reviews = await _context.Review.Where( r => r.Movie.Id == id ).Include( r => r.Author ).ToListAsync();
             ViewBag.reviews.Reverse();
             // Linq - first filter the rows in MovieGenre and then join to get the Genres
-
             ViewBag.genres = await _context.MovieGenre.Where( mg => mg.MovieId == id ).Join( _context.Genre , mg => mg.GenreId , g => g.Id , ( mg , g ) => g ).ToListAsync();
-
             // Linq - first filter the rows in MovieActor and then join to get the Actors
             ViewBag.actors = await _context.MovieActor.Where( ma => ma.MovieId == id ).Join( _context.Actor , ma => ma.ActorId , a => a.Id , ( ma , a ) => a ).ToListAsync();
-            //SetgenreSuggestions( ViewBag.genres );
             SetgenreSuggestions( ViewBag.genres );
             return View( movie );
             }
@@ -141,7 +133,7 @@ namespace MovieStore.Controllers
                 {
                 _context.Add( movie );
                 await _context.SaveChangesAsync();
-                return RedirectToAction( nameof( Index ) );
+                return RedirectToAction( "Dashboard" , "Users" );
                 }
             return View( movie );
             }
@@ -151,13 +143,15 @@ namespace MovieStore.Controllers
             {
             if ( id == null )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var movie = await _context.Movie.FindAsync( id );
             if ( movie == null )
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
             return View( movie );
             }
@@ -171,7 +165,8 @@ namespace MovieStore.Controllers
             {
             if ( id != movie.Id )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             if ( ModelState.IsValid )
@@ -185,7 +180,8 @@ namespace MovieStore.Controllers
                     {
                     if ( !MovieExists( movie.Id ) )
                         {
-                        return NotFound();
+                        ViewBag.error = 404;
+                        return View( "ClientError" );
                         }
                     else
                         {
@@ -202,14 +198,16 @@ namespace MovieStore.Controllers
             {
             if ( id == null )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var movie = await _context.Movie
                 .FirstOrDefaultAsync( m => m.Id == id );
             if ( movie == null )
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
 
             return View( movie );
@@ -224,7 +222,7 @@ namespace MovieStore.Controllers
             var movie = await _context.Movie.FindAsync( id );
             _context.Movie.Remove( movie );
             await _context.SaveChangesAsync();
-            return RedirectToAction( "Dashboard","Users" );
+            return RedirectToAction( "Dashboard" , "Users" );
             }
 
         private bool MovieExists ( int id )
@@ -311,15 +309,16 @@ namespace MovieStore.Controllers
                 {
                 Console.WriteLine( "Exception Hit------------" );
                 Console.WriteLine( exception );
+
                 }
 
             }
 
-        private async Task CreateMovie ( Movie movie , string resultTitle )
+        private async Task<Movie> CreateMovie (string resultTitle )
             {
             //Define your baseUrl
+            Movie movie = new Movie();
             var baseUrl = "http://www.omdbapi.com/" + "?apikey=79a6c068&t=" + resultTitle.Remove( resultTitle.Length - 1 );
-
             //Have your using statements within a try/catch block
             try
                 {
@@ -335,7 +334,7 @@ namespace MovieStore.Controllers
                             //Now assign your content to your data variable, by converting into a string using the await keyword.
                             var data = await content.ReadAsStringAsync();
                             //If the data isn't null return log convert the data using newtonsoft JObject Parse class method on the data.
-                            if ( data != null )
+                            if ( !data.Contains( "Movie not found" ) )
                                 {
                                 JObject jObj = JObject.Parse( data );
                                 string theMovieName = jObj [ "Title" ].ToString();
@@ -421,26 +420,23 @@ namespace MovieStore.Controllers
                                             }
                                         actor.MovieActor.Add( movieActor );
                                         movie.MovieActor.Add( movieActor );
-
-
                                         }
                                     await this.Create( movie );
                                     await CreateMovieReviews( movie );
-                                    movies.Add( movie );
                                     await StoreGenresDP(); // New movie add -> update the Genre dropdown list
+                                    return movie;
                                     }
                                 else // The movie is in the database 
                                     {
                                     //exist = true;
                                     movie = _context.Movie.FirstOrDefault( p => p.Name.Contains( theMovieName ) );
-                                    movies.Add( movie );
-
+                                    return movie;
                                     }
-
                                 }
                             else
                                 {
                                 Console.WriteLine( "NO Data----------" );
+                                return null;
                                 }
                             }
                         }
@@ -450,6 +446,7 @@ namespace MovieStore.Controllers
                 {
                 Console.WriteLine( "Exception Hit------------" );
                 Console.WriteLine( exception );
+                return null;
                 }
             }
 
@@ -466,7 +463,10 @@ namespace MovieStore.Controllers
                         && m.Duration >= fromDurationsto [ 0 ] && m.Duration <= fromDurationsto [ 1 ]
                         && m.AverageRating >= fromRatingto [ 0 ] && m.AverageRating <= fromRatingto [ 1 ]
                         select m;
-            return View( "Index" , await query.ToListAsync() );
+            if ( query.Any() )
+                return View( "Index" , await query.ToListAsync() );
+            else
+                return View( "NoResults" );
             }
 
         public async Task Run ( string movieName )
@@ -491,7 +491,7 @@ namespace MovieStore.Controllers
 
 
             }
-        public async Task<IActionResult> GetGenresDP ( ) // get data form cookies to Genre dropdown button on Layout
+        public IActionResult GetGenresDP ( ) // get data form cookies to Genre dropdown button on Layout
             {
             // Insert data to ViewBag for Layout
             //Get the genres from coockies and convert from string to list
@@ -551,20 +551,28 @@ namespace MovieStore.Controllers
 
         public async Task<IActionResult> AZlist ( ) //Return the Movies ordered by A-Z
             {
-            return View( "Index" , await _context.Movie.OrderBy( m => m.Name ).ToListAsync() );
+            var movieList = await _context.Movie.OrderBy( m => m.Name ).ToListAsync();
+            if ( movieList.Any() )
+                return View( "Index" , movieList );
+            else
+                return View( "NoResults" );
             }
         public async Task<IActionResult> TopMovies ( ) // Return the top 10 Movies by rating 
             {
-            return View( "Index" , await _context.Movie.OrderByDescending( m => m.AverageRating ).Take( 10 ).ToListAsync() );
+            var movieList = await _context.Movie.OrderByDescending( m => m.AverageRating ).Take( 10 ).ToListAsync();
+            if ( movieList.Any() )
+                return View( "Index" , movieList );
+            else
+                return View( "NoResults" );
             }
-        public async Task SetgenreSuggestions ( List<Genre> newgenres ) // store user or guest Movies Genres suggestions 
+        public void SetgenreSuggestions ( List<Genre> newgenres ) // store user or guest Movies Genres suggestions 
             {
             if ( HttpContext.Session.GetString( "UserId" ) != null ) // get the id of Connected user
-                await SetUserSuggestions( newgenres );
+                 SetUserSuggestions( newgenres );
             else // if the user is Guest
-                await SetGuestSuggestions( newgenres );
+                 SetGuestSuggestions( newgenres );
             }
-        public async Task SetUserSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for User
+        public async void SetUserSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for User
             {
             int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) ); // Get from session the user id that connected
             User tempUser = _context.User.Where( u => u.Id == connecteduserid ).First();
@@ -594,7 +602,7 @@ namespace MovieStore.Controllers
                 }
             await _context.SaveChangesAsync();
             }
-        public async Task SetGuestSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for Guest
+        public void SetGuestSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for Guest
             {
             // Get the Genre Suggestions from cookies
             var cookieSugg = Request.Cookies.Where( v => v.Key == "GuestSuggestions" ).FirstOrDefault().Value;
@@ -637,7 +645,7 @@ namespace MovieStore.Controllers
             var usergenre = _context.UserGenre.Where( ug => ug.UserId == connecteduserid ); // Get the genres related to user
             return usergenre.ToDictionary( k => k.GenreId , v => v.Weight );
             }
-        public async Task<IActionResult> MovieSuggestions ( ) // Return the 10 Movie Suggestions for User or Guest
+        public IActionResult MovieSuggestions ( ) // Return the 10 Movie Suggestions for User or Guest
             {
             IDictionary<int , int> moviesWeight = new Dictionary<int , int>();
             var genresMap = new Dictionary<int , int>();
