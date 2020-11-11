@@ -125,7 +125,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 </div>
                             </div>
                         </div>
-
+                        <div style="margin-right:-15px ; margin-left:75px ; margin-top:20px">
+                            <iframe width="560" height="315" src="@Model.Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
                     </div>
                 </div>
                 <div class="song-grid-right">
@@ -265,9 +267,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     }
 
                     <div class="media-grids">
-                        @{ if ( ViewBag.reviews != null )
-                                foreach ( Review review in ViewBag.reviews )
-                                    {
+                        @{ if (ViewBag.reviews != null)
+                                foreach (Review review in ViewBag.reviews)
+                                {
                                     <div class="media">
                                         <h5>@review.Headline</h5>
                                         <div class="media-left">
@@ -284,33 +286,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             Rating:
                                             @{
 
-                                                int intRating = (int) Math.Floor( Model.AverageRating ); // 7.5 -> 7
-                                                for ( int i = 0 ; i < intRating ; i++ ) // 7
-                                                    {
+                                                int intRating = (int)Math.Floor(Model.AverageRating); // 7.5 -> 7
+                                                for (int i = 0; i < intRating; i++) // 7
+                                                {
                                                     <span href="#"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                    }
-                                                if ( review.Rating - intRating > 0 ) // 7.5 - 7 = 0.5
-                                                    {
+                                                }
+                                                if (review.Rating - intRating > 0) // 7.5 - 7 = 0.5
+                                                {
                                                     <span href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
-                                                    }
+                                                }
                                                 else
-                                                    {
+                                                {
                                                     <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
-                                                    }
-                                                for ( int i = 1 ; i < 10 - intRating ; i++ ) //10-7 = 3
-                                                    {
+                                                }
+                                                for (int i = 1; i < 10 - intRating; i++) //10-7 = 3
+                                                {
                                                     <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
-                                                    }
+                                                }
                                             }
                                         </div>
                                         <span class="additional-media">Written by: <span style="color: #ff8d1b;"> @review.Author.UserName</span> </span>
                                         @{
-                                            if ( Context.Session.GetString( "UserId" ) != null )
-                                                if ( int.Parse( Context.Session.GetString( "UserId" ) ) == review.Author.Id || Context.Session.GetString( "Type" ) == "Admin" ) // If the loggied user created this comment or admin
-                                                    {
+                                            if (Context.Session.GetString("UserId") != null)
+                                                if (int.Parse(Context.Session.GetString("UserId")) == review.Author.Id || Context.Session.GetString("Type") == "Admin") // If the loggied user created this comment or admin
+                                                {
                                                     <a class="additional-media" asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id">Edit</a>
                                                     <a class="additional-media" asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id">Delete</a>
-                                                    }
+                                                }
                                         }
                                     </div>
                                 } }
