@@ -114,12 +114,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             {
                             <li><span>Hey, Guest</span></li>
                             <li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
-                        }
+                            }
                         else
-                        {
-                            <li><span>Hey, @Context.Session.GetString("UserName")</span></li>
+                            {
+                            <li><span>Hey, <a asp-controller="Users" asp-action="Edit"  asp-route-id="@int.Parse(Context.Session.GetString("UserId"))">@Context.Session.GetString( "UserName" )</a></span></li>
                             <li><a asp-controller="Users" asp-action="Logout">Logout</a></li>
-                        } }
+                            } }
                 </ul>
             </div>
             <div class="clearfix"> </div>
@@ -242,7 +242,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="w3ls_footer_grid">
                 <div class="col-md-6 w3ls_footer_grid_left">
                     <div class="w3ls_footer_grid_left1">
-                        <h2>Subscribe to us</h2>
+                       <h2 style=" text-shadow: 1px 1px white; ">Subscribe to us</h2>
                         <div class="w3ls_footer_grid_left1_pos">
                             <form action="#" method="post">
                                 <input type="email" name="email" placeholder="Your email..." required="">
