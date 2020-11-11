@@ -126,17 +126,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </div>
                         </div>
                         <div style="margin-right:-15px ; margin-left:75px ; margin-top:20px">
-                            <iframe width="560" height="315" src="@Model.Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe width="500" height="315" src="@Model.Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
                 <div class="song-grid-right">
                     <div class="share">
-                        <h5>Share this</h5>
                         <div class="single-agile-shar-buttons">
                             <ul>
                                 <li>
-                                    <button type="button" onclick="GetMessage()"></button>
+                                    <button type="button" onclick="GetMessage()"
+                                            style="border-radius: 3px; border: 1px solid white;display: inline-block; cursor: pointer; background: #55ACEE; color: white;height: 34px;width: 110px; ">
+                                        <img src="~/images/twitterlogo.jpeg" style="height:auto;width:19px;" />  Add Tweet
+                                    </button>
                                 </li>
                             </ul>
                         </div>
