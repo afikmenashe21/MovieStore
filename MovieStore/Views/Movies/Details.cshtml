@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData [ "Title" ] = "Details";
+    ViewData["Title"] = "Details";
 }
 <!--
 author: W3layouts
@@ -58,16 +58,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </div>
                             <div class="col-sm-10">
                                 <div class="profile-details-content">
-                                    @{ if ( ViewBag.genres != null )
+                                    @{ if (ViewBag.genres != null)
+                                        {
+                                            for (int i = 0; i < ViewBag.genres.Count - 1; i++)
                                             {
-                                            for ( int i = 0 ; i < ViewBag.genres.Count - 1 ; i++ )
-                                                {
-                                                var genre = ViewBag.genres [ i ].Type.ToString();
+                                                var genre = ViewBag.genres[i].Type.ToString();
                                                 <a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genre" style="color:black">@genre  | </a>
-                                                }
-                                            var genreLast = ViewBag.genres [ ViewBag.genres.Count - 1 ].Type.ToString();
+                                            }
+                                            var genreLast = ViewBag.genres[ViewBag.genres.Count - 1].Type.ToString();
                                             <a asp-controller="MovieGenres" asp-action="SearchbyGenre" asp-route-genre="@genreLast" style="color:black">@genreLast</a>
-                                            }}
+                                        }}
                                 </div>
                             </div>
                         </div>
@@ -79,16 +79,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </div>
                             <div class="col-sm-10">
                                 <div class="profile-details-content">
-                                    @{ if ( ViewBag.actors != null )
+                                    @{ if (ViewBag.actors != null)
+                                        {
+                                            for (int i = 0; i < ViewBag.actors.Count - 1; i++)
                                             {
-                                            for ( int i = 0 ; i < ViewBag.actors.Count - 1 ; i++ )
-                                                {
-                                                var actor = ViewBag.actors [ i ].Name;
+                                                var actor = ViewBag.actors[i].Name;
                                                 <a href="" style="color:black">@actor | </a>
-                                                }
-                                            var actorLast = ViewBag.actors [ ViewBag.actors.Count - 1 ].Name;
+                                            }
+                                            var actorLast = ViewBag.actors[ViewBag.actors.Count - 1].Name;
                                             <a href="" style="color:black">@actorLast</a>
-                                            } }
+                                        } }
                                 </div>
                             </div>
                         </div>
@@ -102,23 +102,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <div class="profile-details-content">
                                     @{
 
-                                        int intAverageRating = (int) Math.Floor( Model.AverageRating ); // 7.3 -> 7
-                                        for ( int i = 0 ; i < intAverageRating ; i++ ) // 7
-                                            {
+                                        int intAverageRating = (int)Math.Floor(Model.AverageRating); // 7.3 -> 7
+                                        for (int i = 0; i < intAverageRating; i++) // 7
+                                        {
                                             <span href="#"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                            }
-                                        if ( Model.AverageRating - intAverageRating > 0 ) // 7.5 - 7 = 0.5
-                                            {
+                                        }
+                                        if (Model.AverageRating - intAverageRating > 0) // 7.5 - 7 = 0.5
+                                        {
                                             <span href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
-                                            }
+                                        }
                                         else
-                                            {
+                                        {
                                             <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
-                                            }
-                                        for ( int i = 1 ; i < 10 - intAverageRating ; i++ ) //10-7 = 3
-                                            {
+                                        }
+                                        for (int i = 1; i < 10 - intAverageRating; i++) //10-7 = 3
+                                        {
                                             <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
-                                            }
+                                        }
                                     }
                                 </div>
                             </div>
@@ -132,44 +132,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div class="single-agile-shar-buttons">
                             <ul>
                                 <li>
-                                    <div class="fb-like" data-href="https://www.facebook.com/w3layouts" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
-                                    <script>
-                                        (function (d, s, id) {
-                                            var js, fjs = d.getElementsByTagName(s)[0];
-                                            if (d.getElementById(id)) return;
-                                            js = d.createElement(s); js.id = id;
-                                            js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.7";
-                                            fjs.parentNode.insertBefore(js, fjs);
-                                        }(document, 'script', 'facebook-jssdk'));</script>
-                                </li>
-                                <li>
-                                    <div class="fb-share-button" data-href="https://www.facebook.com/w3layouts" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Fw3layouts&amp;src=sdkpreparse">Share</a></div>
-                                </li>
-                                <li class="news-twitter">
-                                    <a href="https://twitter.com/w3layouts" class="twitter-follow-button" data-show-count="false">Follow w3layouts</a>
-                                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-                                </li>
-                                <li>
-                                    <a href="https://twitter.com/intent/tweet?screen_name=w3layouts" class="twitter-mention-button" data-show-count="false">Tweet to w3layouts</a>
-                                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-                                </li>
-                                <li>
-                                    <!-- Place this tag where you want the +1 button to render. -->
-                                    <div class="g-plusone" data-size="medium"></div>
-
-                                    <!-- Place this tag after the last +1 button tag. -->
-                                    <script type="text/javascript">
-                                        (function () {
-                                            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                                            po.src = 'https://apis.google.com/js/platform.js';
-                                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-                                        })();
-                                    </script>
+                                    <button type="button" onclick="GetMessage()"></button>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
+
+                <div style="display:none" id="addressTable">
+                    <div id="movieName">@Model.Name</div>
+                    <div id="movieReleaseDate">@Model.ReleaseDate.ToShortDateString()</div>
+                    <div id="movieDirector">@Model.Director</div>
+                    <div id="movieRating">@Model.AverageRating</div>
+                </div>
+
                 <div class="clearfix"> </div>
 
                 <div class="s01">
@@ -203,8 +179,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="clearfix"> </div>
 
                 <div class="all-comments">
-                    @if ( Context.Session.GetString( "Type" ) != null )
-                        {
+                    @if (Context.Session.GetString("Type") != null)
+                    {
                         <div class="all-comments-info">
                             <a href="#">Comments</a>
                             <div class="agile-info-wthree-box">
@@ -219,13 +195,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 </form>
                             </div>
                         </div>
-                        }
+                    }
 
                     <div class="media-grids">
                         @*All the comments for Movie*@
-                        @{ if ( ViewBag.reviews != null )
-                                foreach ( Review review in ViewBag.reviews )
-                                    {
+                        @{ if (ViewBag.reviews != null)
+                                foreach (Review review in ViewBag.reviews)
+                                {
                                     <div class="media">
                                         <h5>@review.Headline</h5>
                                         <div class="media-left">
@@ -240,7 +216,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             <div>Rating: @review.Rating</div>
                                         </div>
                                     </div>
-                                    } }
+                                } }
                     </div>
                 </div>
             </div>
@@ -256,4 +232,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <script src="~/js/reviewSearch.js"></script>
 <script src="~/js/jquery.dotdotdot.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    let mName = document.getElementById("movieName").textContent;
+    let mRelease = document.getElementById("movieReleaseDate").textContent;
+    let mDirector = document.getElementById("movieDirector").textContent;
+    let mRating = document.getElementById("movieRating").textContent;
 
+    function GetMessage() {
+        $.get("/Movies/Tweet", { movieName: mName, releaseDate: mRelease, movieDirector: mDirector, movieRating: mRating });
+    }
+</script>
