@@ -403,7 +403,7 @@ html, body {
         border: 1px solid #D4D3D3;
         background: none;
         padding: 10px 10px;
-        width: 60%;
+        width: 40%;
         font-size: 13px;
     }
 
@@ -498,14 +498,6 @@ html, body {
         color: #ff8d1b;
         text-decoration: none;
     }
-
-.media:nth-child(3) {
-    padding-left: 4em;
-}
-
-.media:nth-child(5) {
-    padding-left: 4em;
-}
 
 .single-grid-right {
     margin-top: 2em;

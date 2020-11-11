@@ -106,8 +106,7 @@ namespace MovieStore.Controllers
                 return View( "ClientError" );
                 }
 
-            ViewBag.reviews = await _context.Review.Where( r => r.Movie.Id == id ).Include( r => r.Author ).ToListAsync();
-            ViewBag.reviews.Reverse();
+            ViewBag.reviews = await _context.Review.Where( r => r.Movie.Id == id ).Include( r => r.Author ).OrderByDescending(r=>r.Published).ToListAsync();
             // Linq - first filter the rows in MovieGenre and then join to get the Genres
             ViewBag.genres = await _context.MovieGenre.Where( mg => mg.MovieId == id ).Join( _context.Genre , mg => mg.GenreId , g => g.Id , ( mg , g ) => g ).ToListAsync();
             // Linq - first filter the rows in MovieActor and then join to get the Actors
@@ -572,7 +571,7 @@ namespace MovieStore.Controllers
             else // if the user is Guest
                  SetGuestSuggestions( newgenres );
             }
-        public async void SetUserSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for User
+        public void SetUserSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for User
             {
             int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) ); // Get from session the user id that connected
             User tempUser = _context.User.Where( u => u.Id == connecteduserid ).First();
@@ -600,7 +599,7 @@ namespace MovieStore.Controllers
                     _context.Add( userGenre );
                     }
                 }
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             }
         public void SetGuestSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for Guest
             {
