@@ -46,6 +46,13 @@
         font-size: 2rem;
     }
 
+    #half-stars-example .rating__label .editReview{
+        cursor: pointer;
+        /* if you change the left/right padding, update the margin-right property of .rating__label--half as well. */
+        padding: 0 0.1em;
+        font-size: 2rem;
+    }
+
     #half-stars-example .rating__label--half {
         padding-right: 0;
         margin-right: -0.6em;
