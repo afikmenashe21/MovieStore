@@ -211,9 +211,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <a href="#">Comment</a>
                             <div class="agile-info-wthree-box">
                                 <form asp-controller="Reviews" asp-action="Create">
-                                    @*<input type="text" placeholder="Rating" name="Rating">*@
-
-
                                     <div id="half-stars-example">
                                         <div class="rating-group">
                                             <input class="rating__input rating__input--none" checked name="rating" id="rating2-0" value="0" type="radio">
@@ -221,7 +218,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                                             <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
                                             <input class="rating__input" name="rating" id="rating2-05" value="0.5" type="radio">
-
 
                                             <label aria-label="1 star" class="rating__label" for="rating2-10"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
                                             <input class="rating__input" name="rating" id="rating2-10" value="1" type="radio">
@@ -282,7 +278,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         </div>
                                     </div>
                                     <input type="text" placeholder="Headline" name="Headline">
-                                    <input type="text" placeholder="Content" name="Content">
+                                    <input id="review-content" type="text" placeholder="Content" name="Content">
                                     <input name="movieid" value="@Model.Id" type="hidden" />
                                     <input name="userid" value="@Context.Session.GetString( "UserId" )" type="hidden" />
                                     <input type="submit" value="SEND">
@@ -293,7 +289,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         }
 
                     <div class="media-grids">
-                        @*All the comments for Movie*@
                         @{ if ( ViewBag.reviews != null )
                                 foreach ( Review review in ViewBag.reviews )
                                     {
@@ -305,12 +300,42 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             </a>
                                         </div>
                                         <div class="media-body">
-                                            <p>@review.Content</p>
-                                            <div>Rating: @review.Rating</div>
-                                            <div>Published: @review.Published.ToShortDateString()</div>
-                                            <div>Written by: @review.Author.UserName</div>
+                                            <span>Published: @review.Published.ToShortDateString()</span>
 
+                                            <p>@review.Content</p>
                                         </div>
+                                        <div class="additional-media">
+                                            Rating:
+                                            @{
+
+                                                int intRating = (int) Math.Floor( Model.AverageRating ); // 7.5 -> 7
+                                                for ( int i = 0 ; i < intRating ; i++ ) // 7
+                                                    {
+                                                    <span href="#"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                    }
+                                                if ( review.Rating - intRating > 0 ) // 7.5 - 7 = 0.5
+                                                    {
+                                                    <span href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                                                    }
+                                                else
+                                                    {
+                                                    <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                                    }
+                                                for ( int i = 1 ; i < 10 - intRating ; i++ ) //10-7 = 3
+                                                    {
+                                                    <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                                    }
+                                            }
+                                        </div>
+                                        <span class="additional-media">Written by: <span style="color: #ff8d1b;"> @review.Author.UserName</span> </span>
+                                        @{
+                                            if ( Context.Session.GetString( "UserId" ) != null )
+                                                if ( int.Parse( Context.Session.GetString( "UserId" ) ) == review.Author.Id || Context.Session.GetString( "Type" ) == "Admin" ) // If the loggied user created this comment or admin
+                                                    {
+                                                    <a class="additional-media" asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id">Edit</a>
+                                                    <a class="additional-media" asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id">Delete</a>
+                                                    }
+                                        }
                                     </div>
                                     } }
                     </div>
