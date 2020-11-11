@@ -14,6 +14,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!-- single -->
 <link rel="stylesheet" href="~/css/reviewSearch.css">
 <link rel="stylesheet" href="~/css/MovieDetails/detailsStyle.css">
+<link rel="stylesheet" href="~/css/Rating.css">
+<script src="~/js/Rating.js"></script>
 
 <div class="single-page-agile-main">
     <div class="container">
@@ -182,12 +184,77 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     @if (Context.Session.GetString("Type") != null)
                     {
                         <div class="all-comments-info">
-                            <a href="#">Comments</a>
+                            <a href="#">Comment</a>
                             <div class="agile-info-wthree-box">
                                 <form asp-controller="Reviews" asp-action="Create">
+                                    <div id="half-stars-example">
+                                        <div class="rating-group">
+                                            <input class="rating__input rating__input--none" checked name="rating" id="rating2-0" value="0" type="radio">
+                                            <label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
+
+                                            <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-05" value="0.5" type="radio">
+
+                                            <label aria-label="1 star" class="rating__label" for="rating2-10"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-10" value="1" type="radio">
+
+                                            <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-15" value="1.5" type="radio">
+
+                                            <label aria-label="2 stars" class="rating__label" for="rating2-20"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-20" value="" type="radio">
+
+                                            <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-25" value="2.5" type="radio" checked>
+
+                                            <label aria-label="3 stars" class="rating__label" for="rating2-30"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-30" value="3" type="radio">
+
+                                            <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-35" value="3.5" type="radio">
+
+                                            <label aria-label="4 stars" class="rating__label" for="rating2-40"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-40" value="4" type="radio">
+
+                                            <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-45" value="4.5" type="radio">
+
+                                            <label aria-label="5 stars" class="rating__label" for="rating2-50"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-50" value="5" type="radio">
+
+                                            <label aria-label="5.5 stars" class="rating__label rating__label--half" for="rating2-55"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-55" value="5.5" type="radio">
+
+                                            <label aria-label="6 stars" class="rating__label" for="rating2-60"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-60" value="6" type="radio">
+
+                                            <label aria-label="6.5 stars" class="rating__label rating__label--half" for="rating2-65"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-65" value="6.5" type="radio">
+
+                                            <label aria-label="7 stars" class="rating__label" for="rating2-70"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-70" value="7" type="radio">
+
+                                            <label aria-label="7.5 stars" class="rating__label rating__label--half" for="rating2-75"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-75" value="7.5" type="radio">
+
+                                            <label aria-label="8 stars" class="rating__label" for="rating2-80"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-80" value="8" type="radio">
+
+                                            <label aria-label="8.5 stars" class="rating__label rating__label--half" for="rating2-85"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-85" value="8.5" type="radio">
+
+                                            <label aria-label="9 stars" class="rating__label" for="rating2-90"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-90" value="9" type="radio">
+
+                                            <label aria-label="9.5 stars" class="rating__label rating__label--half" for="rating2-95"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-95" value="9.5" type="radio">
+
+                                            <label aria-label="10 stars" class="rating__label" for="rating2-100"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating" id="rating2-100" value="10" type="radio">
+                                        </div>
+                                    </div>
                                     <input type="text" placeholder="Headline" name="Headline">
-                                    <input type="text" placeholder="Content" name="Content">
-                                    <input type="text" placeholder="Rating" name="Rating">
+                                    <input id="review-content" type="text" placeholder="Content" name="Content">
                                     <input name="movieid" value="@Model.Id" type="hidden" />
                                     <input name="userid" value="@Context.Session.GetString( "UserId" )" type="hidden" />
                                     <input type="submit" value="SEND">
@@ -198,10 +265,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     }
 
                     <div class="media-grids">
-                        @*All the comments for Movie*@
-                        @{ if (ViewBag.reviews != null)
-                                foreach (Review review in ViewBag.reviews)
-                                {
+                        @{ if ( ViewBag.reviews != null )
+                                foreach ( Review review in ViewBag.reviews )
+                                    {
                                     <div class="media">
                                         <h5>@review.Headline</h5>
                                         <div class="media-left">
@@ -210,19 +276,47 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             </a>
                                         </div>
                                         <div class="media-body">
+                                            <span>Published: @review.Published.ToShortDateString()</span>
+
                                             <p>@review.Content</p>
-                                            <div>Written by: @review.Author.UserName</div>
-                                            <div>Published: @review.Published.ToShortDateString()</div>
-                                            <div>Rating: @review.Rating</div>
                                         </div>
+                                        <div class="additional-media">
+                                            Rating:
+                                            @{
+
+                                                int intRating = (int) Math.Floor( Model.AverageRating ); // 7.5 -> 7
+                                                for ( int i = 0 ; i < intRating ; i++ ) // 7
+                                                    {
+                                                    <span href="#"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                    }
+                                                if ( review.Rating - intRating > 0 ) // 7.5 - 7 = 0.5
+                                                    {
+                                                    <span href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                                                    }
+                                                else
+                                                    {
+                                                    <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                                    }
+                                                for ( int i = 1 ; i < 10 - intRating ; i++ ) //10-7 = 3
+                                                    {
+                                                    <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                                    }
+                                            }
+                                        </div>
+                                        <span class="additional-media">Written by: <span style="color: #ff8d1b;"> @review.Author.UserName</span> </span>
+                                        @{
+                                            if ( Context.Session.GetString( "UserId" ) != null )
+                                                if ( int.Parse( Context.Session.GetString( "UserId" ) ) == review.Author.Id || Context.Session.GetString( "Type" ) == "Admin" ) // If the loggied user created this comment or admin
+                                                    {
+                                                    <a class="additional-media" asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id">Edit</a>
+                                                    <a class="additional-media" asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id">Delete</a>
+                                                    }
+                                        }
                                     </div>
                                 } }
                     </div>
                 </div>
             </div>
-
-
-
             <div class="clearfix"> </div>
         </div>
 
@@ -242,4 +336,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     function GetMessage() {
         $.get("/Movies/Tweet", { movieName: mName, releaseDate: mRelease, movieDirector: mDirector, movieRating: mRating });
     }
+</script>
+<script>
+    $(function () {
+        $("#slider-rating").slider({
+            range: "min",
+            value: 37,
+            min: 1,
+            max: 700,
+            slide: function (event, ui) {
+                $("#amount").val("$" + ui.value);
+            }
+        });
+        $("#amount").val("$" + $("#slider-rating").slider("value"));
+    });
 </script>

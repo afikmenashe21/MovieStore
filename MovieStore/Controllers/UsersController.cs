@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,13 +28,19 @@ namespace MovieStore.Controllers
         [HttpPost]
         public IActionResult Login ( string username , string password )
             {
-            var user = _context.User.FirstOrDefault( u => u.UserName == username && u.Password == password );
+            var user = _context.User.FirstOrDefault( u => u.UserName == username );
             if ( user != null )
                 {
-                SignIn( user );
-                return RedirectToAction( "Homepage" , "Movies" );
+                if ( user.Password == password )
+                    {
+                    SignIn( user );
+                    return RedirectToAction( "Homepage" , "Movies" );
+                    }
+                ViewBag.error = 400; // Bad password was enterd
+                return View( "ClientError" );
                 }
-            return View();
+            ViewBag.error = 404; // Didn't found the user
+            return View( "ClientError" );
             }
 
         private void SignIn ( User user )
@@ -55,12 +62,16 @@ namespace MovieStore.Controllers
                 account.Type = UserType.Customer;
             else
                 account.Type = UserType.Admin;
-
-            _context.Add( account );
-            await _context.SaveChangesAsync();
-
-            SignIn( account );
-            return RedirectToAction( "Index" , "Movies" );
+            var user = _context.User.FirstOrDefault( u => u.UserName == username );
+            if ( user == null ) // If username doesn't exist
+                {
+                _context.Add( account );
+                await _context.SaveChangesAsync();
+                SignIn( account );
+                return RedirectToAction( "HomePage" , "Movies" );
+                }
+            ViewBag.error = 400; // Username exist
+            return View( "ClientError" );
             }
 
         public IActionResult Logout ( )
@@ -73,54 +84,69 @@ namespace MovieStore.Controllers
 
         public async Task<IActionResult> Dashboard ( )
             {
-            dynamic Multiple = new ExpandoObject();
-            Multiple.actors = await _context.Actor.Include( a => a.MovieActor ).ToListAsync();
-            Multiple.movies = await _context.Movie.ToListAsync();
-            Multiple.users = await _context.User.ToListAsync();
-            Multiple.genres = await _context.Genre.Include( g => g.MovieGenre ).ToListAsync();
-            return View( Multiple );
+            if ( HttpContext.Session.GetString( "Type" ) == "Admin" )
+                {
+                //Function to verify the user before get in the view)
+                dynamic Multiple = new ExpandoObject();
+                Multiple.actors = await _context.Actor.Include( a => a.MovieActor ).ToListAsync();
+                Multiple.movies = await _context.Movie.ToListAsync();
+                Multiple.users = await _context.User.ToListAsync();
+                Multiple.genres = await _context.Genre.Include( g => g.MovieGenre ).ToListAsync();
+                return View( Multiple );
+                }
+            else
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             }
 
         // GET: Users
-        public async Task<IActionResult> Index ( )
+        public IActionResult Index ( )
             {
             string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
-            if ( user == "Guest" )
-                return RedirectToAction( "Login" , "Users" );
+            if ( user == "Guest" ) // User doesnt allowed
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             else
-                return View( await _context.User.ToListAsync() );
+                return RedirectToAction( "Dashboard" , "Users" );
             }
 
         // GET: Users/Details/5
         public async Task<IActionResult> Details ( int? id )
             {
-            if ( id == null )
+            if ( id == null ) //If id didn't pass
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var user = await _context.User
                 .FirstOrDefaultAsync( m => m.Id == id );
-            if ( user == null )
+            if ( user == null ) // If user wasn't found
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
 
             return View( user );
             }
-
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit ( int? id )
             {
-            if ( id == null )
+            if ( id == null )//If id didn't pass
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var user = await _context.User.FindAsync( id );
-            if ( user == null )
+            if ( user == null )// If user wasn't found
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
             return View( user );
             }
@@ -132,9 +158,10 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit ( int id , [Bind( "Id,UserName,Password,Email,FirstName,LastName,Address" )] User user )
             {
-            if ( id != user.Id )
+            if ( id != user.Id ) //If the id doesn't match the user
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             if ( ModelState.IsValid )
@@ -148,14 +175,15 @@ namespace MovieStore.Controllers
                     {
                     if ( !UserExists( user.Id ) )
                         {
-                        return NotFound();
+                        ViewBag.error = 404;
+                        return View( "ClientError" );
                         }
                     else
                         {
                         throw;
                         }
                     }
-                return RedirectToAction( nameof( Index ) );
+                return RedirectToAction( "Dashboard" , "Users" );
                 }
             return View( user );
             }
@@ -165,14 +193,16 @@ namespace MovieStore.Controllers
             {
             if ( id == null )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var user = await _context.User
                 .FirstOrDefaultAsync( m => m.Id == id );
             if ( user == null )
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
 
             return View( user );
@@ -186,7 +216,7 @@ namespace MovieStore.Controllers
             var user = await _context.User.FindAsync( id );
             _context.User.Remove( user );
             await _context.SaveChangesAsync();
-            return RedirectToAction( nameof( Index ) );
+            return RedirectToAction( nameof( Dashboard ) );
             }
 
         private bool UserExists ( int id )

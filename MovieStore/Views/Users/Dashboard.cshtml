@@ -4,10 +4,20 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
+<meta charset="utf-8">
+
 <link rel="stylesheet" href="~/css/Dashboard/accordion.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="~/css/Dashboard/tabs.css">
 <link rel="stylesheet" href="~/css/Dashboard/tabsSearch.css">
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<style>
+    .node:hover {
+        stroke-width: 7px !important;
+        opacity: 1 !important;
+    }
+</style>
 <link rel="stylesheet" href="~/css/Dashboard/map.css">
 <div class="w3-container">
     <h2>Dashboard</h2>
@@ -85,7 +95,6 @@
             <button class="accordion myBTN-movies">@movie.Name</button>
             <div class="panel">
                 <p>
-
                     <ul class="list-group">
                         <li class="list-group-item accordion-list-group-item">Name: @movie.Name</li>
                         <li class="list-group-item accordion-list-group-item">ReleaseDate: @movie.ReleaseDate </li>
@@ -104,7 +113,8 @@
 
                 </p>
             </div>
-        }
+            }
+
     </div>
 
     <div id="Actors" class="w3-container city" style="display:none">
@@ -151,7 +161,14 @@
                     </ul>
                 </p>
             </div>
-        }
+            }
+        <div id="graphs">
+            <!-- Create a div where the graph will take place -->
+            <div id="my_dataviz_genre"></div>
+
+            <!-- Create a div where the graph will take place -->
+            <div id="my_dataviz_userGenre"></div>
+        </div>
     </div>
 </div>
 <script>
@@ -172,6 +189,7 @@
 
 <script src="~/js/Dashboard/accordion.js"></script>
 <script src="~/js/Dashboard/tabSearch.js"></script>
+<script src="~/js/Graphs/Genre.js"></script>
+<script src="~/js/Graphs/UserGenres.js"></script>
 <script src="../" type="text/javascript"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-
