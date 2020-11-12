@@ -136,16 +136,26 @@ namespace MovieStore.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit ( int? id )
             {
-            if ( id == null )//If id didn't pass
+            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
+            if ( id == null )
                 {
                 ViewBag.error = 400;
                 return View( "ClientError" );
                 }
-
             var user = await _context.User.FindAsync( id );
-            if ( user == null )// If user wasn't found
+            if ( user == null )
                 {
                 ViewBag.error = 404;
+                return View( "ClientError" );
+                }
+            if ( user.Id != userid && HttpContext.Session.GetString( "Type" ) == "Customer" ) // If the user is not the author 
+                {
+                ViewBag.error = 401;
                 return View( "ClientError" );
                 }
             return View( user );
@@ -158,6 +168,12 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit ( int id , [Bind( "Id,UserName,Password,Email,FirstName,LastName,Address" )] User user )
             {
+            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
             if ( id != user.Id ) //If the id doesn't match the user
                 {
                 ViewBag.error = 400;
@@ -168,6 +184,11 @@ namespace MovieStore.Controllers
                 {
                 try
                     {
+                    if ( user.Id != userid && HttpContext.Session.GetString( "Type" ) == "Customer" ) // If the user is not the author 
+                        {
+                        ViewBag.error = 401;
+                        return View( "ClientError" );
+                        }
                     _context.Update( user );
                     await _context.SaveChangesAsync();
                     }
@@ -183,7 +204,7 @@ namespace MovieStore.Controllers
                         throw;
                         }
                     }
-                return RedirectToAction( "Dashboard" , "Users" );
+                return RedirectToAction( "HomePage" , "Movies" );
                 }
             return View( user );
             }
@@ -191,20 +212,28 @@ namespace MovieStore.Controllers
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete ( int? id )
             {
+            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
             if ( id == null )
                 {
                 ViewBag.error = 400;
                 return View( "ClientError" );
                 }
-
-            var user = await _context.User
-                .FirstOrDefaultAsync( m => m.Id == id );
+            var user = await _context.User.FindAsync( id );
             if ( user == null )
                 {
                 ViewBag.error = 404;
                 return View( "ClientError" );
                 }
-
+            if ( user.Id != userid && HttpContext.Session.GetString( "Type" ) == "Customer" ) // If the user is not the author 
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             return View( user );
             }
 

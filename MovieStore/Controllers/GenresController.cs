@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,153 +10,201 @@ using MovieStore.Data;
 using MovieStore.Models;
 
 namespace MovieStore.Controllers
-{
-    public class GenresController : Controller
     {
+    public class GenresController : Controller
+        {
         private readonly MovieStoreContext _context;
 
-        public GenresController(MovieStoreContext context)
-        {
+        public GenresController ( MovieStoreContext context )
+            {
             _context = context;
-        }
+            }
 
         // GET: Genres
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Genre.ToListAsync());
-        }
+        public async Task<IActionResult> Index ( )
+            {
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            return View( await _context.Genre.ToListAsync() );
+            }
 
         // GET: Genres/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+        public async Task<IActionResult> Details ( int? id )
             {
-                return NotFound();
-            }
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            if ( id == null )
+                {
+                ViewBag.error = 404;
+                return View( "ClientError" );
+                }
 
             var genre = await _context.Genre
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (genre == null)
-            {
-                return NotFound();
+                .FirstOrDefaultAsync( m => m.Id == id );
+            if ( genre == null )
+                {
+                ViewBag.error = 404;
+                return View( "ClientError" );
+                }
+
+            return View( genre );
             }
 
-            return View(genre);
-        }
-
         // GET: Genres/Create
-        public IActionResult Create()
-        {
+        public IActionResult Create ( )
+            {
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             return View();
-        }
+            }
 
         // POST: Genres/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,MovieId")] Genre genre)
-        {
-            if (ModelState.IsValid)
+        public async Task<IActionResult> Create ( [Bind( "Id,Type,MovieId" )] Genre genre )
             {
-                _context.Add(genre);
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            if ( ModelState.IsValid )
+                {
+                _context.Add( genre );
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction( nameof( Index ) );
+                }
+            return View( genre );
             }
-            return View(genre);
-        }
 
         // GET: Genres/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
+        public async Task<IActionResult> Edit ( int? id )
             {
-                return NotFound();
-            }
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            if ( id == null )
+                {
+                ViewBag.error = 400;
+                return View( "ClientError" );
+                }
 
-            var genre = await _context.Genre.FindAsync(id);
-            if (genre == null)
-            {
-                return NotFound();
+            var genre = await _context.Genre.FindAsync( id );
+            if ( genre == null )
+                {
+                ViewBag.error = 404;
+                return View( "ClientError" );
+                }
+            return View( genre );
             }
-            return View(genre);
-        }
 
         // POST: Genres/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,MovieId")] Genre genre)
-        {
-            if (id != genre.Id)
+        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Type,MovieId" )] Genre genre )
             {
-                return NotFound();
-            }
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            if ( id != genre.Id )
+                {
+                ViewBag.error = 400;
+                return View( "ClientError" );
+                }
 
-            if (ModelState.IsValid)
-            {
+            if ( ModelState.IsValid )
+                {
                 try
-                {
-                    _context.Update(genre);
+                    {
+                    _context.Update( genre );
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GenreExists(genre.Id))
-                    {
-                        return NotFound();
                     }
+                catch ( DbUpdateConcurrencyException )
+                    {
+                    if ( !GenreExists( genre.Id ) )
+                        {
+                        ViewBag.error = 404;
+                        return View( "ClientError" );
+                        }
                     else
-                    {
+                        {
                         throw;
+                        }
                     }
-                }
                 return RedirectToAction( "Dashboard" , "Users" );
                 }
-            return View(genre);
-        }
+            return View( genre );
+            }
 
         // GET: Genres/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+        public async Task<IActionResult> Delete ( int? id )
             {
-                return NotFound();
-            }
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            if ( id == null )
+                {
+                ViewBag.error = 400;
+                return View( "ClientError" );
+                }
 
             var genre = await _context.Genre
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (genre == null)
-            {
-                return NotFound();
+                .FirstOrDefaultAsync( m => m.Id == id );
+            if ( genre == null )
+                {
+                ViewBag.error = 404;
+                return View( "ClientError" );
+                }
+
+            return View( genre );
             }
 
-            return View(genre);
-        }
-
         // POST: Genres/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName( "Delete" )]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var genre = await _context.Genre.FindAsync(id);
-            _context.Genre.Remove(genre);
+        public async Task<IActionResult> DeleteConfirmed ( int id )
+            {
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            var genre = await _context.Genre.FindAsync( id );
+            _context.Genre.Remove( genre );
             await _context.SaveChangesAsync();
             return RedirectToAction( "Dashboard" , "Users" );
             }
 
-        private bool GenreExists(int id)
-        {
-            return _context.Genre.Any(e => e.Id == id);
-        }
-
-        public Dictionary<string,int> Graph ( ) // return dic -> key:genre name , value: counter
+        private bool GenreExists ( int id )
             {
-            var queryList =  _context.MovieGenre.Include( mg => mg.Genre ).ToList();
+            return _context.Genre.Any( e => e.Id == id );
+            }
+
+        public Dictionary<string , int> Graph ( ) // return dic -> key:genre name , value: counter
+            {
+            var queryList = _context.MovieGenre.Include( mg => mg.Genre ).ToList();
             var queryMap = queryList.GroupBy( q => q.Genre.Type ).ToDictionary( k => k.Key , v => v.Count() );
             return queryMap;
             }
 
         }
-}
+    }

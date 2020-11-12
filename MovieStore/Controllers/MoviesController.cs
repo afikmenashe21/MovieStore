@@ -112,6 +112,11 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create ( [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie )
             {
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" ) // User not logged or it's not Admin 
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             if ( ModelState.IsValid )
                 {
                 _context.Add( movie );
@@ -124,6 +129,11 @@ namespace MovieStore.Controllers
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit ( int? id )
             {
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             if ( id == null )
                 {
                 ViewBag.error = 400;
@@ -139,6 +149,7 @@ namespace MovieStore.Controllers
             return View( movie );
             }
 
+
         // POST: Movies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -146,6 +157,11 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit ( int id , [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie )
             {
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             if ( id != movie.Id )
                 {
                 ViewBag.error = 400;
@@ -179,6 +195,11 @@ namespace MovieStore.Controllers
         // GET: Movies/Delete/5
         public async Task<IActionResult> Delete ( int? id )
             {
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             if ( id == null )
                 {
                 ViewBag.error = 400;
@@ -192,7 +213,6 @@ namespace MovieStore.Controllers
                 ViewBag.error = 404;
                 return View( "ClientError" );
                 }
-
             return View( movie );
             }
 

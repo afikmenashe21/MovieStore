@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -31,14 +32,16 @@ namespace MovieStore.Controllers
             {
             if ( id == null )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             var review = await _context.Review
                 .FirstOrDefaultAsync( m => m.Id == id );
             if ( review == null )
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
 
             return View( review );
@@ -55,14 +58,13 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ( [Bind( "Id,Headline,Content,Rating,Published" )] Review review , int movieid , int userid , string rating )
+        public async Task<IActionResult> Create ( [Bind( "Id,Headline,Content,Rating,Published" )] Review review , int movieid , int userid )
             {
             if ( ModelState.IsValid )
                 {
                 review.Published = DateTime.Now;
                 review.Movie = _context.Movie.First( m => m.Id == movieid );
                 review.Author = _context.User.First( u => u.Id == userid );
-                review.Rating = double.Parse( rating );
                 _context.Add( review );
                 await _context.SaveChangesAsync();
                 return RedirectToAction( "Details" , "Movies" , new { id = movieid } );
@@ -73,17 +75,30 @@ namespace MovieStore.Controllers
         // GET: Reviews/Edit/5
         public async Task<IActionResult> Edit ( int? id )
             {
+            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
             if ( id == null )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
-
-            var review = await _context.Review.FindAsync( id );
+            var review = await _context.Review.Include( r => r.Author ).Where( r => r.Id == id ).FirstOrDefaultAsync();
             if ( review == null )
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
+                }
+            if ( review.Author.Id != userid && HttpContext.Session.GetString( "Type" ) == "Customer" ) // If the user is not the author 
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
                 }
             return View( review );
+
             }
 
         // POST: Reviews/Edit/5
@@ -93,15 +108,28 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit ( int id , [Bind( "Id,Headline,Content,Rating,Published" )] Review review )
             {
+            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
             if ( id != review.Id )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
 
             if ( ModelState.IsValid )
                 {
                 try
                     {
+                    var reviewContext = await _context.Review.Include( r => r.Author ).Where( r => r.Id == id ).FirstOrDefaultAsync();
+                    if ( reviewContext.Author.Id != userid && HttpContext.Session.GetString( "Type" ) == "Customer" ) // If the user is not the author 
+                        {
+                        ViewBag.error = 401;
+                        return View( "ClientError" );
+                        }
                     _context.Update( review );
                     await _context.SaveChangesAsync();
                     }
@@ -109,14 +137,15 @@ namespace MovieStore.Controllers
                     {
                     if ( !ReviewExists( review.Id ) )
                         {
-                        return NotFound();
+                        ViewBag.error = 404;
+                        return View( "ClientError" );
                         }
                     else
                         {
                         throw;
                         }
                     }
-                return RedirectToAction( nameof( Index ) );
+                return RedirectToAction( "HomePage" , "Movies" );
                 }
             return View( review );
             }
@@ -124,18 +153,28 @@ namespace MovieStore.Controllers
         // GET: Reviews/Delete/5
         public async Task<IActionResult> Delete ( int? id )
             {
+            if ( HttpContext.Session.GetString( "userid" ) != null ) // if user is logged
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
+            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
             if ( id == null )
                 {
-                return NotFound();
+                ViewBag.error = 400;
+                return View( "ClientError" );
                 }
-
-            var review = await _context.Review
-                .FirstOrDefaultAsync( m => m.Id == id );
+            var review = await _context.Review.Include( r => r.Author ).Where( r => r.Id == id ).FirstOrDefaultAsync();
             if ( review == null )
                 {
-                return NotFound();
+                ViewBag.error = 404;
+                return View( "ClientError" );
                 }
-
+            if ( review.Author.Id != userid && HttpContext.Session.GetString( "Type" ) == "Customer" ) // If the user is not the author 
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             return View( review );
             }
 
