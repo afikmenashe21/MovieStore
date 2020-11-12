@@ -131,18 +131,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                 </div>
                 <div class="song-grid-right">
-                    <div class="share">
-                        <div class="single-agile-shar-buttons">
-                            <ul>
-                                <li>
-                                    <button type="button" onclick="GetMessage()"
-                                            style="border-radius: 3px; border: 1px solid white;display: inline-block; cursor: pointer; background: #55ACEE; color: white;height: 34px;width: 110px; ">
-                                        <img src="~/images/twitterlogo.jpeg" style="height:auto;width:19px;" />  Add Tweet
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="single-agile-shar-buttons">
+                        <ul>
+                            <li>
+                                <button type="button" onclick="GetMessage()"
+                                        style="border-radius: 3px; border: 1px solid white;display: inline-block; cursor: pointer; background: #55ACEE; color: white;height: 34px;width: 110px; ">
+                                    <img src="~/images/twitterlogo.jpeg" style="height:auto;width:19px;" />  Add Tweet
+                                </button>
+                            </li>
+                        </ul>
                     </div>
+                </div>
+
+                <div id="alert" style="padding: 20px; background-color: deepskyblue; color: white; margin-bottom: 15px;margin-top: 10px;display:none">
+                    <span style=" margin-left: 15px; color: white; font-weight: bold; float: right; font-size: 22px; line-height: 20px; cursor: pointer; transition: 0.3s;" onclick="this.parentElement.style.display='none';">&times;</span>
+                    Thanks, You just made a Tweet.
                 </div>
 
                 <div style="display:none" id="addressTable">
@@ -331,16 +334,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="~/js/reviewSearch.js"></script>
 <script src="~/js/jquery.dotdotdot.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script>
-    let mName = document.getElementById("movieName").textContent;
-    let mRelease = document.getElementById("movieReleaseDate").textContent;
-    let mDirector = document.getElementById("movieDirector").textContent;
-    let mRating = document.getElementById("movieRating").textContent;
-
-    function GetMessage() {
-        $.get("/Movies/Tweet", { movieName: mName, releaseDate: mRelease, movieDirector: mDirector, movieRating: mRating });
-    }
-</script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(function () {
         $("#slider-rating").slider({
@@ -354,4 +349,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         });
         $("#amount").val("$" + $("#slider-rating").slider("value"));
     });
+</script>
+<script>
+    let mName = document.getElementById("movieName").textContent;
+    let mRelease = document.getElementById("movieReleaseDate").textContent;
+    let mDirector = document.getElementById("movieDirector").textContent;
+    let mRating = document.getElementById("movieRating").textContent;
+
+    function GetMessage() {
+        $.get("/Movies/Tweet", { movieName: mName, releaseDate: mRelease, movieDirector: mDirector, movieRating: mRating }, function () {
+            $("#alert").css("display", "block");
+        });
+    }
 </script>
