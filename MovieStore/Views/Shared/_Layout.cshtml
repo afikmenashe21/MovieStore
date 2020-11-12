@@ -117,7 +117,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             }
                         else
                             {
-                            <li><span>Hey, <a asp-controller="Users" asp-action="Edit"  asp-route-id="@int.Parse(Context.Session.GetString("UserId"))">@Context.Session.GetString( "UserName" )</a></span></li>
+                            <li><span>Hey, <a id="login-username" asp-controller="Users" asp-action="Edit"  asp-route-id="@int.Parse(Context.Session.GetString("UserId"))">@Context.Session.GetString( "UserName" )</a></span></li>
                             <li><a asp-controller="Users" asp-action="Logout">Logout</a></li>
                             } }
                 </ul>
