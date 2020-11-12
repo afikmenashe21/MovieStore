@@ -83,6 +83,11 @@ namespace MovieStore.Controllers
                 {
                 return NotFound();
                 }
+            int intReviewRating = (int) Math.Floor( review.Rating ); // 7.3 -> 7
+            if ( review.Rating - intReviewRating != 0 && review.Rating - intReviewRating != 0.5 ) // if the rating isn't Integer or double eequal to 0.5
+                {
+                review.Rating = intReviewRating + 0.5;
+                }
             return View( review );
             }
 
