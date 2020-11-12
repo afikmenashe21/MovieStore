@@ -465,9 +465,10 @@ html, body {
     color: #C7C7C7;
     font-size: 13px;
 }
-    a.additional-media {
-        color: #ff8d1b;
-    }
+a.additional-media {
+    color: #ff8d1b;
+    font-weight: bold;
+}
     .media {
         margin: 4em 0;
     }
