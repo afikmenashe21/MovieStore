@@ -10,12 +10,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\multiselect.js" />
     <Content Remove="wwwroot\js\searchbox\search.js" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\js\Dashboard\accordion.js" />
     <None Include="wwwroot\js\searchbox\search.js" />
+    <None Include="wwwroot\js\multiselect.js" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 
