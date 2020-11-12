@@ -116,7 +116,16 @@ input[type="submit"], .agileinfo_chat a, .w3ls_footer_grid1_left p a, .w3l_sign_
     margin-top: 1.5em;
     width: 25%;
 }
-
+#login-username {
+    padding: 0;
+    background: none;
+    font-weight: 500;
+    color: #212121;
+    font-size: 1em;
+}
+    #login-username:hover {
+        color: #FF8D1B;
+    }
     .w3l_sign_in_register ul li a {
         color: #fff;
         display: inline-block;
