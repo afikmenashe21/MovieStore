@@ -144,8 +144,13 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie )
+        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie , string genres )
             {
+            if ( genres == null )
+                {
+                ViewBag.error = 400;
+                return View( "ClientError" );
+                }
             if ( id != movie.Id )
                 {
                 ViewBag.error = 400;
@@ -158,6 +163,8 @@ namespace MovieStore.Controllers
                     {
                     _context.Update( movie );
                     await _context.SaveChangesAsync();
+                    SetNewGenres( genres , movie.Id ); // Add or remove the selected Genres
+
                     }
                 catch ( DbUpdateConcurrencyException )
                     {
@@ -666,6 +673,78 @@ namespace MovieStore.Controllers
             var movies = moviesWeight.OrderByDescending( m => m.Value ).Take( 10 ).Join( _context.Movie , mw => mw.Key , m => m.Id , ( mw , m ) => m ).ToList(); // Join with Genre database to get the genre id
             return View( "Index" , movies );
             }
+        public void SetNewGenres ( string genres , int movieId ) // Store the Movie Genres suggestions for Guest
+            {
+            var oldGenres = _context.MovieGenre.Include( mg => mg.Genre ).Where( mg => mg.MovieId == movieId ).ToList(); // Get the genres related to user
+            var movie = _context.Movie.Include( m => m.MovieGenre ).Where( m => m.Id == movieId ).FirstOrDefault();
+            var newGenres = genres.Split( "," ); // Split the selected genres to array
+            foreach ( string genre in newGenres ) // Check if there is any new genrs to add the movie
+                {
+                if ( !oldGenres.Any( mg => mg.Genre.Type == genre ) ) // Check if the selected genres already connected to the movie
+                    {
+                    var newgenre = _context.Genre.Include( g => g.MovieGenre ).Where( g => g.Type == genre ).FirstOrDefault(); // Find the missing genre and add to a list
+                    MovieGenre movieGenre = new MovieGenre();
+                    movieGenre.GenreId = newgenre.Id;
+                    movieGenre.Genre = newgenre;
+                    movieGenre.MovieId = movie.Id;
+                    movieGenre.Movie = movie;
+                    if ( newgenre.MovieGenre == null )
+                        newgenre.MovieGenre = new List<MovieGenre>();
+                    newgenre.MovieGenre.Add( movieGenre );
+                    if ( movie.MovieGenre == null )
+                        movie.MovieGenre = new List<MovieGenre>();
+                    movie.MovieGenre.Add( movieGenre );
+                    _context.Add( movieGenre );
+                    }
+                }
+            foreach ( MovieGenre genre in oldGenres ) // Check if there is any old genres to remove from the movie genres
+                {
+                if ( !newGenres.Any( mg => mg == genre.Genre.Type ) )
+                    {
+                    var newgenre = _context.Genre.Include( g => g.MovieGenre ).Where( g => g.Type == genre.Genre.Type ).FirstOrDefault(); // Find the missing genre and add to a list
+                    newgenre.MovieGenre.Remove( genre );
+                    movie.MovieGenre.Remove( genre );
+                    _context.MovieGenre.Remove( genre );
+                    }
+                }
+            _context.SaveChanges();
+            }
 
+        public void SetNewActors ( string genres , int movieId ) // Store the Movie Genres suggestions for Guest
+            {
+            var oldGenres = _context.MovieGenre.Include( mg => mg.Genre ).Where( mg => mg.MovieId == movieId ).ToList(); // Get the genres related to user
+            var movie = _context.Movie.Include( m => m.MovieGenre ).Where( m => m.Id == movieId ).FirstOrDefault();
+            var newGenres = genres.Split( "," ); // Split the selected genres to array
+            foreach ( string genre in newGenres ) // Check if there is any new genrs to add the movie
+                {
+                if ( !oldGenres.Any( mg => mg.Genre.Type == genre ) ) // Check if the selected genres already connected to the movie
+                    {
+                    var newgenre = _context.Genre.Include( g => g.MovieGenre ).Where( g => g.Type == genre ).FirstOrDefault(); // Find the missing genre and add to a list
+                    MovieGenre movieGenre = new MovieGenre();
+                    movieGenre.GenreId = newgenre.Id;
+                    movieGenre.Genre = newgenre;
+                    movieGenre.MovieId = movie.Id;
+                    movieGenre.Movie = movie;
+                    if ( newgenre.MovieGenre == null )
+                        newgenre.MovieGenre = new List<MovieGenre>();
+                    newgenre.MovieGenre.Add( movieGenre );
+                    if ( movie.MovieGenre == null )
+                        movie.MovieGenre = new List<MovieGenre>();
+                    movie.MovieGenre.Add( movieGenre );
+                    _context.Add( movieGenre );
+                    }
+                }
+            foreach ( MovieGenre genre in oldGenres ) // Check if there is any old genres to remove from the movie genres
+                {
+                if ( !newGenres.Any( mg => mg == genre.Genre.Type ) )
+                    {
+                    var newgenre = _context.Genre.Include( g => g.MovieGenre ).Where( g => g.Type == genre.Genre.Type ).FirstOrDefault(); // Find the missing genre and add to a list
+                    newgenre.MovieGenre.Remove( genre );
+                    movie.MovieGenre.Remove( genre );
+                    _context.MovieGenre.Remove( genre );
+                    }
+                }
+            _context.SaveChanges();
+            }
         }
     }

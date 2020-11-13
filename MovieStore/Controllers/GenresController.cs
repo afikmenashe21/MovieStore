@@ -150,9 +150,9 @@ namespace MovieStore.Controllers
             return _context.Genre.Any(e => e.Id == id);
         }
 
-        public Dictionary<string,int> Graph ( ) // return dic -> key:genre name , value: counter
+        public async Task<Dictionary<string,int>> Graph ( ) // return dic -> key:genre name , value: counter
             {
-            var queryList =  _context.MovieGenre.Include( mg => mg.Genre ).ToList();
+            var queryList =  await _context.MovieGenre.Include( mg => mg.Genre ).ToListAsync();
             var queryMap = queryList.GroupBy( q => q.Genre.Type ).ToDictionary( k => k.Key , v => v.Count() );
             return queryMap;
             }

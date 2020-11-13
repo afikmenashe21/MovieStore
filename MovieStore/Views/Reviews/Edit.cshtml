@@ -4,8 +4,6 @@
     ViewData [ "Title" ] = "Edit";
 }
 <link rel="stylesheet" href="~/css/Rating.css">
-<link rel="stylesheet" href="~/css/Dashboard/accordion.css">
-
 <link rel="stylesheet" href="~/css/multiselect.css">
 
 <script src="~/js/Editform.js"></script>
@@ -107,7 +105,7 @@
                 <label class="col-md-4 control-label">Content</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-comment"></i></span>
                         <textarea asp-for="Content" class="form-control"></textarea>
                     </div>
                 </div>
@@ -119,7 +117,7 @@
                 <label class="col-md-4 control-label">Published</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         <input asp-for="Published" class="form-control" />
                     </div>
                 </div>
@@ -129,8 +127,8 @@
             <div class="form-group">
                 <label class="col-md-4 control-label"></label>
                 <div class="col-md-4">
+                    <a class="btn btn-warning" href='javascript:history.go(-1)'><span class="glyphicon glyphicon-arrow-left"></span>   </a>
                     <button type="submit" class="btn btn-warning">Save <span class="glyphicon glyphicon-send"></span></button>
-                    <a class="buttonCRUD" href='javascript:history.go(-1)'>Return</a>
                 </div>
             </div>
 

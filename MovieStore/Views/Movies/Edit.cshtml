@@ -3,9 +3,9 @@
 @{
     ViewData [ "Title" ] = "Edit";
 }
-<link rel="stylesheet" href="/resources/demos/style.css">
-
-<link rel="stylesheet" href="~/css/Dashboard/accordion.css">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="~/css/multiselect.css" rel='stylesheet' type='text/css' />
 <script src="~/js/Editform.js"></script>
 <div class="container">
 
@@ -19,19 +19,19 @@
                 <label class="col-md-4 control-label">Name</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
                         <input asp-for="Name" class="form-control" />
                     </div>
                 </div>
             </div>
 
-            <!-- ReleaseDate input-->
+            <!-- Release Date input-->
 
             <div class="form-group">
                 <label class="col-md-4 control-label">Release Date</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         <input asp-for="ReleaseDate" class="form-control" />
 
                     </div>
@@ -44,7 +44,7 @@
                 <label class="col-md-4 control-label">Duration</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                         <input asp-for="Duration" class="form-control" />
                     </div>
                 </div>
@@ -86,13 +86,13 @@
                 </div>
             </div>
 
-            <!-- AverageRating input-->
+            <!-- Average Rating input-->
 
             <div class="form-group">
                 <label class="col-md-4 control-label">Average Rating</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-heart-empty"></i></span>
                         <input asp-for="AverageRating" class="form-control" />
                     </div>
                 </div>
@@ -103,29 +103,11 @@
             <div class="form-group">
                 <label class="col-md-4 control-label">Genres</label>
                 <div class="col-md-4 inputGroupContainer">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                        <fieldset>
-                            <legend>Bed Type: </legend>
-                            <label for="checkbox-nested-1">
-                                2 Double
-                                <input type="checkbox" name="checkbox-nested-1" id="checkbox-nested-1">
-                            </label>
-                            <label for="checkbox-nested-2">
-                                2 Queen
-                                <input type="checkbox" name="checkbox-nested-2" id="checkbox-nested-2">
-                            </label>
-                            <label for="checkbox-nested-3">
-                                1 Queen
-                                <input type="checkbox" name="checkbox-nested-3" id="checkbox-nested-3">
-                            </label>
-                            <label for="checkbox-nested-4">
-                                1 King
-                                <input type="checkbox" name="checkbox-nested-4" id="checkbox-nested-4">
-                            </label>
-                        </fieldset>
-                    </div>
+                    <span class="multi-select"></span>
+
                 </div>
+                <input id="listgenres"name="genres" class="form-control" type="hidden" />
+
             </div>
 
             <!-- Storyline checks -->
@@ -144,15 +126,17 @@
             <div class="form-group">
                 <label class="col-md-4 control-label"></label>
                 <div class="col-md-4">
+                    <a class="btn btn-warning" href='javascript:history.go(-1)'><span class="glyphicon glyphicon-arrow-left"></span>   </a>
                     <button type="submit" class="btn btn-warning">Save <span class="glyphicon glyphicon-send"></span></button>
-                    <a class="buttonCRUD" href='javascript:history.go(-1)'>Return</a>
-
                 </div>
             </div>
 
         </fieldset>
     </form>
 </div>
+
+<script src="~/js/bundle.min.js"></script>
+<script src="~/js/multiselect.js"></script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync( "_ValidationScriptsPartial" );}
