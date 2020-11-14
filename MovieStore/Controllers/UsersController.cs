@@ -136,12 +136,12 @@ namespace MovieStore.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit ( int? id )
             {
-            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+            if ( HttpContext.Session.GetString( "UserId" ) == null ) // if user isnt logged
                 {
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
-            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
+            int userid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
             if ( id == null )
                 {
                 ViewBag.error = 400;
@@ -168,12 +168,12 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit ( int id , [Bind( "Id,UserName,Password,Email,FirstName,LastName,Address" )] User user )
             {
-            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+            if ( HttpContext.Session.GetString( "UserId" ) == null ) // if user isnt logged
                 {
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
-            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
+            int userid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
             if ( id != user.Id ) //If the id doesn't match the user
                 {
                 ViewBag.error = 400;
@@ -212,12 +212,12 @@ namespace MovieStore.Controllers
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete ( int? id )
             {
-            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+            if ( HttpContext.Session.GetString( "UserId" ) == null ) // if user isnt logged
                 {
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
-            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
+            int userid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
             if ( id == null )
                 {
                 ViewBag.error = 400;

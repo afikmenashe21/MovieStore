@@ -75,12 +75,12 @@ namespace MovieStore.Controllers
         // GET: Reviews/Edit/5
         public async Task<IActionResult> Edit ( int? id )
             {
-            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+            if ( HttpContext.Session.GetString( "UserId" ) == null ) // if user isnt logged
                 {
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
-            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
+            int userid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
             if ( id == null )
                 {
                 ViewBag.error = 400;
@@ -113,12 +113,12 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit ( int id , [Bind( "Id,Headline,Content,Rating,Published" )] Review review )
             {
-            if ( HttpContext.Session.GetString( "userid" ) == null ) // if user isnt logged
+            if ( HttpContext.Session.GetString( "UserId" ) == null ) // if user isnt logged
                 {
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
-            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
+            int userid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
             if ( id != review.Id )
                 {
                 ViewBag.error = 400;
@@ -129,12 +129,6 @@ namespace MovieStore.Controllers
                 {
                 try
                     {
-                    var reviewContext = await _context.Review.Include( r => r.Author ).Where( r => r.Id == id ).FirstOrDefaultAsync();
-                    if ( reviewContext.Author.Id != userid && HttpContext.Session.GetString( "Type" ) == "Customer" ) // If the user is not the author 
-                        {
-                        ViewBag.error = 401;
-                        return View( "ClientError" );
-                        }
                     _context.Update( review );
                     await _context.SaveChangesAsync();
                     }
@@ -150,20 +144,21 @@ namespace MovieStore.Controllers
                         throw;
                         }
                     }
-                return RedirectToAction( "HomePage" , "Movies" );
+                var tempreview = await _context.Review.Include( r => r.Movie ).Where( r => r.Id == id ).FirstOrDefaultAsync(); // to find the Movie the revies related to
+                return RedirectToAction( "Details" , "Movies" , new { id = review.Movie.Id } ); // return to Move deatils
                 }
-            return View( review );
+            var tempReview = await _context.Review.Include( r => r.Movie ).Where( r => r.Id == id ).FirstOrDefaultAsync(); // to find the Movie the revies related to
+            return RedirectToAction( "Details" , "Movies" , new { id = review.Movie.Id } ); // return to Move deatils
             }
-
         // GET: Reviews/Delete/5
         public async Task<IActionResult> Delete ( int? id )
             {
-            if ( HttpContext.Session.GetString( "userid" ) != null ) // if user is logged
+            if ( HttpContext.Session.GetString( "UserId" ) == null ) // if user is logged
                 {
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
-            int userid = int.Parse( HttpContext.Session.GetString( "userid" ) );
+            int userid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
             if ( id == null )
                 {
                 ViewBag.error = 400;
@@ -188,10 +183,10 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed ( int id )
             {
-            var review = await _context.Review.FindAsync( id );
+            var review = await _context.Review.Include( r => r.Movie ).Where( r => r.Id == id ).FirstOrDefaultAsync();
             _context.Review.Remove( review );
             await _context.SaveChangesAsync();
-            return RedirectToAction( nameof( Index ) );
+            return RedirectToAction( "Details" , "Movies" , new { id = review.Movie.Id } );
             }
 
         private bool ReviewExists ( int id )
