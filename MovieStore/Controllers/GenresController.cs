@@ -54,12 +54,14 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ( [Bind( "Id,Type,MovieId" )] Genre genre )
+        public async Task<IActionResult> Create ( [Bind( "Id,Type,MovieId" )] Genre genre , string movies = null )
             {
             if ( ModelState.IsValid )
                 {
                 _context.Add( genre );
                 await _context.SaveChangesAsync();
+                if ( movies != null ) // If any movie is added/removed
+                    EditMovies( movies , genre.Id ); // Add or remove the selected Movie
                 return RedirectToAction( nameof( Index ) );
                 }
             return View( genre );
@@ -86,7 +88,7 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Type,MovieId" )] Genre genre ,string movies)
+        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Type,MovieId" )] Genre genre , string movies )
             {
             if ( id != genre.Id )
                 {
@@ -141,7 +143,19 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed ( int id )
             {
-            var genre = await _context.Genre.FindAsync( id );
+            var genre = await _context.Genre.Include( g => g.MovieGenre ).Include(g=>g.UserGenre).Where( g => g.Id == id ).FirstOrDefaultAsync();
+            foreach ( var movieGenre in genre.MovieGenre )
+                {
+                var movie = await _context.Movie.Include( g => g.MovieGenre ).Where( m => m.Id == movieGenre.MovieId ).FirstOrDefaultAsync();
+                movie.MovieGenre.Remove( movieGenre );
+                _context.MovieGenre.Remove( movieGenre );
+                }
+            foreach ( var userGenre in genre.UserGenre )
+                {
+                var user = await _context.User.Include( u => u.UserGenre ).Where( m => m.Id == userGenre.UserId ).FirstOrDefaultAsync();
+                user.UserGenre.Remove( userGenre );
+                _context.UserGenre.Remove( userGenre );
+                }
             _context.Genre.Remove( genre );
             await _context.SaveChangesAsync();
             return RedirectToAction( "Dashboard" , "Users" );

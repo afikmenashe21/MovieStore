@@ -110,12 +110,17 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ( [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie )
+        public async Task<IActionResult> Create ( [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie , string genres = null , string actors = null )
             {
             if ( ModelState.IsValid )
                 {
                 _context.Add( movie );
                 await _context.SaveChangesAsync();
+                if ( genres != null ) // If any genre is added/removed
+                    EditGenres( genres , movie.Id ); // Add or remove the selected Genres
+
+                if ( actors != null )// If any actor is added/removed
+                    EditActors( actors , movie.Id ); // Add or remove the selected Genres
                 return RedirectToAction( "Dashboard" , "Users" );
                 }
             return View( movie );
@@ -207,7 +212,19 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed ( int id )
             {
-            var movie = await _context.Movie.FindAsync( id );
+            var movie = await _context.Movie.Include( m => m.MovieActor ).Include( m => m.MovieGenre ).Where( m => m.Id == id ).FirstOrDefaultAsync();
+            foreach ( var movieActor in movie.MovieActor )
+                {
+                var actor = await _context.Actor.Include( g => g.MovieActor ).Where( a => a.Id == movieActor.ActorId ).FirstOrDefaultAsync();
+                actor.MovieActor.Remove( movieActor );
+                _context.MovieActor.Remove( movieActor );
+                }
+            foreach ( var movieGenre in movie.MovieGenre )
+                {
+                var genre = await _context.Genre.Include( g => g.MovieGenre ).Where( a => a.Id == movieGenre.GenreId ).FirstOrDefaultAsync();
+                genre.MovieGenre.Remove( movieGenre );
+                _context.MovieGenre.Remove( movieGenre );
+                }
             _context.Movie.Remove( movie );
             await _context.SaveChangesAsync();
             return RedirectToAction( "Dashboard" , "Users" );

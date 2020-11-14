@@ -213,7 +213,17 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed ( int id )
             {
-            var user = await _context.User.FindAsync( id );
+            var user = await _context.User.Include( u => u.Comments ).Include( u => u.UserGenre ).Where( u => u.Id == id ).FirstOrDefaultAsync();
+            foreach ( var review in user.Comments )
+                {
+                _context.Review.Remove( review );
+                }
+            foreach ( var usergenre in user.UserGenre )
+                {
+                var genre = await _context.Genre.Include( g => g.UserGenre ).Where( g => g.Id == usergenre.GenreId ).FirstOrDefaultAsync();
+                genre.UserGenre.Remove( usergenre );
+                _context.UserGenre.Remove( usergenre );
+                }
             _context.User.Remove( user );
             await _context.SaveChangesAsync();
             return RedirectToAction( nameof( Dashboard ) );

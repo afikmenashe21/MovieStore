@@ -1,61 +1,155 @@
 ﻿@model MovieStore.Models.Movie
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData [ "Title" ] = "Create";
 }
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="~/css/multiselect.css" rel='stylesheet' type='text/css' />
+<script src="~/js/Editform.js"></script>
+<div class="container">
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form class="well form-horizontal" asp-action="Create" id="contact_form">
+        <input type="hidden" asp-for="Id" />
+
+        <fieldset>
+            <!-- Name input-->
+
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label class="col-md-4 control-label">Name</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                        <input asp-for="Name" class="form-control" />
+                    </div>
+                </div>
             </div>
+
+            <!-- Release Date input-->
+
             <div class="form-group">
-                <label asp-for="ReleaseDate" class="control-label"></label>
-                <input asp-for="ReleaseDate" class="form-control" />
-                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                <label class="col-md-4 control-label">Release Date</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        <input asp-for="ReleaseDate" class="form-control" />
+
+                    </div>
+                </div>
             </div>
+
+            <!-- Duration input-->
+
             <div class="form-group">
-                <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
-                <span asp-validation-for="Duration" class="text-danger"></span>
+                <label class="col-md-4 control-label">Duration</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                        <input asp-for="Duration" class="form-control" />
+                    </div>
+                </div>
             </div>
+
+            <!-- Director input-->
+
             <div class="form-group">
-                <label asp-for="Director" class="control-label"></label>
-                <input asp-for="Director" class="form-control" />
-                <span asp-validation-for="Director" class="text-danger"></span>
+                <label class="col-md-4 control-label">Director</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input asp-for="Director" class="form-control" />
+                    </div>
+                </div>
             </div>
+
+            <!-- Poster input-->
+
             <div class="form-group">
-                <label asp-for="Poster" class="control-label"></label>
-                <input asp-for="Poster" class="form-control" />
-                <span asp-validation-for="Poster" class="text-danger"></span>
+                <label class="col-md-4 control-label">Poster</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+                        <input asp-for="Poster" class="form-control" />
+                    </div>
+                </div>
             </div>
+
+            <!-- Trailer input-->
+
             <div class="form-group">
-                <label asp-for="Trailer" class="control-label"></label>
-                <input asp-for="Trailer" class="form-control" />
-                <span asp-validation-for="Trailer" class="text-danger"></span>
+                <label class="col-md-4 control-label">Trailer</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-facetime-video"></i></span>
+                        <input asp-for="Trailer" class="form-control" />
+                    </div>
+                </div>
             </div>
+
+            <!-- Average Rating input-->
+
             <div class="form-group">
-                <label asp-for="Storyline" class="control-label"></label>
-                <input asp-for="Storyline" class="form-control" />
-                <span asp-validation-for="Storyline" class="text-danger"></span>
+                <label class="col-md-4 control-label">Average Rating</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-heart-empty"></i></span>
+                        <input asp-for="AverageRating" class="form-control" />
+                    </div>
+                </div>
             </div>
+
+            <!-- Genres input-->
+
             <div class="form-group">
-                <label asp-for="AverageRating" class="control-label"></label>
-                <input asp-for="AverageRating" class="form-control" />
-                <span asp-validation-for="AverageRating" class="text-danger"></span>
+                <label class="col-md-4 control-label">Genres</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="multi-select-genres"></span>
+                    </div>
+                </div>
+                <input id="listgenres" name="genres" class="form-control" type="hidden" />
             </div>
+
+            <!-- Actors input-->
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label class="col-md-4 control-label">Actors</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="multi-select-actors"></span>
+                    </div>
+                </div>
+                <input id="listactors" name="actors" class="form-control" type="hidden" />
             </div>
-        </form>
-    </div>
+
+            <!-- Storyline checks -->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Storyline</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <textarea asp-for="Storyline" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <a class="btn btn-warning" href='javascript:history.go(-1)'><span class="glyphicon glyphicon-arrow-left"></span>   </a>
+                    <button type="submit" class="btn btn-warning">Save <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
 </div>
 
+<script src="~/js/bundle.min.js"></script>
+<script src="~/js/Multiselect/Movie.js"></script>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync( "_ValidationScriptsPartial" );}
 }

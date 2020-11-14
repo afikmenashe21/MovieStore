@@ -59,12 +59,14 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ( [Bind( "Id,Name" )] Actor actor )
+        public async Task<IActionResult> Create ( [Bind( "Id,Name" )] Actor actor , string movies = null )
             {
             if ( ModelState.IsValid )
                 {
                 _context.Add( actor );
                 await _context.SaveChangesAsync();
+                if ( movies != null ) // If any movie is added/removed
+                    EditMovies( movies , actor.Id ); // Add or remove the selected Movie
                 return RedirectToAction( nameof( Index ) );
                 }
             return View( actor );
@@ -146,7 +148,13 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed ( int id )
             {
-            var actor = await _context.Actor.FindAsync( id );
+            var actor = await _context.Actor.Include( a => a.MovieActor ).Where( a => a.Id == id ).FirstOrDefaultAsync();
+            foreach ( var movieActor in actor.MovieActor )
+                {
+                var movie = await _context.Movie.Include( g => g.MovieActor ).Where( m => m.Id == movieActor.MovieId ).FirstOrDefaultAsync();
+                movie.MovieActor.Remove( movieActor );
+                _context.MovieActor.Remove( movieActor );
+                }
             _context.Actor.Remove( actor );
             await _context.SaveChangesAsync();
             return RedirectToAction( "Dashboard" , "Users" );

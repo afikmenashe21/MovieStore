@@ -40,7 +40,7 @@
             data: { "movie": moviename },
             success: function (dataset) {
                 var data = [];
-                dataset["data"].forEach(actor => data.push({ "label": actor, "value": actor }));
+                    dataset["data"].forEach(actor => data.push({ "label": actor, "value": actor }));
                 var multi = new SelectPure(".multi-select-actors", {
                     options: data,
                     value: dataset["checked"],

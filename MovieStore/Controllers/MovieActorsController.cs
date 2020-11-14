@@ -165,12 +165,12 @@ namespace MovieStore.Controllers
 
         public Dictionary<string , List<string>> MultiselectMovie ( string movie ) // return Dictionary with 2 keys:1.all actors ,2.actors applied for specific movie
             {
-            if ( movie == null )
+            var actorsNames = new List<string>();
+            if ( movie != null )
                 {
-                return null;
+                var movies = _context.MovieActor.Include( ma => ma.Actor ).Include( ma => ma.Movie ).ToList().GroupBy( mg => mg.Movie.Name ); // Returns Enumerable with KEY:Movie name VALUE: list of Actors
+                actorsNames = movies.First( g => g.Key != movie ).Select( v => v.Actor.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
                 }
-            var movies = _context.MovieActor.Include( ma => ma.Actor ).Include( ma => ma.Movie ).ToList().GroupBy( mg => mg.Movie.Name ); // Returns Enumerable with KEY:Movie name VALUE: list of Actors
-            var actorsNames = movies.First( g => g.Key == movie ).Select( v => v.Actor.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
             var actorsList = _context.Actor.Select( v => v.Name ).ToList(); //Get all the acors
             var dictionaryData = new Dictionary<string , List<string>>();
             dictionaryData.Add( "data" , actorsList );
@@ -180,12 +180,12 @@ namespace MovieStore.Controllers
 
         public Dictionary<string , List<string>> MultiselectActor ( string actor ) // return Dictionary with 2 keys:1.all actors ,2.actors applied for specific movie
             {
-            if ( actor == null )
+            var moviesNames = new List<string>();
+            if ( actor != null )
                 {
-                return null;
+                var movies = _context.MovieActor.Include( ma => ma.Actor ).Include( ma => ma.Movie ).ToList().GroupBy( mg => mg.Actor.Name ); // Returns Enumerable with KEY:Movie name VALUE: list of Actors
+                moviesNames = movies.First( g => g.Key == actor ).Select( v => v.Movie.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
                 }
-            var movies = _context.MovieActor.Include( ma => ma.Actor ).Include( ma => ma.Movie ).ToList().GroupBy( mg => mg.Actor.Name ); // Returns Enumerable with KEY:Movie name VALUE: list of Actors
-            var moviesNames = movies.First( g => g.Key == actor ).Select( v => v.Movie.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
             var moviesList = _context.Movie.Select( v => v.Name ).ToList(); //Get all the acors
             var dictionaryData = new Dictionary<string , List<string>>();
             dictionaryData.Add( "data" , moviesList );
