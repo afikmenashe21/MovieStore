@@ -72,7 +72,7 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ( [Bind( "Id,Name" )] Actor actor )
+        public async Task<IActionResult> Create ( [Bind( "Id,Name" )] Actor actor , string movies = null )
             {
             if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
                 {
@@ -85,7 +85,7 @@ namespace MovieStore.Controllers
                 await _context.SaveChangesAsync();
                 if ( movies != null ) // If any movie is added/removed
                     EditMovies( movies , actor.Id ); // Add or remove the selected Movie
-                return RedirectToAction( nameof( Index ) );
+                return RedirectToAction( "Dashbaord" , "Users" );
                 }
             return View( actor );
             }
@@ -117,7 +117,7 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Name" )] Actor actor )
+        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Name" )] Actor actor , string movies )
             {
             if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
                 {
@@ -190,10 +190,6 @@ namespace MovieStore.Controllers
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
-            var actor = await _context.Actor.FindAsync( id );
-            _context.Actor.Remove( actor );
-        public async Task<IActionResult> DeleteConfirmed ( int id )
-            {
             var actor = await _context.Actor.Include( a => a.MovieActor ).Where( a => a.Id == id ).FirstOrDefaultAsync();
             foreach ( var movieActor in actor.MovieActor )
                 {

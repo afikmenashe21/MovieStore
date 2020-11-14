@@ -72,7 +72,7 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ( [Bind( "Id,Type,MovieId" )] Genre genre )
+        public async Task<IActionResult> Create ( [Bind( "Id,Type,MovieId" )] Genre genre , string movies = null )
             {
             if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
                 {
@@ -118,7 +118,7 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Type,MovieId" )] Genre genre )
+        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Type,MovieId" )] Genre genre , string movies )
             {
             if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
                 {
@@ -191,11 +191,7 @@ namespace MovieStore.Controllers
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
-            var genre = await _context.Genre.FindAsync( id );
-            _context.Genre.Remove( genre );
-        public async Task<IActionResult> DeleteConfirmed ( int id )
-            {
-            var genre = await _context.Genre.Include( g => g.MovieGenre ).Include(g=>g.UserGenre).Where( g => g.Id == id ).FirstOrDefaultAsync();
+            var genre = await _context.Genre.Include( g => g.MovieGenre ).Include( g => g.UserGenre ).Where( g => g.Id == id ).FirstOrDefaultAsync();
             foreach ( var movieGenre in genre.MovieGenre )
                 {
                 var movie = await _context.Movie.Include( g => g.MovieGenre ).Where( m => m.Id == movieGenre.MovieId ).FirstOrDefaultAsync();
