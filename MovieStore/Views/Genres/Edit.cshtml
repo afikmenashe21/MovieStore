@@ -1,32 +1,60 @@
 ﻿@model MovieStore.Models.Genre
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData [ "Title" ] = "Edit";
 }
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="~/css/multiselect.css" rel='stylesheet' type='text/css' />
+<script src="~/js/Editform.js"></script>
+<div class="container">
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+    <form class="well form-horizontal" asp-action="Edit" id="contact_form">
+        <input type="hidden" asp-for="Id" />
+
+        <fieldset>
+            <!-- Name input-->
+
             <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
+                <label class="col-md-4 control-tags">Type</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                        <input asp-for="Type" class="form-control" />
+                    </div>
+                </div>
             </div>
+
+            <!-- Movies input-->
+
             <div class="form-group">
-                <label asp-for="MovieId" class="control-label"></label>
-                <input asp-for="MovieId" class="form-control" />
-                <span asp-validation-for="MovieId" class="text-danger"></span>
+                <label class="col-md-4 control-label">Movies</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="multi-select-movies"></span>
+                    </div>
+                </div>
+                <input id="listmovies" name="movies" class="form-control" type="hidden" />
             </div>
+
+            <!-- Button -->
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <a class="btn btn-warning" href='javascript:history.go(-1)'><span class="glyphicon glyphicon-arrow-left"></span>   </a>
+                    <button type="submit" class="btn btn-warning">Save <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                </div>
             </div>
-        </form>
-    </div>
+
+        </fieldset>
+    </form>
 </div>
 
+<script src="~/js/bundle.min.js"></script>
+<script src="~/js/Multiselect/Genre.js"></script>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync( "_ValidationScriptsPartial" );}
 }
+

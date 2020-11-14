@@ -9,7 +9,6 @@
     @{await Html.RenderPartialAsync( "_ValidationScriptsPartial" );}
 }
 
-<link rel="stylesheet" href="~/css/Dashboard/accordion.css">
 <script src="~/js/Editform.js"></script>
 <div class="container">
 
@@ -58,7 +57,7 @@
                 <label class="col-md-4 control-label">First Name</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-exclamation-sign"></i></span>
                         <input asp-for="FirstName" class="form-control" />
                     </div>
                 </div>
@@ -70,7 +69,7 @@
                 <label class="col-md-4 control-label">Last Name</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-exclamation-sign"></i></span>
                         <input asp-for="LastName" class="form-control" />
                     </div>
                 </div>
@@ -113,9 +112,8 @@
             <div class="form-group">
                 <label class="col-md-4 control-label"></label>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-warning">Save <span class="glyphicon glyphicon-send"></span></button>
-                    <a class="buttonCRUD" href='javascript:history.go(-1)'>Return</a>
-
+                    <a class="btn btn-warning" href='javascript:history.go(-1)'><span class="glyphicon glyphicon-arrow-left"></span>   </a>
+                    <button type="submit" class="btn btn-warning">Save <span class="glyphicon glyphicon-floppy-disk"></span></button>
                 </div>
             </div>
 

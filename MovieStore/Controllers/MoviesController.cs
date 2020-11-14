@@ -110,7 +110,7 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ( [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie )
+        public async Task<IActionResult> Create ( [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie , string genres = null , string actors = null )
             {
             if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" ) // User not logged or it's not Admin 
                 {
@@ -121,6 +121,11 @@ namespace MovieStore.Controllers
                 {
                 _context.Add( movie );
                 await _context.SaveChangesAsync();
+                if ( genres != null ) // If any genre is added/removed
+                    EditGenres( genres , movie.Id ); // Add or remove the selected Genres
+
+                if ( actors != null )// If any actor is added/removed
+                    EditActors( actors , movie.Id ); // Add or remove the selected Genres
                 return RedirectToAction( "Dashboard" , "Users" );
                 }
             return View( movie );
@@ -155,7 +160,7 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie )
+        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Name,ReleaseDate,Duration,Director,Poster,Trailer,Storyline,AverageRating" )] Movie movie , string genres , string actors )
             {
             if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" )
                 {
@@ -174,6 +179,11 @@ namespace MovieStore.Controllers
                     {
                     _context.Update( movie );
                     await _context.SaveChangesAsync();
+                    if ( genres != null ) // If any genre is added/removed
+                        EditGenres( genres , movie.Id ); // Add or remove the selected Genres
+
+                    if ( actors != null )// If any actor is added/removed
+                        EditActors( actors , movie.Id ); // Add or remove the selected Genres
                     }
                 catch ( DbUpdateConcurrencyException )
                     {
@@ -222,7 +232,19 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed ( int id )
             {
-            var movie = await _context.Movie.FindAsync( id );
+            var movie = await _context.Movie.Include( m => m.MovieActor ).Include( m => m.MovieGenre ).Where( m => m.Id == id ).FirstOrDefaultAsync();
+            foreach ( var movieActor in movie.MovieActor )
+                {
+                var actor = await _context.Actor.Include( g => g.MovieActor ).Where( a => a.Id == movieActor.ActorId ).FirstOrDefaultAsync();
+                actor.MovieActor.Remove( movieActor );
+                _context.MovieActor.Remove( movieActor );
+                }
+            foreach ( var movieGenre in movie.MovieGenre )
+                {
+                var genre = await _context.Genre.Include( g => g.MovieGenre ).Where( a => a.Id == movieGenre.GenreId ).FirstOrDefaultAsync();
+                genre.MovieGenre.Remove( movieGenre );
+                _context.MovieGenre.Remove( movieGenre );
+                }
             _context.Movie.Remove( movie );
             await _context.SaveChangesAsync();
             return RedirectToAction( "Dashboard" , "Users" );
@@ -686,6 +708,78 @@ namespace MovieStore.Controllers
             var movies = moviesWeight.OrderByDescending( m => m.Value ).Take( 10 ).Join( _context.Movie , mw => mw.Key , m => m.Id , ( mw , m ) => m ).ToList(); // Join with Genre database to get the genre id
             return View( "Index" , movies );
             }
+        public void EditGenres ( string genres , int movieId ) // Store the Movie Genres suggestions for Guest
+            {
+            var oldGenres = _context.MovieGenre.Include( mg => mg.Genre ).Where( mg => mg.MovieId == movieId ).ToList(); // Get the genres related to user
+            var movie = _context.Movie.Include( m => m.MovieGenre ).Where( m => m.Id == movieId ).FirstOrDefault();
+            var newGenres = genres.Split( "," ); // Split the selected genres to array
+            foreach ( string genre in newGenres ) // Check if there is any new genrs to add the movie
+                {
+                if ( !oldGenres.Any( mg => mg.Genre.Type == genre ) ) // Check if the selected genres already connected to the movie
+                    {
+                    var newgenre = _context.Genre.Include( g => g.MovieGenre ).Where( g => g.Type == genre ).FirstOrDefault(); // Find the missing genre and add to a list
+                    MovieGenre movieGenre = new MovieGenre();
+                    movieGenre.GenreId = newgenre.Id;
+                    movieGenre.Genre = newgenre;
+                    movieGenre.MovieId = movie.Id;
+                    movieGenre.Movie = movie;
+                    if ( newgenre.MovieGenre == null )
+                        newgenre.MovieGenre = new List<MovieGenre>();
+                    newgenre.MovieGenre.Add( movieGenre );
+                    if ( movie.MovieGenre == null )
+                        movie.MovieGenre = new List<MovieGenre>();
+                    movie.MovieGenre.Add( movieGenre );
+                    _context.Add( movieGenre );
+                    }
+                }
+            foreach ( MovieGenre genre in oldGenres ) // Check if there is any old genres to removed from the movie genres
+                {
+                if ( !newGenres.Any( mg => mg == genre.Genre.Type ) )
+                    {
+                    var removedGenre = _context.Genre.Include( g => g.MovieGenre ).Where( g => g.Type == genre.Genre.Type ).FirstOrDefault(); // Find the missing genre and add to a list
+                    removedGenre.MovieGenre.Remove( genre );
+                    movie.MovieGenre.Remove( genre );
+                    _context.MovieGenre.Remove( genre );
+                    }
+                }
+            _context.SaveChanges();
+            }
 
+        public void EditActors ( string actors , int movieId ) // Store the Movie Genres suggestions for Guest
+            {
+            var oldActors = _context.MovieActor.Include( ma => ma.Actor ).Where( ma => ma.MovieId == movieId ).ToList(); // Get the actors related to movie
+            var movie = _context.Movie.Include( m => m.MovieGenre ).Where( m => m.Id == movieId ).FirstOrDefault();
+            var newActors = actors.Split( "," ); // Split the selected genres to array
+            foreach ( string actor in newActors ) // Check if there is any new actors to add the movie
+                {
+                if ( !oldActors.Any( mg => mg.Actor.Name == actor ) ) // Check if the selected actors already connected to the movie
+                    {
+                    var newactor = _context.Actor.Include( g => g.MovieActor ).Where( g => g.Name == actor ).FirstOrDefault(); // Find the missing actor and add to a list
+                    MovieActor movieActor = new MovieActor();
+                    movieActor.ActorId = newactor.Id;
+                    movieActor.Actor = newactor;
+                    movieActor.MovieId = movie.Id;
+                    movieActor.Movie = movie;
+                    if ( newactor.MovieActor == null )
+                        newactor.MovieActor = new List<MovieActor>();
+                    newactor.MovieActor.Add( movieActor );
+                    if ( movie.MovieActor == null )
+                        movie.MovieActor = new List<MovieActor>();
+                    movie.MovieActor.Add( movieActor );
+                    _context.Add( movieActor );
+                    }
+                }
+            foreach ( MovieActor actor in oldActors ) // Check if there is any old actors to removed from the movie actors
+                {
+                if ( !newActors.Any( mg => mg == actor.Actor.Name ) )
+                    {
+                    var removedActor = _context.Actor.Include( g => g.MovieActor ).Where( g => g.Name == actor.Actor.Name ).FirstOrDefault(); // Find the missing actor and add to a list
+                    removedActor.MovieActor.Remove( actor );
+                    movie.MovieActor.Remove( actor );
+                    _context.MovieActor.Remove( actor );
+                    }
+                }
+            _context.SaveChanges();
+            }
         }
     }

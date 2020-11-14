@@ -10,11 +10,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\Multiselect\Actor.js" />
+    <Content Remove="wwwroot\js\Multiselect\Genre.js" />
+    <Content Remove="wwwroot\js\Multiselect\Movie.js" />
     <Content Remove="wwwroot\js\searchbox\search.js" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\js\Dashboard\accordion.js" />
+    <None Include="wwwroot\js\Multiselect\Actor.js" />
+    <None Include="wwwroot\js\Multiselect\Genre.js" />
+    <None Include="wwwroot\js\Multiselect\Movie.js" />
     <None Include="wwwroot\js\searchbox\search.js" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>

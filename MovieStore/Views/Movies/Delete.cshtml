@@ -1,64 +1,155 @@
 ﻿@model MovieStore.Models.Movie
 
 @{
-    ViewData [ "Title" ] = "Delete";
+    ViewData [ "Title" ] = "Edit";
 }
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor( model => model.Name )
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.Name )
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor( model => model.ReleaseDate )
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.ReleaseDate )
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor( model => model.Duration )
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.Duration )
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor( model => model.Director )
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.Director )
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor( model => model.Poster )
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.Poster )
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor( model => model.Trailer )
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.Trailer )
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor( model => model.Storyline )
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.Storyline )
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor( model => model.AverageRating )
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor( model => model.AverageRating )
-        </dd>
-    </dl>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="~/css/multiselect.css" rel='stylesheet' type='text/css' />
+<script src="~/js/Editform.js"></script>
+<div class="container">
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+    <form class="well form-horizontal" asp-action="Delete" id="contact_form">
+        <fieldset>
+            <h3>Are you sure you want to delete this?</h3>
+
+            <!-- Name input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Name</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                        <input disabled asp-for="Name" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Release Date input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Release Date</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        <input disabled asp-for="ReleaseDate" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Duration input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Duration</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                        <input disabled asp-for="Duration" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Director input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Director</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input disabled asp-for="Director" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Poster input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Poster</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                        <input disabled asp-for="Poster" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trailer input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Trailer</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                        <input disabled asp-for="Trailer" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Average Rating input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Average Rating</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-heart-empty"></i></span>
+                        <input disabled asp-for="AverageRating" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Genres input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Genres</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="multi-select-genres"></span>
+                    </div>
+                </div>
+                <input disabled id="listgenres" name="genres" class="form-control" type="hidden" />
+            </div>
+
+            <!-- Actors input-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Actors</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="multi-select-actors"></span>
+                    </div>
+                </div>
+                <input disabled id="listactors" name="actors" class="form-control" type="hidden" />
+            </div>
+
+            <!-- Storyline checks -->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label">Storyline</label>
+                <div class="col-md-4 inputGroupContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <textarea asp-for="Storyline" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label"></label>
+                <div class="col-md-4">
+                    <a class="btn btn-warning" href='javascript:history.go(-1)'><span class="glyphicon glyphicon-arrow-left"></span>   </a>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </div>
+            </div>
+        </fieldset>
     </form>
 </div>
+
+<script src="~/js/bundle.min.js"></script>
+<script src="~/js/Multiselect/Movie.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync( "_ValidationScriptsPartial" );}
+}

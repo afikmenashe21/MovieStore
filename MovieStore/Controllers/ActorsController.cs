@@ -83,6 +83,8 @@ namespace MovieStore.Controllers
                 {
                 _context.Add( actor );
                 await _context.SaveChangesAsync();
+                if ( movies != null ) // If any movie is added/removed
+                    EditMovies( movies , actor.Id ); // Add or remove the selected Movie
                 return RedirectToAction( nameof( Index ) );
                 }
             return View( actor );
@@ -134,13 +136,14 @@ namespace MovieStore.Controllers
                     {
                     _context.Update( actor );
                     await _context.SaveChangesAsync();
+                    if ( movies != null ) // If any movie is added/removed
+                        EditMovies( movies , actor.Id ); // Add or remove the selected Movie
                     }
                 catch ( DbUpdateConcurrencyException )
                     {
                     if ( !ActorExists( actor.Id ) )
                         {
-                        ViewBag.error = 404;
-                        return View( "ClientError" );
+                        return NotFound();
                         }
                     else
                         {
@@ -189,6 +192,16 @@ namespace MovieStore.Controllers
                 }
             var actor = await _context.Actor.FindAsync( id );
             _context.Actor.Remove( actor );
+        public async Task<IActionResult> DeleteConfirmed ( int id )
+            {
+            var actor = await _context.Actor.Include( a => a.MovieActor ).Where( a => a.Id == id ).FirstOrDefaultAsync();
+            foreach ( var movieActor in actor.MovieActor )
+                {
+                var movie = await _context.Movie.Include( g => g.MovieActor ).Where( m => m.Id == movieActor.MovieId ).FirstOrDefaultAsync();
+                movie.MovieActor.Remove( movieActor );
+                _context.MovieActor.Remove( movieActor );
+                }
+            _context.Actor.Remove( actor );
             await _context.SaveChangesAsync();
             return RedirectToAction( "Dashboard" , "Users" );
             }
@@ -196,6 +209,45 @@ namespace MovieStore.Controllers
         private bool ActorExists ( int id )
             {
             return _context.Actor.Any( e => e.Id == id );
+            }
+
+        public void EditMovies ( string movies , int actorId ) // ADD or REMOVE movies from actor
+            {
+            var oldMovies = _context.MovieActor.Include( ma => ma.Movie ).Where( ma => ma.ActorId == actorId ).ToList(); // Get the actors related to movie
+            var actor = _context.Actor.Include( m => m.MovieActor ).Where( a => a.Id == actorId ).FirstOrDefault();
+            var newMovies = movies.Split( "," ); // Split the selected movies to array
+            foreach ( string movie in newMovies ) // Check if there is any new movies to add the actor
+                {
+                if ( !oldMovies.Any( mg => mg.Movie.Name == movie ) ) // Check if the selected actors already connected to the movie
+                    {
+                    var newMovie = _context.Movie.Include( g => g.MovieActor ).Where( m => m.Name == movie ).FirstOrDefault(); // Find the missing actor and add to a list
+                    MovieActor movieGenre = new MovieActor()
+                        {
+                        MovieId = newMovie.Id ,
+                        Movie = newMovie ,
+                        ActorId = actor.Id ,
+                        Actor = actor ,
+                        };
+                    if ( newMovie.MovieActor == null )
+                        newMovie.MovieActor = new List<MovieActor>();
+                    newMovie.MovieActor.Add( movieGenre );
+                    if ( actor.MovieActor == null )
+                        actor.MovieActor = new List<MovieActor>();
+                    actor.MovieActor.Add( movieGenre );
+                    _context.Add( movieGenre );
+                    }
+                }
+            foreach ( MovieActor movie in oldMovies ) // Check if there is any old actors to removed from the movie actors
+                {
+                if ( !newMovies.Any( mg => mg == movie.Movie.Name ) )
+                    {
+                    var removedMovie = _context.Movie.Include( g => g.MovieActor ).Where( g => g.Name == movie.Movie.Name ).FirstOrDefault(); // Find the missing actor and add to a list
+                    removedMovie.MovieActor.Remove( movie );
+                    actor.MovieActor.Remove( movie );
+                    _context.MovieActor.Remove( movie );
+                    }
+                }
+            _context.SaveChanges();
             }
         }
     }
