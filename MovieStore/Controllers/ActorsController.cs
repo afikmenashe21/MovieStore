@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,19 +10,19 @@ using MovieStore.Data;
 using MovieStore.Models;
 
 namespace MovieStore.Controllers
-{
-    public class ActorsController : Controller
     {
+    public class ActorsController : Controller
+        {
         private readonly MovieStoreContext _context;
 
-        public ActorsController(MovieStoreContext context)
-        {
+        public ActorsController ( MovieStoreContext context )
+            {
             _context = context;
-        }
+            }
 
         // GET: Actors
-        public async Task<IActionResult> Index()
-        {
+        public async Task<IActionResult> Index ( )
+            {
             string user = HttpContext.Session.GetString( "Type" ); //Function to verify the user before get in the view
             if ( user == null )
                 return RedirectToAction( "Login" , "Users" );
@@ -31,128 +31,169 @@ namespace MovieStore.Controllers
             }
 
         // GET: Actors/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+        public async Task<IActionResult> Details ( int? id )
             {
+            if ( id == null )
+                {
                 return NotFound();
-            }
+                }
 
             var actor = await _context.Actor
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (actor == null)
-            {
+                .FirstOrDefaultAsync( m => m.Id == id );
+            if ( actor == null )
+                {
                 return NotFound();
+                }
+
+            return View( actor );
             }
 
-            return View(actor);
-        }
-
         // GET: Actors/Create
-        public IActionResult Create()
-        {
+        public IActionResult Create ( )
+            {
             return View();
-        }
+            }
 
         // POST: Actors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Actor actor)
-        {
-            if (ModelState.IsValid)
+        public async Task<IActionResult> Create ( [Bind( "Id,Name" )] Actor actor )
             {
-                _context.Add(actor);
+            if ( ModelState.IsValid )
+                {
+                _context.Add( actor );
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction( nameof( Index ) );
+                }
+            return View( actor );
             }
-            return View(actor);
-        }
 
         // GET: Actors/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
+        public async Task<IActionResult> Edit ( int? id )
             {
+            if ( id == null )
+                {
                 return NotFound();
-            }
+                }
 
-            var actor = await _context.Actor.FindAsync(id);
-            if (actor == null)
-            {
+            var actor = await _context.Actor.FindAsync( id );
+            if ( actor == null )
+                {
                 return NotFound();
+                }
+            return View( actor );
             }
-            return View(actor);
-        }
 
         // POST: Actors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Actor actor)
-        {
-            if (id != actor.Id)
+        public async Task<IActionResult> Edit ( int id , [Bind( "Id,Name" )] Actor actor , string movies )
             {
+            if ( id != actor.Id )
+                {
                 return NotFound();
-            }
+                }
 
-            if (ModelState.IsValid)
-            {
+            if ( ModelState.IsValid )
+                {
                 try
-                {
-                    _context.Update(actor);
+                    {
+                    _context.Update( actor );
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ActorExists(actor.Id))
+                    if ( movies != null ) // If any movie is added/removed
+                        EditMovies( movies , actor.Id ); // Add or remove the selected Movie
+                    }
+                catch ( DbUpdateConcurrencyException )
                     {
+                    if ( !ActorExists( actor.Id ) )
+                        {
                         return NotFound();
-                    }
+                        }
                     else
-                    {
+                        {
                         throw;
+                        }
                     }
-                }
                 return RedirectToAction( "Dashboard" , "Users" );
                 }
-            return View(actor);
-        }
+            return View( actor );
+            }
 
         // GET: Actors/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+        public async Task<IActionResult> Delete ( int? id )
             {
+            if ( id == null )
+                {
                 return NotFound();
-            }
+                }
 
             var actor = await _context.Actor
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (actor == null)
-            {
+                .FirstOrDefaultAsync( m => m.Id == id );
+            if ( actor == null )
+                {
                 return NotFound();
+                }
+
+            return View( actor );
             }
 
-            return View(actor);
-        }
-
         // POST: Actors/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName( "Delete" )]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var actor = await _context.Actor.FindAsync(id);
-            _context.Actor.Remove(actor);
+        public async Task<IActionResult> DeleteConfirmed ( int id )
+            {
+            var actor = await _context.Actor.FindAsync( id );
+            _context.Actor.Remove( actor );
             await _context.SaveChangesAsync();
             return RedirectToAction( "Dashboard" , "Users" );
             }
 
-        private bool ActorExists(int id)
-        {
-            return _context.Actor.Any(e => e.Id == id);
+        private bool ActorExists ( int id )
+            {
+            return _context.Actor.Any( e => e.Id == id );
+            }
+
+        public void EditMovies ( string movies , int actorId ) // ADD or REMOVE movies from actor
+            {
+            var oldMovies = _context.MovieActor.Include( ma => ma.Movie ).Where( ma => ma.ActorId == actorId ).ToList(); // Get the actors related to movie
+            var actor = _context.Actor.Include( m => m.MovieActor ).Where( a => a.Id == actorId ).FirstOrDefault();
+            var newMovies = movies.Split( "," ); // Split the selected movies to array
+            foreach ( string movie in newMovies ) // Check if there is any new movies to add the actor
+                {
+                if ( !oldMovies.Any( mg => mg.Movie.Name == movie ) ) // Check if the selected actors already connected to the movie
+                    {
+                    var newMovie = _context.Movie.Include( g => g.MovieActor ).Where( m => m.Name == movie ).FirstOrDefault(); // Find the missing actor and add to a list
+                    MovieActor movieGenre = new MovieActor()
+                        {
+                        MovieId = newMovie.Id ,
+                        Movie = newMovie ,
+                        ActorId = actor.Id ,
+                        Actor = actor ,
+                        };
+                    if ( newMovie.MovieActor == null )
+                        newMovie.MovieActor = new List<MovieActor>();
+                    newMovie.MovieActor.Add( movieGenre );
+                    if ( actor.MovieActor == null )
+                        actor.MovieActor = new List<MovieActor>();
+                    actor.MovieActor.Add( movieGenre );
+                    _context.Add( movieGenre );
+                    }
+                }
+            foreach ( MovieActor movie in oldMovies ) // Check if there is any old actors to removed from the movie actors
+                {
+                if ( !newMovies.Any( mg => mg == movie.Movie.Name ) )
+                    {
+                    var removedMovie = _context.Movie.Include( g => g.MovieActor ).Where( g => g.Name == movie.Movie.Name ).FirstOrDefault(); // Find the missing actor and add to a list
+                    removedMovie.MovieActor.Remove( movie );
+                    actor.MovieActor.Remove( movie );
+                    _context.MovieActor.Remove( movie );
+                    }
+                }
+            _context.SaveChanges();
+            }
         }
     }
-}

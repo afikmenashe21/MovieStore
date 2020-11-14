@@ -177,7 +177,7 @@ namespace MovieStore.Controllers
             return View( "Index" , moviesList.ToList() );
             }
 
-        public Dictionary<string , List<string>> ListMovieGenre ( string movie ) // return Dictionary with 2 keys:1.all genres,2.genres applied for specific movie
+        public Dictionary<string , List<string>> MultiselectMovie ( string movie ) // return Dictionary with 2 keys:1.all genres,2.genres applied for specific movie
             {
             if ( movie == null )
                 {
@@ -189,6 +189,21 @@ namespace MovieStore.Controllers
             var dictionaryData = new Dictionary<string , List<string>>();
             dictionaryData.Add( "data" , genresList );
             dictionaryData.Add( "checked" , genresNames );
+            return dictionaryData;
+            }
+
+        public Dictionary<string , List<string>> MultiselectGenre ( string genre ) // return Dictionary with 2 keys:1.all movies,2.movies applied for specific movie
+            {
+            if ( genre == null )
+                {
+                return null;
+                }
+            var genres = _context.MovieGenre.Include( mg => mg.Genre ).Include( mg => mg.Movie ).ToList().GroupBy( mg => mg.Genre.Type ); // Returns Enumerable with KEY:Genre name VALUE: list of Movies
+            var moviesNames = genres.First( g => g.Key == genre ).Select( v => v.Movie.Name ).ToList(); // Filter the list of Genres to the right one and get only the Movies names
+            var moviesList = _context.Movie.Select( v => v.Name ).ToList(); //Get all the movies
+            var dictionaryData = new Dictionary<string , List<string>>();
+            dictionaryData.Add( "data" , moviesList );
+            dictionaryData.Add( "checked" , moviesNames );
             return dictionaryData;
             }
 

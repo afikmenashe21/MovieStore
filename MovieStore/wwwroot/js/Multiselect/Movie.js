@@ -1,9 +1,8 @@
 ﻿$(document).ready(function () {
-    var genres = [];
     $(function () {
         var moviename = document.getElementsByName("Name")[0].value;
         $.ajax({
-            url: "/MovieGenres/ListMovieGenre",
+            url: "/MovieGenres/MultiselectMovie",
             data: { "movie": moviename},
             success: function (dataset) {
                 var data = [];
@@ -34,11 +33,10 @@
         });
     })
 
-    var actors = [];
     $(function () {
         var moviename = document.getElementsByName("Name")[0].value;
         $.ajax({
-            url: "/MovieActors/ListMovieActors",
+            url: "/MovieActors/MultiselectMovie",
             data: { "movie": moviename },
             success: function (dataset) {
                 var data = [];

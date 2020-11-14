@@ -163,7 +163,7 @@ namespace MovieStore.Controllers
             return _context.MovieActor.Any( e => e.MovieId == id );
             }
 
-        public Dictionary<string , List<string>> ListMovieActors ( string movie ) // return Dictionary with 2 keys:1.all actors ,2.actors applied for specific movie
+        public Dictionary<string , List<string>> MultiselectMovie ( string movie ) // return Dictionary with 2 keys:1.all actors ,2.actors applied for specific movie
             {
             if ( movie == null )
                 {
@@ -177,5 +177,21 @@ namespace MovieStore.Controllers
             dictionaryData.Add( "checked" , actorsNames );
             return dictionaryData;
             }
+
+        public Dictionary<string , List<string>> MultiselectActor ( string actor ) // return Dictionary with 2 keys:1.all actors ,2.actors applied for specific movie
+            {
+            if ( actor == null )
+                {
+                return null;
+                }
+            var movies = _context.MovieActor.Include( ma => ma.Actor ).Include( ma => ma.Movie ).ToList().GroupBy( mg => mg.Actor.Name ); // Returns Enumerable with KEY:Movie name VALUE: list of Actors
+            var moviesNames = movies.First( g => g.Key == actor ).Select( v => v.Movie.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
+            var moviesList = _context.Movie.Select( v => v.Name ).ToList(); //Get all the acors
+            var dictionaryData = new Dictionary<string , List<string>>();
+            dictionaryData.Add( "data" , moviesList );
+            dictionaryData.Add( "checked" , moviesNames );
+            return dictionaryData;
+            }
+
         }
     }
