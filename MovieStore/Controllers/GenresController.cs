@@ -85,7 +85,7 @@ namespace MovieStore.Controllers
                 await _context.SaveChangesAsync();
                 if ( movies != null ) // If any movie is added/removed
                     EditMovies( movies , genre.Id ); // Add or remove the selected Movie
-                return RedirectToAction( nameof( Index ) );
+                return RedirectToAction( "Dashboard" , "Users" );
                 }
             return View( genre );
             }
@@ -144,7 +144,8 @@ namespace MovieStore.Controllers
                     {
                     if ( !GenreExists( genre.Id ) )
                         {
-                        return NotFound();
+                        ViewBag.errr = 404;
+                        return View( "ClientError" );
                         }
                     else
                         {

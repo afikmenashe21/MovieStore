@@ -143,7 +143,8 @@ namespace MovieStore.Controllers
                     {
                     if ( !ActorExists( actor.Id ) )
                         {
-                        return NotFound();
+                        ViewBag.errr = 404;
+                        return View( "ClientError" );
                         }
                     else
                         {
