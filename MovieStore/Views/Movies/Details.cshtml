@@ -130,205 +130,217 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         </div>
                     </div>
                 </div>
-                <div class="song-grid-right">
-                    <div class="single-agile-shar-buttons">
-                        <ul>
-                            <li>
-                                <button type="button" onclick="GetMessage()"
-                                        style="border-radius: 3px; border: 1px solid white;display: inline-block; cursor: pointer; background: #55ACEE; color: white;height: 34px;width: 110px; ">
-                                    <img src="~/images/twitterlogo.jpeg" style="height:auto;width:19px;" />  Add Tweet
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
+                <div id="myModal" style=" display: none; /* Hidden by default */ position: fixed; /* Stay in place */ z-index: 1; /* Sit on top */ left: 0; top: 0; width: 100%; /* Full width */ height: 100%; /* Full height */ overflow: auto; /* Enable scroll if needed */ background-color: rgb(0,0,0); /* Fallback color */ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */">
+
+                    <!-- Modal content -->
+                    <div style="background-color: #fefefe; margin: 15% auto;
+                         padding: 20px;
+                         border: 1px solid #888;
+                         width: 80%; " />
+                    <span style="color:#aaa; float: right; font-size: 28px; font-weight: bold;">&times;</span>
+                    <p>Some text in the Modal..</p>
                 </div>
 
-                <div id="alert" style="padding: 20px; background-color: deepskyblue; color: white; margin-bottom: 15px;margin-top: 10px;display:none">
-                    <span style=" margin-left: 15px; color: white; font-weight: bold; float: right; font-size: 22px; line-height: 20px; cursor: pointer; transition: 0.3s;" onclick="this.parentElement.style.display='none';">&times;</span>
-                    Thanks, You just made a Tweet.
-                </div>
-
-                <div style="display:none" id="addressTable">
-                    <div id="movieName">@Model.Name</div>
-                    <div id="movieReleaseDate">@Model.ReleaseDate.ToShortDateString()</div>
-                    <div id="movieDirector">@Model.Director</div>
-                    <div id="movieRating">@Model.AverageRating</div>
-                </div>
-
-                <div class="clearfix"> </div>
-
-                <div class="s01">
-                    <form>
-                        <fieldset>
-                            @*<legend>Search Review:</legend>*@
-                            <h1 style="color:black ">Search Review:</h1>
-                        </fieldset>
-                        <div class="inner-form">
-
-                            <div class="input-field second-wrap">
-                                <input id="fromYears" type="text" placeholder="From" />
-                            </div>
-
-                            <div class="input-field second-wrap">
-                                <input id="toYears" type="text" placeholder="To" />
-                            </div>
-
-                            <div class="input-field second-wrap">
-                                <input id="user" type="text" placeholder="User" />
-                            </div>
-
-                            <div class="input-field second-wrap">
-                                <input id="content" type="text" placeholder="Content" />
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-
-                <div class="clearfix"> </div>
-
-                <div class="all-comments">
-                    @if (Context.Session.GetString("Type") != null)
-                    {
-                        <div class="all-comments-info">
-                            <a href="#">Comment</a>
-                            <div class="agile-info-wthree-box">
-                                <form asp-controller="Reviews" asp-action="Create">
-                                    <div id="half-stars-example">
-                                        <div class="rating-group">
-                                            <input class="rating__input rating__input--none" checked name="rating" id="rating2-0" value="0" type="radio">
-                                            <label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
-
-                                            <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-05" value="0.5" type="radio">
-
-                                            <label aria-label="1 star" class="rating__label" for="rating2-10"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-10" value="1" type="radio">
-
-                                            <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-15" value="1.5" type="radio">
-
-                                            <label aria-label="2 stars" class="rating__label" for="rating2-20"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-20" value="" type="radio">
-
-                                            <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-25" value="2.5" type="radio">
-
-                                            <label aria-label="3 stars" class="rating__label" for="rating2-30"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-30" value="3" type="radio">
-
-                                            <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-35" value="3.5" type="radio">
-
-                                            <label aria-label="4 stars" class="rating__label" for="rating2-40"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-40" value="4" type="radio">
-
-                                            <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-45" value="4.5" type="radio">
-
-                                            <label aria-label="5 stars" class="rating__label" for="rating2-50"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-50" value="5" type="radio" checked>
-
-                                            <label aria-label="5.5 stars" class="rating__label rating__label--half" for="rating2-55"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-55" value="5.5" type="radio">
-
-                                            <label aria-label="6 stars" class="rating__label" for="rating2-60"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-60" value="6" type="radio">
-
-                                            <label aria-label="6.5 stars" class="rating__label rating__label--half" for="rating2-65"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-65" value="6.5" type="radio">
-
-                                            <label aria-label="7 stars" class="rating__label" for="rating2-70"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-70" value="7" type="radio">
-
-                                            <label aria-label="7.5 stars" class="rating__label rating__label--half" for="rating2-75"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-75" value="7.5" type="radio">
-
-                                            <label aria-label="8 stars" class="rating__label" for="rating2-80"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-80" value="8" type="radio">
-
-                                            <label aria-label="8.5 stars" class="rating__label rating__label--half" for="rating2-85"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-85" value="8.5" type="radio">
-
-                                            <label aria-label="9 stars" class="rating__label" for="rating2-90"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-90" value="9" type="radio">
-
-                                            <label aria-label="9.5 stars" class="rating__label rating__label--half" for="rating2-95"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-95" value="9.5" type="radio">
-
-                                            <label aria-label="10 stars" class="rating__label" for="rating2-100"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
-                                            <input class="rating__input" name="rating" id="rating2-100" value="10" type="radio">
-                                        </div>
-                                    </div>
-                                    <input type="text" placeholder="Headline" name="Headline">
-                                    <input id="review-content" type="text" placeholder="Content" name="Content">
-                                    <input name="movieid" value="@Model.Id" type="hidden" />
-                                    <input name="userid" value="@Context.Session.GetString( "UserId" )" type="hidden" />
-                                    <input type="submit" value="SEND">
-                                    <div class="clearfix"> </div>
-                                </form>
-                            </div>
-                        </div>
-                    }
-
-                    <div class="media-grids">
-                        @{ if (ViewBag.reviews != null)
-                                foreach (Review review in ViewBag.reviews)
-                                {
-                                    <div class="media">
-                                        <h5>@review.Headline</h5>
-                                        <div class="media-left">
-                                            <a href="#">
-                                                <img src="~/images/user.jpg" title="One movies" alt=" " />
-                                            </a>
-                                        </div>
-                                        <div class="media-body">
-                                            <span>Published: @review.Published.ToShortDateString()</span>
-
-                                            <p>@review.Content</p>
-                                        </div>
-                                        <div class="additional-media">
-                                            Rating:
-                                            @{
-
-                                                int intRating = (int)Math.Floor( review.Rating); // 7.5 -> 7
-                                                for (int i = 0; i < intRating; i++) // 7
-                                                    {
-                                                    <span href="#"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                }
-                                                if (review.Rating - intRating > 0) // 7.5 - 7 = 0.5
-                                                {
-                                                    <span href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
-                                                }
-                                                else
-                                                {
-                                                    <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
-                                                }
-                                                for (int i = 1; i < 10 - intRating; i++) //10-7 = 3
-                                                {
-                                                    <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
-                                                }
-                                            }
-                                        </div>
-                                        <span class="additional-media">Written by: <span style="color: #ff8d1b;"> @review.Author.UserName</span> </span>
-                                        @{
-                                            if (Context.Session.GetString("UserId") != null)
-                                                if (int.Parse(Context.Session.GetString("UserId")) == review.Author.Id || Context.Session.GetString("Type") == "Admin") // If the loggied user created this comment or admin
-                                                {
-                                                    <a class="additional-media" asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id">Edit</a>
-                                                    <a class="additional-media" asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id">Delete</a>
-                                                }
-                                        }
-                                    </div>
-                                } }
-                    </div>
+            </div>
+            <div class="song-grid-right">
+                <div class="single-agile-shar-buttons">
+                    <ul>
+                        <li>
+                            <button id="myBtn" type="button" onclick="GetMessage()"
+                                    style="border-radius: 3px; border: 1px solid white;display: inline-block; cursor: pointer; background: #55ACEE; color: white;height: 34px;width: 110px; ">
+                                <img src="~/images/twitterlogo.jpeg" style="height:auto;width:19px;" />  Add Tweet
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="clearfix"> </div>
-        </div>
 
+            <div id="alert" style="padding: 20px; background-color: deepskyblue; color: white; margin-bottom: 15px;margin-top: 10px;display:none">
+                <span style=" margin-left: 15px; color: white; font-weight: bold; float: right; font-size: 22px; line-height: 20px; cursor: pointer; transition: 0.3s;" onclick="this.parentElement.style.display='none';">&times;</span>
+                Thanks, You just made a Tweet.
+            </div>
+
+            <div style="display:none" id="addressTable">
+                <div id="movieName">@Model.Name</div>
+                <div id="movieReleaseDate">@Model.ReleaseDate.ToShortDateString()</div>
+                <div id="movieDirector">@Model.Director</div>
+                <div id="movieRating">@Model.AverageRating</div>
+            </div>
+
+            <div class="clearfix"> </div>
+
+            <div class="s01">
+                <form>
+                    <fieldset>
+                        @*<legend>Search Review:</legend>*@
+                        <h1 style="color:black ">Search Review:</h1>
+                    </fieldset>
+                    <div class="inner-form">
+
+                        <div class="input-field second-wrap">
+                            <input id="fromYears" type="text" placeholder="From" />
+                        </div>
+
+                        <div class="input-field second-wrap">
+                            <input id="toYears" type="text" placeholder="To" />
+                        </div>
+
+                        <div class="input-field second-wrap">
+                            <input id="user" type="text" placeholder="User" />
+                        </div>
+
+                        <div class="input-field second-wrap">
+                            <input id="content" type="text" placeholder="Content" />
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <div class="clearfix"> </div>
+
+            <div class="all-comments">
+                @if (Context.Session.GetString("Type") != null)
+                {
+                    <div class="all-comments-info">
+                        <a href="#">Comment</a>
+                        <div class="agile-info-wthree-box">
+                            <form asp-controller="Reviews" asp-action="Create">
+                                <div id="half-stars-example">
+                                    <div class="rating-group">
+                                        <input class="rating__input rating__input--none" checked name="rating" id="rating2-0" value="0" type="radio">
+                                        <label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
+
+                                        <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-05" value="0.5" type="radio">
+
+                                        <label aria-label="1 star" class="rating__label" for="rating2-10"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-10" value="1" type="radio">
+
+                                        <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-15" value="1.5" type="radio">
+
+                                        <label aria-label="2 stars" class="rating__label" for="rating2-20"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-20" value="" type="radio">
+
+                                        <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-25" value="2.5" type="radio">
+
+                                        <label aria-label="3 stars" class="rating__label" for="rating2-30"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-30" value="3" type="radio">
+
+                                        <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-35" value="3.5" type="radio">
+
+                                        <label aria-label="4 stars" class="rating__label" for="rating2-40"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-40" value="4" type="radio">
+
+                                        <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-45" value="4.5" type="radio">
+
+                                        <label aria-label="5 stars" class="rating__label" for="rating2-50"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-50" value="5" type="radio" checked>
+
+                                        <label aria-label="5.5 stars" class="rating__label rating__label--half" for="rating2-55"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-55" value="5.5" type="radio">
+
+                                        <label aria-label="6 stars" class="rating__label" for="rating2-60"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-60" value="6" type="radio">
+
+                                        <label aria-label="6.5 stars" class="rating__label rating__label--half" for="rating2-65"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-65" value="6.5" type="radio">
+
+                                        <label aria-label="7 stars" class="rating__label" for="rating2-70"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-70" value="7" type="radio">
+
+                                        <label aria-label="7.5 stars" class="rating__label rating__label--half" for="rating2-75"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-75" value="7.5" type="radio">
+
+                                        <label aria-label="8 stars" class="rating__label" for="rating2-80"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-80" value="8" type="radio">
+
+                                        <label aria-label="8.5 stars" class="rating__label rating__label--half" for="rating2-85"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-85" value="8.5" type="radio">
+
+                                        <label aria-label="9 stars" class="rating__label" for="rating2-90"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-90" value="9" type="radio">
+
+                                        <label aria-label="9.5 stars" class="rating__label rating__label--half" for="rating2-95"><i class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-95" value="9.5" type="radio">
+
+                                        <label aria-label="10 stars" class="rating__label" for="rating2-100"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                        <input class="rating__input" name="rating" id="rating2-100" value="10" type="radio">
+                                    </div>
+                                </div>
+                                <input type="text" placeholder="Headline" name="Headline">
+                                <input id="review-content" type="text" placeholder="Content" name="Content">
+                                <input name="movieid" value="@Model.Id" type="hidden" />
+                                <input name="userid" value="@Context.Session.GetString( "UserId" )" type="hidden" />
+                                <input type="submit" value="SEND">
+                                <div class="clearfix"> </div>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+                <div class="media-grids">
+                    @{ if (ViewBag.reviews != null)
+                            foreach (Review review in ViewBag.reviews)
+                            {
+                                <div class="media">
+                                    <h5>@review.Headline</h5>
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img src="~/images/user.jpg" title="One movies" alt=" " />
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <span>Published: @review.Published.ToShortDateString()</span>
+
+                                        <p>@review.Content</p>
+                                    </div>
+                                    <div class="additional-media">
+                                        Rating:
+                                        @{
+
+                                            int intRating = (int)Math.Floor(review.Rating); // 7.5 -> 7
+                                            for (int i = 0; i < intRating; i++) // 7
+                                            {
+                                                <span href="#"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                            }
+                                            if (review.Rating - intRating > 0) // 7.5 - 7 = 0.5
+                                            {
+                                                <span href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></span>
+                                            }
+                                            else
+                                            {
+                                                <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                            }
+                                            for (int i = 1; i < 10 - intRating; i++) //10-7 = 3
+                                            {
+                                                <span href="#"><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                            }
+                                        }
+                                    </div>
+                                    <span class="additional-media">Written by: <span style="color: #ff8d1b;"> @review.Author.UserName</span> </span>
+                                    @{
+                                        if (Context.Session.GetString("UserId") != null)
+                                            if (int.Parse(Context.Session.GetString("UserId")) == review.Author.Id || Context.Session.GetString("Type") == "Admin") // If the loggied user created this comment or admin
+                                            {
+                                                <a class="additional-media" asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id">Edit</a>
+                                                <a class="additional-media" asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id">Delete</a>
+                                            }
+                                    }
+                                </div>
+                            } }
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
     </div>
-    <!-- //w3l-latest-movies-grids -->
+
+</div>
+<!-- //w3l-latest-movies-grids -->
 </div>
 
 <script src="~/js/reviewSearch.js"></script>
@@ -358,7 +370,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     function GetMessage() {
         $.get("/Movies/Tweet", { movieName: mName, releaseDate: mRelease, movieDirector: mDirector, movieRating: mRating }, function () {
-            $("#alert").css("display", "block");
+            //$("#alert").css("display", "block");
+            // Get the modal
+            var modal = document.getElementById("myModal");
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // When the user clicks on the button, open the modal
+            modal.style.display = "block";
         });
     }
 </script>
