@@ -77,11 +77,16 @@ namespace MovieStore.Controllers
             if (HttpContext.Session.GetString("Type") == null || HttpContext.Session.GetString("Type") != "Admin")
             {
                 ViewBag.error = 401;
-                return View("ClientError");
-            }
-            if (ModelState.IsValid)
-            {
-                _context.Add(genre);
+                return View( "ClientError" );
+                }
+            if ( _context.Genre.Any( g => g.Type == genre.Type ) )
+                {
+                ViewBag.error = 400;
+                return View( "ClientError" );
+                }
+            if ( ModelState.IsValid )
+                {
+                _context.Add( genre );
                 await _context.SaveChangesAsync();
                 if (movies != null) // If any movie is added/removed
                     EditMovies(movies, genre.Id); // Add or remove the selected Movie
@@ -108,10 +113,11 @@ namespace MovieStore.Controllers
             if (genre == null)
             {
                 ViewBag.error = 404;
-                return View("ClientError");
+                return View( "ClientError" );
+                }
+            TempData [ "returnURL" ] = HttpContext.Request.Headers [ "Referer" ].ToString(); // Save the last page viewed to be able to return back to him
+            return View( genre );
             }
-            return View(genre);
-        }
 
         // POST: Genres/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -150,12 +156,12 @@ namespace MovieStore.Controllers
                     else
                     {
                         throw;
+                        }
                     }
+                return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
                 }
-                return RedirectToAction("Dashboard", "Users");
+            return View( genre );
             }
-            return View(genre);
-        }
 
         // GET: Genres/Delete/5
         public async Task<IActionResult> Delete(int? id)

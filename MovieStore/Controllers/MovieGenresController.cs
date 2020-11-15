@@ -173,7 +173,7 @@ namespace MovieStore.Controllers
                 return View( "ClientError" );
                 }
             var genres = _context.MovieGenre.Include( mg => mg.Genre ).Include( mg => mg.Movie ).ToList().GroupBy( mg => mg.Genre.Type ); // Returns Enumerable with KEY:Genre type VALUE: list of Movies
-            var moviesList = genres.First( g => g.Key == genre ); // Filter the list of genres to the right one
+            var moviesList = genres.FirstOrDefault( g => g.Key == genre ); // Filter the list of genres to the right one
             return View( "Index" , moviesList.ToList() );
             }
 
@@ -184,7 +184,7 @@ namespace MovieStore.Controllers
                 {
                 var movies = _context.MovieGenre.Include( mg => mg.Genre ).Include( mg => mg.Movie ).ToList().GroupBy( mg => mg.Movie.Name ); // Returns Enumerable with KEY:Movie name VALUE: list of Genres
                 if ( movies.Any( g => g.Key == movie ) )
-                    genresNames = movies.First( g => g.Key == movie ).Select( v => v.Genre.Type ).ToList(); // Filter the list of movies to the right one and get only the Genres names
+                    genresNames = movies.FirstOrDefault( g => g.Key == movie ).Select( v => v.Genre.Type ).ToList(); // Filter the list of movies to the right one and get only the Genres names
                 }
             var genresList = _context.Genre.Select( v => v.Type ).ToList(); //Get all the genres
             var dictionaryData = new Dictionary<string , List<string>>();
@@ -200,7 +200,7 @@ namespace MovieStore.Controllers
                 {
                 var genres = _context.MovieGenre.Include( mg => mg.Genre ).Include( mg => mg.Movie ).ToList().GroupBy( mg => mg.Genre.Type ); // Returns Enumerable with KEY:Genre name VALUE: list of Movies
                 if ( genres.Any( g => g.Key == genre ) )
-                    moviesNames = genres.First( g => g.Key == genre ).Select( v => v.Movie.Name ).ToList(); // Filter the list of Genres to the right one and get only the Movies names                }
+                    moviesNames = genres.FirstOrDefault( g => g.Key == genre ).Select( v => v.Movie.Name ).ToList(); // Filter the list of Genres to the right one and get only the Movies names                }
                 }
             var moviesList = _context.Movie.Select( v => v.Name ).ToList(); //Get all the movies
             var dictionaryData = new Dictionary<string , List<string>>();

@@ -64,7 +64,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <body>
     <!-- header -->
-    <div class="header">
+    <header class="header">
         <div class="container">
             <div class="w3layouts_logo">
                 <a asp-controller="Movies" asp-action="HomePage"> <img src="~/images/logo.png" /> </a>
@@ -125,7 +125,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="clearfix"> </div>
         </div>
-    </div>
+    </header>
     <!-- //header -->
     <!-- bootstrap-pop-up -->
     <div class="modal video-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
@@ -227,14 +227,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
 
     <!-- footer -->
-    <div class="footer">
+    <footer class="footer">
         <div class="container">
             <div class="w3ls_footer_grid">
                 <div class="col-md-6 w3ls_footer_grid_left">
                     <div class="w3ls_footer_grid_left1">
                        <h2 style=" text-shadow: 1px 1px white; ">Subscribe to us</h2>
                         <div class="w3ls_footer_grid_left1_pos">
-                            <form action="#" method="post">
+                            <form asp-action="HomePage" asp-controller="Movies" method="post">
                                 <input type="email" name="email" placeholder="Your email..." required="">
                                 <input type="submit" value="Send">
                             </form>
@@ -247,7 +247,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="clearfix"> </div>
             </div>
             <div class="col-md-5 w3ls_footer_grid1_left">
-                <p>&copy; 2016 One Movies. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+                <p>&copy; 2020 MovieStore.</p>
             </div>
             <div class="col-md-7 w3ls_footer_grid1_right">
                 <ul>
@@ -257,7 +257,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="clearfix"> </div>
         </div>
-    </div>
+    </footer>
     <!-- //footer -->
     <!-- Bootstrap Core JavaScript -->
     <script src="~/js/bootstrap.min.js"></script>

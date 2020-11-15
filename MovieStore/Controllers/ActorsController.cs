@@ -77,18 +77,23 @@ namespace MovieStore.Controllers
             if (HttpContext.Session.GetString("Type") == null || HttpContext.Session.GetString("Type") != "Admin")
             {
                 ViewBag.error = 401;
-                return View("ClientError");
-            }
-            if (ModelState.IsValid)
-            {
-                _context.Add(actor);
+                return View( "ClientError" );
+                }
+            if(_context.Actor.Any(a=>a.Name == actor.Name))
+                {
+                ViewBag.error = 400;
+                return View( "ClientError" );
+                }
+            if ( ModelState.IsValid )
+                {
+                _context.Add( actor );
                 await _context.SaveChangesAsync();
-                if (movies != null) // If any movie is added/removed
-                    EditMovies(movies, actor.Id); // Add or remove the selected Movie
-                return RedirectToAction("Dashbaord", "Users");
+                if ( movies != null ) // If any movie is added/removed
+                    EditMovies( movies , actor.Id ); // Add or remove the selected Movie
+                return RedirectToAction( "Dashboard" , "Users" );
+                }
+            return View( actor );
             }
-            return View(actor);
-        }
 
         // GET: Actors/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -101,16 +106,17 @@ namespace MovieStore.Controllers
             if (id == null)
             {
                 ViewBag.error = 400;
-                return View("ClientError");
+                return View( "ClientError" );
+                }
+            var actor = await _context.Actor.FindAsync( id );
+            if ( actor == null )
+                {
+                ViewBag.errr = 404;
+                return View( "ClientError" );
+                }
+            TempData [ "returnURL" ] = HttpContext.Request.Headers [ "Referer" ].ToString(); // Save the last page viewed to be able to return back to him
+            return View( actor );
             }
-            var actor = await _context.Actor.FindAsync(id);
-            if (actor == null)
-            {
-                ViewBag.error = 404;
-                return View("ClientError");
-            }
-            return View(actor);
-        }
 
         // POST: Actors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -149,12 +155,12 @@ namespace MovieStore.Controllers
                     else
                     {
                         throw;
+                        }
                     }
+                return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
                 }
-                return RedirectToAction("Dashboard", "Users");
+            return View( actor );
             }
-            return View(actor);
-        }
 
         // GET: Actors/Delete/5
         public async Task<IActionResult> Delete(int? id)

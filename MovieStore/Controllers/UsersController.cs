@@ -158,6 +158,7 @@ namespace MovieStore.Controllers
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
+            TempData [ "returnURL" ] = HttpContext.Request.Headers [ "Referer" ].ToString(); // Save the last page viewed to be able to return back to him
             return View( user );
             }
 
@@ -204,7 +205,7 @@ namespace MovieStore.Controllers
                         throw;
                         }
                     }
-                return RedirectToAction( "HomePage" , "Movies" );
+                return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
                 }
             return View( user );
             }

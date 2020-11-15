@@ -91,20 +91,28 @@
             <div class="form-group">
                 <label class="col-md-4 control-label">Type</label>
                 <div class="col-md-4">
-                    @if ( Context.Session.GetString( "Type" ) != null )
-                        if ( Context.Session.GetString( "Type" ) == "Admin" )
+                    @{if ( Context.Session.GetString( "Type" ) == "Admin" )
                             {
                             <div class="radio">
                                 <label>
                                     <input type="radio" asp-for="Type" value="Admin" /> Admin
                                 </label>
                             </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" asp-for="Type" value="Customer" /> Customer
+                                </label>
+                            </div>
                             }
-                    <div class="radio">
-                        <label>
-                            <input type="radio" asp-for="Type" value="Customer" /> Customer
-                        </label>
-                    </div>
+                        else
+                            {
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" asp-for="Type" value="Customer" disabled /> Customer
+                                </label>
+                            </div>
+                            }
+                    }
                 </div>
             </div>
 

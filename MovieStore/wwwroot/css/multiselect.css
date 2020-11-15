@@ -121,3 +121,26 @@ body {
 .select-pure__placeholder--hidden {
     display: none;
 }
+
+.help {
+    background-color: #FF8D1B;
+    border: none;
+    color: #fff;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    text-align: center;
+    padding: 6px 30px;
+    font-weight: bold;
+}
+
+
+    .help:hover {
+        background-color: black;
+        color: white;
+    }
