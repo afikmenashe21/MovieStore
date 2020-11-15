@@ -150,6 +150,7 @@ namespace MovieStore.Controllers
                 ViewBag.error = 404;
                 return View( "ClientError" );
                 }
+            TempData [ "returnURL" ] = HttpContext.Request.Headers [ "Referer" ].ToString(); // Save the last page viewed to be able to return back to him
             return View( movie );
             }
 
@@ -196,7 +197,7 @@ namespace MovieStore.Controllers
                         throw;
                         }
                     }
-                return RedirectToAction( "Dashboard" , "Users" );
+                return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
                 }
             return View( movie );
             }
@@ -231,18 +232,23 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed ( int id )
             {
-            var movie = await _context.Movie.Include( m => m.MovieActor ).Include( m => m.MovieGenre ).Where( m => m.Id == id ).FirstOrDefaultAsync();
+            var movie = await _context.Movie.Include( m => m.MovieActor ).Include( m => m.MovieGenre ).Include(m=>m.Comments).Where( m => m.Id == id ).FirstOrDefaultAsync();
             foreach ( var movieActor in movie.MovieActor )
                 {
-                var actor = await _context.Actor.Include( g => g.MovieActor ).Where( a => a.Id == movieActor.ActorId ).FirstOrDefaultAsync();
+                var actor = await _context.Actor.Include( a => a.MovieActor ).Where( a => a.Id == movieActor.ActorId ).FirstOrDefaultAsync();
                 actor.MovieActor.Remove( movieActor );
                 _context.MovieActor.Remove( movieActor );
                 }
             foreach ( var movieGenre in movie.MovieGenre )
                 {
-                var genre = await _context.Genre.Include( g => g.MovieGenre ).Where( a => a.Id == movieGenre.GenreId ).FirstOrDefaultAsync();
+                var genre = await _context.Genre.Include( g => g.MovieGenre ).Where( g => g.Id == movieGenre.GenreId ).FirstOrDefaultAsync();
                 genre.MovieGenre.Remove( movieGenre );
                 _context.MovieGenre.Remove( movieGenre );
+                }
+            foreach ( var comment in movie.Comments )
+                {
+                var review = await _context.Review.Where( r => r.Id == comment.Id ).FirstOrDefaultAsync();
+                _context.Review.Remove( review );
                 }
             _context.Movie.Remove( movie );
             await _context.SaveChangesAsync();
@@ -599,7 +605,7 @@ namespace MovieStore.Controllers
         public void SetUserSuggestions ( List<Genre> newgenres ) // Store the Movie Genres suggestions for User
             {
             int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) ); // Get from session the user id that connected
-            User tempUser = _context.User.Where( u => u.Id == connecteduserid ).First();
+            User tempUser = _context.User.Where( u => u.Id == connecteduserid ).FirstOrDefault();
             var usergenre = _context.UserGenre.Where( ug => ug.UserId == connecteduserid ); // Get the genres related to user
             foreach ( Genre g in newgenres ) // Loop to update/add the genres to user suggestions
                 {
@@ -665,7 +671,7 @@ namespace MovieStore.Controllers
         public Dictionary<int , int> GetUserSuggestions ( ) // return the Movie Genres suggestions for user
             {
             int connecteduserid = int.Parse( HttpContext.Session.GetString( "UserId" ) );
-            User tempUser = _context.User.Where( u => u.Id == connecteduserid ).First();
+            User tempUser = _context.User.Where( u => u.Id == connecteduserid ).FirstOrDefault();
             var usergenre = _context.UserGenre.Where( ug => ug.UserId == connecteduserid ); // Get the genres related to user
             return usergenre.ToDictionary( k => k.GenreId , v => v.Weight );
             }

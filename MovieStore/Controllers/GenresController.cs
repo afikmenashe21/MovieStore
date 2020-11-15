@@ -79,6 +79,11 @@ namespace MovieStore.Controllers
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
+            if ( _context.Genre.Any( g => g.Type == genre.Type ) )
+                {
+                ViewBag.error = 400;
+                return View( "ClientError" );
+                }
             if ( ModelState.IsValid )
                 {
                 _context.Add( genre );
@@ -110,6 +115,7 @@ namespace MovieStore.Controllers
                 ViewBag.error = 404;
                 return View( "ClientError" );
                 }
+            TempData [ "returnURL" ] = HttpContext.Request.Headers [ "Referer" ].ToString(); // Save the last page viewed to be able to return back to him
             return View( genre );
             }
 
@@ -152,7 +158,7 @@ namespace MovieStore.Controllers
                         throw;
                         }
                     }
-                return RedirectToAction( "Dashboard" , "Users" );
+                return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
                 }
             return View( genre );
             }

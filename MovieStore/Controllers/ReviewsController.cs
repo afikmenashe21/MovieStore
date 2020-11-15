@@ -58,13 +58,29 @@ namespace MovieStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create ( [Bind( "Id,Headline,Content,Rating,Published" )] Review review , int movieid , int userid )
+        public async Task<IActionResult> Create ( [Bind( "Id,Headline,Content,Rating,Published" )] Review review , int movieid )
             {
             if ( ModelState.IsValid )
                 {
                 review.Published = DateTime.Now;
-                review.Movie = _context.Movie.First( m => m.Id == movieid );
-                review.Author = _context.User.First( u => u.Id == userid );
+                review.Movie = _context.Movie.FirstOrDefault( m => m.Id == movieid );
+                if ( review.Movie == null )
+                    {
+                    ViewBag.error = 400;
+                    return View( "ClientError" );
+                    }
+                if ( HttpContext.Session.GetString( "UserId" ) == null ) // Check if any user is connected
+                    {
+                    ViewBag.error = 400;
+                    return View( "ClientError" );
+                    }
+                int userid = int.Parse( HttpContext.Session.GetString( "UserId" ) );// get the id of Connected user
+                review.Author = _context.User.FirstOrDefault( u => u.Id == userid );
+                if ( review.Author == null )
+                    {
+                    ViewBag.error = 400;
+                    return View( "ClientError" );
+                    }
                 _context.Add( review );
                 await _context.SaveChangesAsync();
                 return RedirectToAction( "Details" , "Movies" , new { id = movieid } );
@@ -147,7 +163,7 @@ namespace MovieStore.Controllers
                     }
                 return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
                 }
-            return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
+            return View( review );
             }
         // GET: Reviews/Delete/5
         public async Task<IActionResult> Delete ( int? id )

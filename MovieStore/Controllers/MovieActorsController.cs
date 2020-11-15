@@ -170,7 +170,7 @@ namespace MovieStore.Controllers
                 {
                 var movies = _context.MovieActor.Include( ma => ma.Actor ).Include( ma => ma.Movie ).ToList().GroupBy( mg => mg.Movie.Name ); // Returns Enumerable with KEY:Movie name VALUE: list of Actors
                 if ( movies.Any( g => g.Key != movie ) )
-                    actorsNames = movies.First( g => g.Key != movie ).Select( v => v.Actor.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
+                    actorsNames = movies.FirstOrDefault( g => g.Key != movie ).Select( v => v.Actor.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
                 }
             var actorsList = _context.Actor.Select( v => v.Name ).ToList(); //Get all the acors
             var dictionaryData = new Dictionary<string , List<string>>();
@@ -186,7 +186,7 @@ namespace MovieStore.Controllers
                 {
                 var movies = _context.MovieActor.Include( ma => ma.Actor ).Include( ma => ma.Movie ).ToList().GroupBy( mg => mg.Actor.Name ); // Returns Enumerable with KEY:Movie name VALUE: list of Actors
                 if ( movies.Any( g => g.Key == actor ) )
-                    moviesNames = movies.First( g => g.Key == actor ).Select( v => v.Movie.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
+                    moviesNames = movies.FirstOrDefault( g => g.Key == actor ).Select( v => v.Movie.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
                 }
             var moviesList = _context.Movie.Select( v => v.Name ).ToList(); //Get all the acors
             var dictionaryData = new Dictionary<string , List<string>>();

@@ -79,13 +79,18 @@ namespace MovieStore.Controllers
                 ViewBag.error = 401;
                 return View( "ClientError" );
                 }
+            if(_context.Actor.Any(a=>a.Name == actor.Name))
+                {
+                ViewBag.error = 400;
+                return View( "ClientError" );
+                }
             if ( ModelState.IsValid )
                 {
                 _context.Add( actor );
                 await _context.SaveChangesAsync();
                 if ( movies != null ) // If any movie is added/removed
                     EditMovies( movies , actor.Id ); // Add or remove the selected Movie
-                return RedirectToAction( "Dashbaord" , "Users" );
+                return RedirectToAction( "Dashboard" , "Users" );
                 }
             return View( actor );
             }
@@ -109,6 +114,7 @@ namespace MovieStore.Controllers
                 ViewBag.errr = 404;
                 return View( "ClientError" );
                 }
+            TempData [ "returnURL" ] = HttpContext.Request.Headers [ "Referer" ].ToString(); // Save the last page viewed to be able to return back to him
             return View( actor );
             }
 
@@ -151,7 +157,7 @@ namespace MovieStore.Controllers
                         throw;
                         }
                     }
-                return RedirectToAction( "Dashboard" , "Users" );
+                return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
                 }
             return View( actor );
             }
