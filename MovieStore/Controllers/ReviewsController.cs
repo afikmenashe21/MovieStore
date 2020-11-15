@@ -102,6 +102,7 @@ namespace MovieStore.Controllers
                 {
                 review.Rating = intReviewRating + 0.5;
                 }
+            TempData [ "returnURL" ] = HttpContext.Request.Headers [ "Referer" ].ToString(); // Save the last page viewed to be able to return back to him
             return View( review );
 
             }
@@ -144,11 +145,9 @@ namespace MovieStore.Controllers
                         throw;
                         }
                     }
-                var tempreview = await _context.Review.Include( r => r.Movie ).Where( r => r.Id == id ).FirstOrDefaultAsync(); // to find the Movie the revies related to
-                    return RedirectToAction( "Details" , "Movies" , new { id = tempreview.Movie.Id } ); // return to Move deatils
+                return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
                 }
-            var tempReview = await _context.Review.Include( r => r.Movie ).Where( r => r.Id == id ).FirstOrDefaultAsync(); // to find the Movie the revies related to
-            return RedirectToAction( "Details" , "Movies" , new { id = review.Movie.Id } ); // return to Move deatils
+            return Redirect( TempData [ "returnURL" ].ToString() ); // return to Move deatils
             }
         // GET: Reviews/Delete/5
         public async Task<IActionResult> Delete ( int? id )

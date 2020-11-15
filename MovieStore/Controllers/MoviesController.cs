@@ -89,7 +89,6 @@ namespace MovieStore.Controllers
                 ViewBag.error = 404;
                 return View( "ClientError" );
                 }
-
             ViewBag.reviews = await _context.Review.Where( r => r.Movie.Id == id ).Include( r => r.Author ).OrderByDescending( r => r.Published ).ToListAsync();
             // Linq - first filter the rows in MovieGenre and then join to get the Genres
             ViewBag.genres = await _context.MovieGenre.Where( mg => mg.MovieId == id ).Join( _context.Genre , mg => mg.GenreId , g => g.Id , ( mg , g ) => g ).ToListAsync();

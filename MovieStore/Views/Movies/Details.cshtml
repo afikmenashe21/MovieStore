@@ -291,9 +291,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             Rating:
                                             @{
 
-                                                int intRating = (int)Math.Floor(Model.AverageRating); // 7.5 -> 7
+                                                int intRating = (int)Math.Floor( review.Rating); // 7.5 -> 7
                                                 for (int i = 0; i < intRating; i++) // 7
-                                                {
+                                                    {
                                                     <span href="#"><i class="fa fa-star" aria-hidden="true"></i></span>
                                                 }
                                                 if (review.Rating - intRating > 0) // 7.5 - 7 = 0.5
