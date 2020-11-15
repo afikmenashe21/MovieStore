@@ -9035,23 +9035,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dell\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\amttr\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
+      "projectUniqueName": "C:\\Users\\amttr\\source\\repos\\MovieStore\\MovieStore\\MovieStore.csproj",
       "projectName": "MovieStore",
-      "projectPath": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\MovieStore.csproj",
-      "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dell\\source\\repos\\afikmenashe21\\MovieStore\\MovieStore\\obj\\",
+      "projectPath": "C:\\Users\\amttr\\source\\repos\\MovieStore\\MovieStore\\MovieStore.csproj",
+      "packagesPath": "C:\\Users\\amttr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\amttr\\source\\repos\\MovieStore\\MovieStore\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\amttr\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9124,7 +9120,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
