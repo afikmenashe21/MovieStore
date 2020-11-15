@@ -26,6 +26,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
                         <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -38,6 +39,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         <input asp-for="ReleaseDate" class="form-control" />
+                        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -50,6 +52,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                         <input asp-for="Duration" class="form-control" />
+                        <span asp-validation-for="Duration" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -62,6 +65,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <input asp-for="Director" class="form-control" />
+                        <span asp-validation-for="Director" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -72,8 +76,9 @@
                 <label class="col-md-4 control-label">Poster</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
                         <input asp-for="Poster" class="form-control" />
+                        <span asp-validation-for="Poster" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -84,8 +89,9 @@
                 <label class="col-md-4 control-label">Trailer</label>
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-facetime-video"></i></span>
                         <input asp-for="Trailer" class="form-control" />
+                        <span asp-validation-for="Trailer" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -98,6 +104,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-heart-empty"></i></span>
                         <input asp-for="AverageRating" class="form-control" />
+                        <span asp-validation-for="AverageRating" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -134,6 +141,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                         <textarea asp-for="Storyline" class="form-control"></textarea>
+                        <span asp-validation-for="Storyline" class="text-danger"></span>
                     </div>
                 </div>
             </div>
