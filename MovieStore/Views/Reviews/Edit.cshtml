@@ -85,6 +85,7 @@
                             <input class="rating__input" asp-for="Rating" id="rating2-100" value="10" type="radio">
                         </div>
                     </div>
+                    <span asp-validation-for="Rating" class="text-danger"></span>
                 </div>
             </div>
             <!-- Headline input-->
@@ -95,6 +96,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                         <input asp-for="Headline" class="form-control" />
+                        <span asp-validation-for="Headline" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -107,6 +109,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-comment"></i></span>
                         <textarea asp-for="Content" class="form-control"></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
                     </div>
                 </div>
             </div>

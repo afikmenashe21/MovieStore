@@ -51,7 +51,6 @@ namespace MovieStore.Controllers
             string user = HttpContext.Session.GetString("Type");
             var movielist = await _context.Movie.ToListAsync();
             movielist.Reverse(); // Reverse the list to get the latest movies added
-            await StoreGenresDP(); // Trim the list of Genres to 3 columns
             return View(movielist.Take(5)); // Returns the last 5 movies entered the database
         }
         public async Task<IActionResult> Search(string name)
