@@ -145,7 +145,7 @@ namespace MovieStore.Controllers
                         }
                     }
                 var tempreview = await _context.Review.Include( r => r.Movie ).Where( r => r.Id == id ).FirstOrDefaultAsync(); // to find the Movie the revies related to
-                return RedirectToAction( "Details" , "Movies" , new { id = review.Movie.Id } ); // return to Move deatils
+                    return RedirectToAction( "Details" , "Movies" , new { id = tempreview.Movie.Id } ); // return to Move deatils
                 }
             var tempReview = await _context.Review.Include( r => r.Movie ).Where( r => r.Id == id ).FirstOrDefaultAsync(); // to find the Movie the revies related to
             return RedirectToAction( "Details" , "Movies" , new { id = review.Movie.Id } ); // return to Move deatils

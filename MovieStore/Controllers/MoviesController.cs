@@ -374,7 +374,7 @@ namespace MovieStore.Controllers
                                     movie.Duration = Int32.Parse( ( jObj [ "Runtime" ].ToString().Split( " " ) ) [ 0 ] );
                                     movie.Director = jObj [ "Director" ].ToString();
                                     movie.Poster = jObj [ "Poster" ].ToString();
-                                    await getTrailer( theMovieName );
+                                    //await getTrailer( theMovieName );
                                     movie.Trailer = youtubeTrailer;
                                     movie.Storyline = jObj [ "Plot" ].ToString();
                                     movie.AverageRating = Double.Parse( jObj [ "imdbRating" ].ToString() );
@@ -447,7 +447,7 @@ namespace MovieStore.Controllers
                                         movie.MovieActor.Add( movieActor );
                                         }
                                     await this.Create( movie );
-                                    await CreateMovieReviews( movie );
+                                    //await CreateMovieReviews( movie );
                                     await StoreGenresDP(); // New movie add -> update the Genre dropdown list
                                     return movie;
                                     }
