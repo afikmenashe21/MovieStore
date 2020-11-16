@@ -271,5 +271,10 @@ namespace MovieStore.Controllers
             {
             return _context.User.Any( e => e.Id == id );
             }
+
+        public IActionResult DBmap ( )
+            {
+            return View();
+            }
         }
     }

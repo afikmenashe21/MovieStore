@@ -1,0 +1,13 @@
+﻿<img id="scream" style="display:none" src="~/images/DBmap.jpeg">
+
+<canvas id="myCanvas" width="1579" height="734">
+</canvas>
+
+<script>
+    window.onload = function () {
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        var img = document.getElementById("scream");
+        ctx.drawImage(img, 0, 0, 1579, 734);
+    }
+</script>

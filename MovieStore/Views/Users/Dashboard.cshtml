@@ -96,7 +96,7 @@
                     <p>
                         <ul class="list-group">
                             <li class="list-group-item accordion-list-group-item">Name: @movie.Name</li>
-                            <li class="list-group-item accordion-list-group-item">ReleaseDate: @movie.ReleaseDate </li>
+                            <li class="list-group-item accordion-list-group-item">ReleaseDate: @movie.ReleaseDate.ToShortDateString() </li>
                             <li class="list-group-item accordion-list-group-item">Duration: @movie.Duration </li>
                             <li class="list-group-item accordion-list-group-item">Director: @movie.Director </li>
                             <li class="list-group-item accordion-list-group-item">Poster: @movie.Poster </li>
@@ -127,7 +127,7 @@
                 <div class="panel">
                     <p>
                         <ul class="list-group">
-                            foreach ( MovieActor movieActor in actor.MovieActor )
+                            @foreach ( MovieActor movieActor in actor.MovieActor )
                             {
                             <li class="list-group-item accordion-list-group-item">Movie Name: @movieActor.Movie.Name</li>
                             }
