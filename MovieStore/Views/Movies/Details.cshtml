@@ -130,16 +130,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         </div>
                     </div>
                 </div>
-                <div id="myModal" style=" display: none; /* Hidden by default */ position: fixed; /* Stay in place */ z-index: 1; /* Sit on top */ left: 0; top: 0; width: 100%; /* Full width */ height: 100%; /* Full height */ overflow: auto; /* Enable scroll if needed */ background-color: rgb(0,0,0); /* Fallback color */ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */">
-
-                    <!-- Modal content -->
-                    <div style="background-color: #fefefe; margin: 15% auto;
-                         padding: 20px;
-                         border: 1px solid #888;
-                         width: 80%; " />
-                    <span style="color:#aaa; float: right; font-size: 28px; font-weight: bold;">&times;</span>
-                    <p>Some text in the Modal..</p>
-                </div>
 
             </div>
             <div class="song-grid-right">
@@ -151,6 +141,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <img src="~/images/twitterlogo.jpeg" style="height:auto;width:19px;" />  Add Tweet
                             </button>
                         </li>
+
                     </ul>
                 </div>
             </div>
@@ -341,7 +332,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 </div>
 <!-- //w3l-latest-movies-grids -->
-</div>
 
 <script src="~/js/reviewSearch.js"></script>
 <script src="~/js/jquery.dotdotdot.min.js"></script>
@@ -370,30 +360,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     function GetMessage() {
         $.get("/Movies/Tweet", { movieName: mName, releaseDate: mRelease, movieDirector: mDirector, movieRating: mRating }, function () {
-            //$("#alert").css("display", "block");
-            // Get the modal
-            var modal = document.getElementById("myModal");
-
-            // Get the button that opens the modal
-            var btn = document.getElementById("myBtn");
-
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-
-            // When the user clicks on the button, open the modal
-            modal.style.display = "block";
+            $("#alert").css("display", "block");
         });
     }
 </script>
