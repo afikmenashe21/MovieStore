@@ -2,7 +2,7 @@
 @model dynamic
 
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData [ "Title" ] = "Dashboard";
 }
 <meta charset="utf-8">
 
@@ -41,35 +41,32 @@
         <input type="text" class="tabs-Input" id="myInput-users" placeholder="Search for names..">
 
         <a class="buttonCRUD" asp-controller="Users" asp-action="Register">Create New User</a>
-        @foreach (User user in Model.users)
-        {
-            <button class="accordion myBTN-users">@user.UserName</button>
-            <div class="panel">
-                <p>
-                    <ul class="list-group">
-                        <li class="list-group-item accordion-list-group-item">UserName: @user.UserName</li>
-                        <li class="list-group-item accordion-list-group-item">Type: @user.Type.ToString() </li>
-                        <li class="list-group-item accordion-list-group-item">Email: @user.Email </li>
-                        <li class="list-group-item accordion-list-group-item">FirstName: @user.FirstName </li>
-                        <li class="list-group-item accordion-list-group-item">LastName: @user.LastName </li>
-                        <li class="list-group-item accordion-list-group-item">Address: @user.Address </li>
-                        <li class="list-group-item accordion-list-group-item">
-                            <a class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
-                            <a class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
-                        </li>
-                    </ul>
-                </p>
-            </div>
-        }
+        @if ( Model.users != null )
+            foreach ( User user in Model.users )
+                {
+                <button class="accordion myBTN-users">@user.UserName</button>
+                <div class="panel">
+                    <p>
+                        <ul class="list-group">
+                            <li class="list-group-item accordion-list-group-item">UserName: @user.UserName</li>
+                            <li class="list-group-item accordion-list-group-item">Type: @user.Type.ToString() </li>
+                            <li class="list-group-item accordion-list-group-item">Email: @user.Email </li>
+                            <li class="list-group-item accordion-list-group-item">FirstName: @user.FirstName </li>
+                            <li class="list-group-item accordion-list-group-item">LastName: @user.LastName </li>
+                            <li class="list-group-item accordion-list-group-item">Address: @user.Address </li>
+                            <li class="list-group-item accordion-list-group-item">
+                                <a class="buttonCRUD" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                                <a class="buttonCRUD" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+                }
         <div class="containerMap">
             <div id="map-container">
                 <div id="map-canvas"></div>
             </div>
         </div>
-        @*<script>
-                var showPanel = @Model;
-                console.log(showPanel);
-            </script>*@
 
         <script src="~/js/Dashboard/map.js"></script>
         <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=Ao1yTv4Ao85FfrmYhUGoTBfpClIxf1_VODbiFIGaAVC-u4cgOMHk5q5Q81RnOgfv' async defer></script>
@@ -79,41 +76,43 @@
 
     <div style="display:none" id="addressTable">
 
-        @foreach (User user in Model.users)
-        {
-            <div>@user.Address</div>
-            <div>@user.UserName</div>
-        }
+        @if ( Model.users != null )
+            foreach ( User user in Model.users )
+                {
+                <div>@user.Address</div>
+                <div>@user.UserName</div>
+                }
     </div>
 
     <div id="Movies" class="w3-container city" style="display:none">
         <input type="text" class="tabs-Input" id="myInput-movies" placeholder="Search for names..">
 
         <a class="buttonCRUD" asp-controller="Movies" asp-action="Create">Create New Movie</a>
-        @foreach (Movie movie in Model.movies)
-        {
-            <button class="accordion myBTN-movies">@movie.Name</button>
-            <div class="panel">
-                <p>
-                    <ul class="list-group">
-                        <li class="list-group-item accordion-list-group-item">Name: @movie.Name</li>
-                        <li class="list-group-item accordion-list-group-item">ReleaseDate: @movie.ReleaseDate </li>
-                        <li class="list-group-item accordion-list-group-item">Duration: @movie.Duration </li>
-                        <li class="list-group-item accordion-list-group-item">Director: @movie.Director </li>
-                        <li class="list-group-item accordion-list-group-item">Poster: @movie.Poster </li>
-                        <li class="list-group-item accordion-list-group-item">Trailer: @movie.Trailer </li>
-                        <li class="list-group-item accordion-list-group-item">Storyline: @movie.Storyline </li>
-                        <li class="list-group-item accordion-list-group-item">AverageRating: @movie.AverageRating </li>
-                        <li class="list-group-item accordion-list-group-item">
-                            <a class="buttonCRUD" asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">Edit</a>
-                            <a class="buttonCRUD" asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id">Delete</a>
-                        </li>
+        @if ( Model.movies != null )
+            foreach ( Movie movie in Model.movies )
+                {
+                <button class="accordion myBTN-movies">@movie.Name</button>
+                <div class="panel">
+                    <p>
+                        <ul class="list-group">
+                            <li class="list-group-item accordion-list-group-item">Name: @movie.Name</li>
+                            <li class="list-group-item accordion-list-group-item">ReleaseDate: @movie.ReleaseDate </li>
+                            <li class="list-group-item accordion-list-group-item">Duration: @movie.Duration </li>
+                            <li class="list-group-item accordion-list-group-item">Director: @movie.Director </li>
+                            <li class="list-group-item accordion-list-group-item">Poster: @movie.Poster </li>
+                            <li class="list-group-item accordion-list-group-item">Trailer: @movie.Trailer </li>
+                            <li class="list-group-item accordion-list-group-item">Storyline: @movie.Storyline </li>
+                            <li class="list-group-item accordion-list-group-item">AverageRating: @movie.AverageRating </li>
+                            <li class="list-group-item accordion-list-group-item">
+                                <a class="buttonCRUD" asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id">Edit</a>
+                                <a class="buttonCRUD" asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id">Delete</a>
+                            </li>
 
-                    </ul>
+                        </ul>
 
-                </p>
-            </div>
-        }
+                    </p>
+                </div>
+                }
 
     </div>
 
@@ -121,47 +120,49 @@
         <input type="text" class="tabs-Input" id="myInput-actors" placeholder="Search for names..">
 
         <a class="buttonCRUD" asp-controller="Actors" asp-action="Create">Create New Actor</a>
-        @foreach (Actor actor in Model.actors)
-        {
-            <button class="accordion myBTN-actors">@actor.Name</button>
-            <div class="panel">
-                <p>
-                    <ul class="list-group">
-                        @foreach (MovieActor movieActor in actor.MovieActor)
-                        {
+        @if ( Model.actors != null )
+            foreach ( Actor actor in Model.actors )
+                {
+                <button class="accordion myBTN-actors">@actor.Name</button>
+                <div class="panel">
+                    <p>
+                        <ul class="list-group">
+                            foreach ( MovieActor movieActor in actor.MovieActor )
+                            {
                             <li class="list-group-item accordion-list-group-item">Movie Name: @movieActor.Movie.Name</li>
-                        }
-                        <li class="list-group-item accordion-list-group-item">
-                            <a class="buttonCRUD" asp-controller="Actors" asp-action="Edit" asp-route-id="@actor.Id">Edit</a>
-                            <a class="buttonCRUD" asp-controller="Actors" asp-action="Delete" asp-route-id="@actor.Id">Delete</a>
-                        </li>
-                    </ul>
-                </p>
-            </div>
-        }
+                            }
+                            <li class="list-group-item accordion-list-group-item">
+                                <a class="buttonCRUD" asp-controller="Actors" asp-action="Edit" asp-route-id="@actor.Id">Edit</a>
+                                <a class="buttonCRUD" asp-controller="Actors" asp-action="Delete" asp-route-id="@actor.Id">Delete</a>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+                }
     </div>
 
     <div id="Genres" class="w3-container city" style="display:none">
         <input type="text" class="tabs-Input" id="myInput-genres" placeholder="Search for names..">
         <a class="buttonCRUD" asp-controller="Genres" asp-action="Create">Create New Genre</a>
-        @foreach (Genre genre in Model.genres)
-        {
-            <button class="accordion myBTN-genres">@genre.Type</button>
-            <div class="panel">
-                <p>
-                    <ul class="list-group">
-                        @foreach (MovieGenre movieGenre in @genre.MovieGenre)
-                        {
-                            <li class="myUL list-group-item accordion-list-group-item">Movie Name: @movieGenre.Movie.Name</li>
-                        }
-                        <li class="list-group-item accordion-list-group-item">
-                            <a class="buttonCRUD" asp-controller="Genres" asp-action="Edit" asp-route-id="@genre.Id">Edit</a>
-                            <a class="buttonCRUD" asp-controller="Genres" asp-action="Delete" asp-route-id="@genre.Id">Delete</a>
-                        </li>
-                    </ul>
-                </p>
-            </div>
-        }
+        @if ( Model.genres != null )
+            foreach ( Genre genre in Model.genres )
+                {
+                <button class="accordion myBTN-genres">@genre.Type</button>
+                <div class="panel">
+                    <p>
+                        <ul class="list-group">
+                            @foreach ( MovieGenre movieGenre in @genre.MovieGenre )
+                                {
+                                <li class="myUL list-group-item accordion-list-group-item">Movie Name: @movieGenre.Movie.Name</li>
+                                }
+                            <li class="list-group-item accordion-list-group-item">
+                                <a class="buttonCRUD" asp-controller="Genres" asp-action="Edit" asp-route-id="@genre.Id">Edit</a>
+                                <a class="buttonCRUD" asp-controller="Genres" asp-action="Delete" asp-route-id="@genre.Id">Delete</a>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+                }
         <div id="graphs">
             <!-- Create a div where the graph will take place -->
             <div id="my_dataviz_genre"></div>

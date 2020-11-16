@@ -154,6 +154,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="form">
                                     <h3>Create an account</h3>
                                     <form asp-controller="Users" asp-action="Register">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <input type="text" name="Username" placeholder="Username" required="">
                                         <input type="password" name="Password" placeholder="Password" required="">
                                         <input type="email" name="Email" placeholder="Email Address" required="">

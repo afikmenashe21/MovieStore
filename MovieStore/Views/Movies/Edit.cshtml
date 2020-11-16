@@ -10,6 +10,7 @@
 <div class="container">
 
     <form class="well form-horizontal" asp-action="Edit" id="contact_form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
         <aside class="col-md-2">
             <p>For more inforamtion:</p>

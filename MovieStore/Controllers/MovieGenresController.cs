@@ -186,9 +186,12 @@ namespace MovieStore.Controllers
                 if ( movies.Any( g => g.Key == movie ) )
                     genresNames = movies.FirstOrDefault( g => g.Key == movie ).Select( v => v.Genre.Type ).ToList(); // Filter the list of movies to the right one and get only the Genres names
                 }
-            var genresList = _context.Genre.Select( v => v.Type ).ToList(); //Get all the genres
             var dictionaryData = new Dictionary<string , List<string>>();
-            dictionaryData.Add( "data" , genresList );
+            if ( _context.Genre.Any() )
+                {
+                var genresList = _context.Genre.Select( v => v.Type ).ToList(); //Get all the genres
+                dictionaryData.Add( "data" , genresList );
+                }
             dictionaryData.Add( "checked" , genresNames );
             return dictionaryData;
             }
@@ -202,9 +205,12 @@ namespace MovieStore.Controllers
                 if ( genres.Any( g => g.Key == genre ) )
                     moviesNames = genres.FirstOrDefault( g => g.Key == genre ).Select( v => v.Movie.Name ).ToList(); // Filter the list of Genres to the right one and get only the Movies names                }
                 }
-            var moviesList = _context.Movie.Select( v => v.Name ).ToList(); //Get all the movies
             var dictionaryData = new Dictionary<string , List<string>>();
-            dictionaryData.Add( "data" , moviesList );
+            if ( _context.Movie.Any() )
+                {
+                var moviesList = _context.Movie.Select( v => v.Name ).ToList(); //Get all the movies
+                dictionaryData.Add( "data" , moviesList );
+                }
             dictionaryData.Add( "checked" , moviesNames );
             return dictionaryData;
             }

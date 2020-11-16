@@ -172,9 +172,12 @@ namespace MovieStore.Controllers
                 if ( movies.Any( g => g.Key != movie ) )
                     actorsNames = movies.FirstOrDefault( g => g.Key != movie ).Select( v => v.Actor.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
                 }
-            var actorsList = _context.Actor.Select( v => v.Name ).ToList(); //Get all the acors
             var dictionaryData = new Dictionary<string , List<string>>();
-            dictionaryData.Add( "data" , actorsList );
+            if ( _context.Actor.Any() )
+                {
+                var actorsList = _context.Actor.Select( v => v.Name ).ToList(); //Get all the acors
+                dictionaryData.Add( "data" , actorsList );
+                }
             dictionaryData.Add( "checked" , actorsNames );
             return dictionaryData;
             }
@@ -188,9 +191,12 @@ namespace MovieStore.Controllers
                 if ( movies.Any( g => g.Key == actor ) )
                     moviesNames = movies.FirstOrDefault( g => g.Key == actor ).Select( v => v.Movie.Name ).ToList(); // Filter the list of movies to the right one and get only the Actors names
                 }
-            var moviesList = _context.Movie.Select( v => v.Name ).ToList(); //Get all the acors
             var dictionaryData = new Dictionary<string , List<string>>();
-            dictionaryData.Add( "data" , moviesList );
+            if ( _context.Movie.Any() )
+                {
+                var moviesList = _context.Movie.Select( v => v.Name ).ToList(); //Get all the acors
+                dictionaryData.Add( "data" , moviesList );
+                }
             dictionaryData.Add( "checked" , moviesNames );
             return dictionaryData;
             }

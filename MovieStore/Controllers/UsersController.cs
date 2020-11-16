@@ -88,10 +88,18 @@ namespace MovieStore.Controllers
                 {
                 //Function to verify the user before get in the view)
                 dynamic Multiple = new ExpandoObject();
-                Multiple.actors = await _context.Actor.Include( a => a.MovieActor ).ToListAsync();
-                Multiple.movies = await _context.Movie.ToListAsync();
-                Multiple.users = await _context.User.ToListAsync();
-                Multiple.genres = await _context.Genre.Include( g => g.MovieGenre ).ToListAsync();
+                Multiple.actors = null;
+                Multiple.movies = null;
+                Multiple.users = null;
+                Multiple.genres = null;
+                if ( _context.Actor.Any() )
+                    Multiple.actors = await _context.Actor.Include( a => a.MovieActor ).ToListAsync();
+                if ( _context.Movie.Any() )
+                    Multiple.movies = await _context.Movie.ToListAsync();
+                if ( _context.User.Any() )
+                    Multiple.users = await _context.User.ToListAsync();
+                if ( _context.Genre.Any() )
+                    Multiple.genres = await _context.Genre.Include( g => g.MovieGenre ).ToListAsync();
                 return View( Multiple );
                 }
             else

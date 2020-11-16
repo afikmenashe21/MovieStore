@@ -11,6 +11,7 @@ namespace MovieStore.Models
     {
         public int Id { get; set; }
         [RegularExpression(@"^[\w\d\s]+$")] // Demand the username wiil be with any English characters
+        [Required]
         public string Name { get; set; }
         public int MovieId { get; set; }
         [DisplayName("Filmography")]
