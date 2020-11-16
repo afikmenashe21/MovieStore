@@ -14,7 +14,7 @@
         switch (invokedElement) {
             case 'fromYears':
                 /*Get the published time of the review*/
-                fromYearAsString = li[i].children[2].children[2].textContent.replace('Published: ', '');
+                fromYearAsString = li[i].children[2].children[0].textContent.replace('Published: ', '');
                 fromYearAsString = fromYearAsString.slice(6, 10);
                 fromYear = Number.parseInt(fromYearAsString);
                 changedText = Number.parseInt(changedText);//Convert the user text to number
@@ -32,7 +32,7 @@
                 break;
 
             case 'toYears':
-                toYearAsString = li[i].children[2].children[2].textContent.replace('Published: ', '');//Get the author name
+                toYearAsString = li[i].children[2].children[0].textContent.replace('Published: ', '');//Get the author name
                 toYearAsString = toYearAsString.slice(6, 10);
                 toYear = Number.parseInt(toYearAsString);
                 changedText = Number.parseInt(changedText);
@@ -48,7 +48,7 @@
                 break;
 
             case 'user':
-                userName = li[i].children[2].children[1].firstChild.textContent.replace('Written by: ', '');//Get the author name
+                userName = li[i].children[4].textContent.replace('Written by: ', '');//Get the author name
                 if (userName.includes(changedText)) {
                     li[i].style.display = "";
                 } else {
@@ -57,7 +57,7 @@
                 break;
 
             case 'content':
-                reviewContent = li[i].textContent;//Get the review content
+                reviewContent = li[i].children[2].children[1].textContent;//Get the review content
                 if (reviewContent.includes(changedText)) {
                     li[i].style.display = "";
                 } else {
