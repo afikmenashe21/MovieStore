@@ -56,19 +56,23 @@ namespace MovieStore.Controllers
             }
         public async Task<IActionResult> Search ( string name )
             {
-            //Interpreted user's search target
-
-            string [ ] title = name.Split( " " );
-            string resultTitle = null;
-            foreach ( string s in title )
+            if ( name != null )
                 {
-                resultTitle += s + "+";
-                }
+                //Interpreted user's search target
+                string [ ] title = name.Split( " " );
+                string resultTitle = null;
+                foreach ( string s in title )
+                    {
+                    resultTitle += s + "+";
+                    }
 
-            var movie = await CreateMovie( resultTitle );//Creates reviews either
-            if ( movie == null ) // If movie not found
-                return View( "NoResults" );
-            return RedirectToAction( "Details" , movie );
+                var movie = await CreateMovie( resultTitle );//Creates reviews either
+                if ( movie == null ) // If movie not found
+                    return View( "NoResults" );
+                return RedirectToAction( "Details" , movie );
+                }
+            ViewBag.error = 401;
+            return View( "ClientError" );
             }
 
         // GET: Movies
