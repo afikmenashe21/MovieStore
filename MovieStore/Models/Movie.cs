@@ -12,7 +12,6 @@ namespace MovieStore.Models
 
     public class Movie
     {
-
         public int Id { get; set; }
         //[RegularExpression(@"^[\w\s]+$")] // Demand the name wiil be with a-z or A-Z or digits characters
         [Required]

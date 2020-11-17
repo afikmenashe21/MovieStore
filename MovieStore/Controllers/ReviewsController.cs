@@ -50,6 +50,11 @@ namespace MovieStore.Controllers
         // GET: Reviews/Create
         public IActionResult Create ( )
             {
+            if ( HttpContext.Session.GetString( "Type" ) == null ) // User not logged 
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             return View();
             }
 
@@ -60,6 +65,11 @@ namespace MovieStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create ( [Bind( "Id,Headline,Content,Rating,Published" )] Review review , int movieid )
             {
+            if ( HttpContext.Session.GetString( "Type" ) == null) // User not logged 
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             if ( ModelState.IsValid )
                 {
                 review.Published = DateTime.Now;

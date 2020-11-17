@@ -110,6 +110,11 @@ namespace MovieStore.Controllers
         // GET: Movies/Create
         public IActionResult Create ( )
             {
+            if ( HttpContext.Session.GetString( "Type" ) == null || HttpContext.Session.GetString( "Type" ) != "Admin" ) // User not logged or it's not Admin 
+                {
+                ViewBag.error = 401;
+                return View( "ClientError" );
+                }
             return View();
             }
 

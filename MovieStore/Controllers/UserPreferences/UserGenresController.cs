@@ -171,10 +171,9 @@ namespace MovieStore.Controllers.UserPreferences
             if ( _context.UserGenre.Any() ) // check if data is empty or not
                 {
                 var queryUserGenre = _context.UserGenre.Include( ug => ug.Genre ).ToList(); // Get the data that reprasent popularity
-                var UserGenreDic = queryUserGenre.GroupBy( ug => ug.Genre.Type ).ToDictionary( k => k.Key , v => v.Count() ); // Create Dictionary of all the data => key:genre name , value: counter
-                foreach (var genre in UserGenreDic ) // Update the data
+                foreach (var UG in queryUserGenre ) // Update the data
                     {
-                    queryDic [ genre.Key ] = genre.Value;
+                    queryDic [ UG.Genre.Type ] += UG.Weight;
                     }
                 }
             return queryDic;
