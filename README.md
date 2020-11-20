@@ -33,13 +33,13 @@ $ Update-Database
 ```
 
 ## Pictures
-![HomePage](gitpics/HomePage.jpg)
+![HomePage](gitpics/HomePage.JPG)
 
-![Movie Page](gitpics/Details.jpg)
+![Movie Page](gitpics/Details.JPG)
 
 ![Graphs](gitpics/Graphs.jpg)
 
-![Dashboard](gitpics/Dashboard.jpg)
+![Dashboard](gitpics/Dashboard.JPG)
 
 ![Movie Review](gitpics/Comments.jpg)
 
