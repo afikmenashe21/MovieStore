@@ -31,21 +31,17 @@ MovieStore requires [ASP.Net](https://www.asp.net/core/overview/aspnet-vnext) an
 ```sh
 $ Update-Database
 ```
-This will update your local SQL Server 30 game loaded from IGDB, give them random prices and create admin user.
-```
-user: mid@mid.com
-password: Qwe123!
-```
+
 ## Pictures
-![HomePage](https://raw.githubusercontent.com/dotanme/GameStoreMid/master/readmepics/main.JPG)
+![HomePage](gitpics/HomePage.jpg)
 
-![Movie Page](https://raw.githubusercontent.com/dotanme/GameStoreMid/master/readmepics/products.JPG)
+![Movie Page](gitpics/Details.jpg)
 
-![Graphsh](https://raw.githubusercontent.com/dotanme/GameStoreMid/master/readmepics/similargraph.JPG)
+![Graphs](gitpics/Graphs.jpg)
 
-![Dashboard](https://raw.githubusercontent.com/dotanme/GameStoreMid/master/readmepics/prodcutspanel.JPG)
+![Dashboard](gitpics/Dashboard.jpg)
 
-![Movie Review](https://raw.githubusercontent.com/dotanme/GameStoreMid/master/readmepics/prodcutspanel.JPG)
+![Movie Review](gitpics/Comments.jpg)
 
 
 
