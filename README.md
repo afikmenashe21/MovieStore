@@ -15,9 +15,9 @@ MovieStore uses a number of open source projects to work properly:
 
 * [ASP.Net Core](https://www.asp.net/core/overview/aspnet-vnext) - is a free and open-source web framework
 * [TheMovieDB](https://www.themoviedb.org/) - our source for images, descreption, genres, rating.
-* [OMBD](https://api.igdb.com/) - our source for images, descreption, videos of games.
+* [OMBD](http://www.omdbapi.com/) - our source for movie reviews.
 * [YouTube](https://developers.google.com/apps-script/advanced/youtube) - our source for trailers.
-* [3d.js](https://d3js.org/) - great javascript library for graphing stuff
+* [3d.js](https://d3js.org/) - great javascript library for graphing stuff.
 * [W3Layouts](https://w3layouts.com/) - beautiful free template.
 * [jQuery](http://jquery.com) - is a JavaScript library designed to simplify the client-side scripting of HTML.
 
